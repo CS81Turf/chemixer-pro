@@ -27,6 +27,7 @@ input {
 }
 
 body {
+    display: flex;
     font-family: Arial, sans-serif;
 }
 
@@ -99,4 +100,25 @@ select {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
+}
+/* Mix results Styling */
+
+
+/* Media Queries for Responsive Design */
+@media (max-width: 600px) {
+    .container {
+        width: 90%;
+    }
+
+    nav ul {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+/* Tablet and up: lock container size */
+@media (min-width: 601px) {
+    .container {
+        width: 100%;
+        max-width: 700px; /* adjust as needed for your tablet size */
+    }
 }
