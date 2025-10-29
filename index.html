@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CheMixer Pro</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    < class="container">
+      <h1>CheMixer Pro</h1>
+
+      <div class="number-inputs">
+        <label for="spray-rate">Target Spray Rate(Gal./1,000sq.ft.)</label>
+        <input type="number" id="spray-rate" placeholder="Enter spray rate" />
+        <br />
+        <label for="Size of Area">Size of Area(sq.ft.)</label>
+        <input type="number" id="area-size" placeholder="Enter area size" />
+        <br />
+        <label for="water-volume">Water Volume(Gal.)</label>
+        <input
+          type="number"
+          id="water-volume"
+          placeholder="Enter water volume"
+            />
+      </div>
+
+      
+<div class="dropdown-container">
+  <label for="treatmentSelect">Select Treatment:</label>
+  <select id="treatmentSelect">
+    
+      <option value="round1">Round 1</option>
+      <option value="round2">Round 2</option>
+      <option value="round3">Round 3</option>
+      <option value="round4">Round 4</option>
+      <option value="round5">Round 5</option>
+      <option value="round6">Round 6</option>
+      <option value="wildViolet">Wild Violet</option>
+      <option value="grubFleaTick">Grub/Flea & Tick</option>
+      <option value="fungicide">Disease Control</option>
+      <option value="grassyWeede">Grassy Weed</option>
+    
+  </select>
+</div>
+
+
+        <button id="calculate-btn">Calculate</button>
+    
+        <div class="results">
+            <h2>Results:</h2>
+            <p id="chemical-amount"></p>
+            <p id="final-spray-volume"> </p>
+        </div>
+        
+        <button id="labels-btn">View Labels</button>
+
+        <button id="Calculator">Calculator</button>
+
+
+    
+        <script src="script.js"></script>
+  </body>
+</html>
