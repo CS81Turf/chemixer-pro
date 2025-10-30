@@ -4,15 +4,12 @@ const port = process.env.PORT || 3000;
 
 const app = express();
 
-// Serve static files from root directory
-app.use(express.static(__dirname));
+// Serve static files from the project's public directory
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
-// Serve static files from public directory
-app.use(express.static(path.join(__dirname, 'public')));
-
-// Then handle the root route
+// Fallback route: serve public/index.html for the root
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
 });
 
 app.listen(port, () => {
