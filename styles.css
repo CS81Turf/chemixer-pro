@@ -1,3 +1,14 @@
+/* Reset & Element Styles */
+/* Ensure no browser default margins/padding interfere and use border-box sizing */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    
+}
+
 /* Element Styles */
 label {
     background-color: #201077;
@@ -19,8 +30,9 @@ input {
   place-items: center;
   grid-template-columns: 1fr;
   grid-template-rows: auto auto auto;  
-  margin: .2rem auto;
+    margin: 1rem 0; /* vertical spacing only; horizontal centering done on body */
   border: 3px solid #0b7428;
+    background-color: #ffffff; /* Added white background to container */
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -28,7 +40,13 @@ input {
 
 body {
     display: flex;
-    font-family: Arial, sans-serif;
+    flex-direction: column; /* stack content vertically */
+    align-items: center; /* horizontally center children like .container */
+    font-family: Arial, sans-serif; /* Retained font-family */
+    margin: 0; /* Reset margin */
+    min-height: 100vh; /* Ensure full height */
+    color: #111; /* Readable text color */
+    background-color: #0b7428; /* Set green background */
 }
 
 
@@ -106,8 +124,14 @@ select {
 
 /* Media Queries for Responsive Design */
 @media (max-width: 600px) {
+    body {
+        /* stack and center content on small screens if needed */
+        margin: 0;
+    }
     .container {
         width: 90%;
+        max-width: none;
+        margin: 0 auto;
     }
 
     nav ul {
