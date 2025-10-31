@@ -1,4 +1,4 @@
-const axios = require('axios');
+import axios from 'axios';
 
 // EPA Search endpoint
 const EPA_BASE_URL = 'https://ordspub.epa.gov/ords/pesticides/cswu/pplstxt/';
@@ -41,4 +41,4 @@ class EPAApiService {
     }
 }
 
-module.exports = new EPAApiService();
+export default new EPAApiService();

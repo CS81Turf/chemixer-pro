@@ -1,7 +1,12 @@
-const express = require('express');
-const path = require('path');
+import express from 'express';
+import path, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 const port = process.env.PORT || 3000;
-const epaRoutes = require('./routes/epaRoutes');
+import epaRoutes from './routes/epaRoutes.js';
+
+// __dirname / __filename replacement for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const app = express();
 

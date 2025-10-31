@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const epaApi = require('../services/epaApi');
+import epaApi from '../services/epaApi.js';
 
 /**
  * Search EPA labels by product name
@@ -36,4 +36,4 @@ router.get('/search', async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;
