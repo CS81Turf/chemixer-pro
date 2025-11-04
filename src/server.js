@@ -3,12 +3,16 @@ import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 const port = process.env.PORT || 3000;
 import epaRoutes from './routes/epaRoutes.js';
+import cors from 'cors';
 
 // __dirname / __filename replacement for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const app = express();
+
+// Enable CORS for all routes
+app.use(cors());
 
 // Enable JSON parsing for requests
 app.use(express.json());

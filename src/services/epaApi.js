@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // EPA Search endpoint
-const EPA_BASE_URL = 'https://ordspub.epa.gov/ords/pesticides/cswu/pplstxt/';
+const EPA_BASE_URL = 'https://ordspub.epa.gov/ords/pesticides/ppls/cswu_api/v1/labels';
 
 /**
  * Service for interacting with the EPA Pesticide Product Label System (PPLS) API
@@ -16,7 +16,7 @@ class EPAApiService {
         try {
             // Log the search attempt
             console.log(`Making EPA API request for: ${productName}`);
-            const url = `${EPA_BASE_URL}${encodeURIComponent(productName)}`;
+            const url = `${EPA_BASE_URL}?search=${encodeURIComponent(productName)}`;
             console.log('Full URL:', url);
             
             // Make the request
