@@ -1,31 +1,63 @@
-import express from 'express';
-import path, { dirname } from 'path';
-import { fileURLToPath } from 'url';
+const express = require('express');
+const path = require('path');
 const port = process.env.PORT || 3000;
-import epaRoutes from './routes/epaRoutes.js';
-import cors from 'cors';
-
-// __dirname / __filename replacement for ES modules
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const cors = require('cors');
 
 const app = express();
 
-// Enable CORS for all routes
+// Enable CORS 
 app.use(cors());
 
-// Enable JSON parsing for requests
+//Parse JSON bodies
 app.use(express.json());
 
-// Register EPA routes
-app.use('/api/epa', epaRoutes);
+// Serve static files from root directory
+app.use(express.static(__dirname));
 
-// Serve static files from the project's public directory
-app.use(express.static(path.join(__dirname, '..', 'public')));
+// Serve static files from public directory
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Fallback route: serve public/index.html for the root
+// API routes
+app.get('/api/epa/search', async (req, res) => {
+    try {
+        const product = req.query.product;
+        
+        if (!product) {
+            return res.status(400).json({ 
+                error: 'Product name is required' 
+            });
+        }
+
+        // Mock response for testing
+        res.json({
+            items: [{
+                PRODUCTNAME: product,
+                EPAREGNO: "1234-56",
+                PRODUCT_STATUS: "Active",
+                SIGNAL_WORD: "Warning",
+                RUP_YN: "No",
+                ACTIVE_INGREDIENTS: [{
+                    ACTIVE_ING: "Test Ingredient",
+                    ACTIVE_ING_PERCENT: "50"
+                }],
+                PDFFILES: {
+                    PDFFILE: ["http://example.com/label.pdf"]
+                }
+            }]
+        });
+
+    } catch (error) {
+        console.error('Server Error:', error);
+        res.status(500).json({ 
+            error: 'Internal server error',
+            details: error.message 
+        });
+    }
+});
+
+// Then handle the root route
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(port, () => {

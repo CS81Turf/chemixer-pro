@@ -1,4 +1,4 @@
-const API_BASE = "https://ordspub.epa.gov/ords/pesticides/cswu/pplstxt";
+const API_BASE = "/api/epa";
 
 const searchButton = document.getElementById('searchBtn');
 const searchInput = document.getElementById('searchInput');
@@ -16,15 +16,18 @@ searchButton.addEventListener('click', async () => {
     resultsDiv.innerHTML = 'Searching...';
 
     try {
-        const response = await fetch(`${API_BASE}?search=${encodeURIComponent(query)}`);
-        const data = await response.json();
+        const response = await fetch(`${API_BASE}/search?product=${encodeURIComponent(query)}`);
 
-        console.log(data); // Log the data for debugging
+        if (!response.ok) {
+            throw new Error(`API request failed with status ${response.status}`);
+        }   
+
+        const data = await response.json();
 
         const items = data.items || [];
 
         if (items.length === 0) {
-            resultsDiv.innerHTML = '<p>No results found for <strong>${query}</strong></p>';
+            resultsDiv.innerHTML = `<p>No results found for <strong>${query}</strong></p>`;
             return;
         }
 
@@ -37,16 +40,24 @@ searchButton.addEventListener('click', async () => {
 });
 
 // Function to display JSON results in a formatted way
-function displayJsonResults(data, resultsDiv) {
+function displayJsonResults(items, resultsDiv) {
 
     const cards = items.map(item => {
         const productName = item.product_name || 'N/A';
-        
+        const pdfUrl = item.pdf_url || null;
 
         return `
             <div class="label-card">
                 <h3>${productName}</h3>
-                ${pdfUrl ? `<a href="${pdfUrl}" target="_blank">View Label PDF</a>` : '<p>No PDF available</p>'}
+                <div class="product-details">
+                    <p><strong>EPA Registration Number:</strong> ${regNumber}</p>
+                    <p><strong>Status:</strong> ${status}</p>
+                    <p><strong>Signal Word:</strong> ${signalWord}</p>
+                    <p><strong>Restricted Use:</strong> ${restricted}</p>
+                    <div class="active-ingredients">
+                        <h4>Active Ingredients:</h4>
+                        <ul>${activeIngredients}</ul>
+                    </div>
             </div>
         `;
     }).join('');
