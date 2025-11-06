@@ -6,61 +6,67 @@ const resultsDiv = document.getElementById('results');
 
 // Event listener for search button
 searchButton.addEventListener('click', async () => {
-    const query = searchInput.value.trim();
+    const query = searchInput.value;
     if (!query) {
-        alert ('Please enter a product name to search.');
+        alert('Please enter a product name.');
         return;
     }
 
-    // Indicate loading state
     resultsDiv.innerHTML = 'Searching...';
 
     try {
-        const response = await fetch(`${API_BASE}/search?product=${encodeURIComponent(query)}`);
+        // Fetch from back-end
+        const response = await fetch(`/api/epa/search?product=${encodeURIComponent(query)}`);
+        console.log('Response status:', response.status);
+        console.log('Response headers:', response.headers);
 
+        // If the back-end responds with an error status, throw it
         if (!response.ok) {
             throw new Error(`API request failed with status ${response.status}`);
-        }   
+        }
 
+        // Parse the JSON 
         const data = await response.json();
+        console.log('Success data:', data);
+        
+        const resultText = data.result || '';
 
-        const items = data.items || [];
-
-        if (items.length === 0) {
+        // Show a message if no results found
+        if (!resultText) {
             resultsDiv.innerHTML = `<p>No results found for <strong>${query}</strong></p>`;
             return;
         }
 
-        displayJsonResults(items, resultsDiv);
+        // Display EPA text 
+        resultsDiv.innerHTML = `<pre>${resultText}</pre>`;
 
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching EPA data:', error);
         resultsDiv.innerHTML = '<p>Error fetching data from the EPA API.</p>';
     }
 });
 
+
 // Function to display JSON results in a formatted way
 function displayJsonResults(items, resultsDiv) {
+    const cards = items.map((item) => {
+    const productName = item.productname || "N/A";
+    const signalWord = item.signal_word || "N/A";
+    const activeIngredients = item.active_ingredients || [];
 
-    const cards = items.map(item => {
-        const productName = item.product_name || 'N/A';
-        const pdfUrl = item.pdf_url || null;
+    const activeList = activeIngredients
+      .map((ingredient) => `<li>${ingredient.active_ing} - ${ingredient.active_ing_percent}%</li>`)
+      .join("");
 
-        return `
-            <div class="label-card">
-                <h3>${productName}</h3>
-                <div class="product-details">
-                    <p><strong>EPA Registration Number:</strong> ${regNumber}</p>
-                    <p><strong>Status:</strong> ${status}</p>
-                    <p><strong>Signal Word:</strong> ${signalWord}</p>
-                    <p><strong>Restricted Use:</strong> ${restricted}</p>
-                    <div class="active-ingredients">
-                        <h4>Active Ingredients:</h4>
-                        <ul>${activeIngredients}</ul>
-                    </div>
-            </div>
-        `;
-    }).join('');
+    return `
+      <div class="label-card">
+        <h3>${productName}</h3>
+        <p><strong>Signal Word:</strong> ${signalWord}</p>
+        <p><strong>Active Ingredients:</strong></p>
+        <ul>${activeList}</ul>
+      </div>
+    `;
+  });
 
-    resultsDiv.innerHTML = cards;
+  resultsDiv.innerHTML = cards.join("");
 }

@@ -1,65 +1,50 @@
-const express = require('express');
-const path = require('path');
-const port = process.env.PORT || 3000;
-const cors = require('cors');
+import express from "express";
+import cors from "cors";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
+const port = process.env.PORT || 3000;
 
-// Enable CORS 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(cors());
-
-//Parse JSON bodies
 app.use(express.json());
+app.use(express.static(path.join(__dirname, "public")));
 
-// Serve static files from root directory
-app.use(express.static(__dirname));
+// Fetch by product name
+app.get("/api/epa/search", async (req, res) => {
+  const productName = req.query.product;
+  console.log("Received search request for:", productName);
 
-// Serve static files from public directory
-app.use(express.static(path.join(__dirname, 'public')));
+  if (!productName) {
+    res.status(400).json({ error: "Missing product name" });
+    return;
+  }
 
-// API routes
-app.get('/api/epa/search', async (req, res) => {
-    try {
-        const product = req.query.product;
-        
-        if (!product) {
-            return res.status(400).json({ 
-                error: 'Product name is required' 
-            });
-        }
+  try {
+    // Endpoint for search by product name (from EPA docs)
+    const apiUrl = `https://ordspub.epa.gov/ords/pesticides/pplstxt/${productName}`;
 
-        // Mock response for testing
-        res.json({
-            items: [{
-                PRODUCTNAME: product,
-                EPAREGNO: "1234-56",
-                PRODUCT_STATUS: "Active",
-                SIGNAL_WORD: "Warning",
-                RUP_YN: "No",
-                ACTIVE_INGREDIENTS: [{
-                    ACTIVE_ING: "Test Ingredient",
-                    ACTIVE_ING_PERCENT: "50"
-                }],
-                PDFFILES: {
-                    PDFFILE: ["http://example.com/label.pdf"]
-                }
-            }]
-        });
+    console.log("Calling EPA API:", apiUrl);
 
-    } catch (error) {
-        console.error('Server Error:', error);
-        res.status(500).json({ 
-            error: 'Internal server error',
-            details: error.message 
-        });
+    const response = await fetch(apiUrl);
+
+    console.log("EPA API response status:", response.status);
+
+    if (!response.ok) {
+      throw new Error(`EPA API error: ${response.status}`);
     }
+
+    const data = await response.text(); //plaint text, not JSON
+    console.log("EPA API response data received");
+
+    res.json({ result: data }); // wrap in object for front end
+  } catch (err) {
+    console.error("Server Error:", err.message);
+    res.status(500).json({ error: "Failed to fetch data from EPA API" });
+  }
 });
 
-// Then handle the root route
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
-});
+app.listen(port, () => console.log(`Server running on port ${port}`));
