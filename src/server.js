@@ -11,7 +11,12 @@ const __dirname = path.dirname(__filename);
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../public")));
+
+// Route for labels.html
+app.get('/labels.html', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/labels.html'));
+});
 
 // Fetch by product name
 app.get("/api/epa/search", async (req, res) => {
@@ -25,7 +30,9 @@ app.get("/api/epa/search", async (req, res) => {
 
   try {
     // Endpoint for search by product name (from EPA docs)
-    const apiUrl = `https://ordspub.epa.gov/ords/pesticides/pplstxt/${productName}`;
+    const apiUrl = `https://ordspub.epa.gov/ords/pesticides/cswu/pplstxt/${encodeURIComponent(
+      productName
+    )}`;
 
     console.log("Calling EPA API:", apiUrl);
 
@@ -39,6 +46,7 @@ app.get("/api/epa/search", async (req, res) => {
 
     const data = await response.text(); //plaint text, not JSON
     console.log("EPA API response data received");
+  
 
     res.json({ result: data }); // wrap in object for front end
   } catch (err) {
