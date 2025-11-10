@@ -135,7 +135,6 @@ select {
 /* Media Queries for Responsive Design */
 @media (max-width: 600px) {
     body {
-        /* stack and center content on small screens if needed */
         margin: 0;
     }
     .container {
@@ -149,10 +148,10 @@ select {
     }
 }
 
-/* Tablet and up: lock container size */
+/* Tablet and up */
 @media (min-width: 601px) {
     .container {
         width: 100%;
-        max-width: 700px; /* adjust as needed for your tablet size */
+        max-width: 700px; 
     }
 }
