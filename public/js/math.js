@@ -5,7 +5,7 @@ export function calculateMix({ areaSize, waterVolume, sprayRate, treatment }) {
   if (!preset) {
     throw new Error(`Preset for treatment "${treatment}" not found.`);
   }
-}
+
 
 // If area size provided, calculate water volume needed
 if (areaSize && !waterVolume) {
@@ -34,3 +34,4 @@ return {
   treatment,
   results,
 };
+}
