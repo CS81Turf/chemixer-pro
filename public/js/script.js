@@ -37,11 +37,11 @@ function displayResults(data) {
     <p><strong>Area:</strong> ${areaSize.toFixed(2)} sq.ft.</p>
     <p><strong>Water Volume:</strong> ${waterVolume.toFixed(2)} gal</p>
     <table>
-      <tr><th>Chemical</th><th>Rate (oz/gal)</th><th>Total (oz)</th></tr>
+      <tr><th>Chemical</th><th>Rate (oz/1000)</th><th>Total (oz)</th></tr>
       ${results
         .map(
           (r) =>
-            `<tr><td>${r.chemical}</td><td>${r.ratePerGallon}</td><td>${r.totalAmount.toFixed(
+            `<tr><td>${r.chemical}</td><td>${r.ratePer1000}</td><td>${r.totalAmount.toFixed(
               2
             )}</td></tr>`
         )

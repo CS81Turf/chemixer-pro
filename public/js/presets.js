@@ -1,46 +1,38 @@
 const presets = {
-    round1: [
+    Round1: [
         { chemical: '3-Way', rate: 1.0 },
         { chemical: 'Triclopyr', rate: 0.25 },
-        { chemical: 'ChemStick', rate: 8.0 }
-    ],
-    round2: [
+            ],
+    Round2: [
         { chemical: '3-Way', rate: 1.0 },
         { chemical: 'Triclopyr', rate: 0.25 },
         { chemical: 'Dimension', rate: 0.4 },
-        { chemical: 'ChemStick', rate: 8.0 }
-    ],
-    round3: [
+            ],
+    Round3: [
         { chemical: 'Spartan/ 3-Way', rate: 1.0 },
-        { chemical: 'ChemStick', rate: 8.0 }
-    ],
-    round4: [
+            ],
+    Round4: [
         { chemical: 'AllStar', rate: 3.0 },
-        { chemical: 'ChemStick', rate: 8.0 }
-    ],
-    round5: [
+            ],
+    Round5: [
         { chemical: '3-Way', rate: 1.0 },
         { chemical: 'Triclopyr', rate: 0.25 },
-        { chemical: 'ChemStick', rate: 8.0 }
-    ],
-    round6: [
+            ],
+    Round6: [
         { chemical: '3-Way', rate: 1.0 },
         { chemical: 'Triclopyr', rate: 0.25 },
-        { chemical: 'ChemStick', rate: 8.0 }
-    ],
-    grubFleaTick: [
+            ],
+    GrubFleaTick: [
         { chemical: 'Imidacloprid', rate: 0.5 }, // Check rate and chemical
         { chemical: 'Bifenthrin', rate: 1.0 }
     ],
-    wildViolet: [
+    WildViolet: [
         { chemical: 'Triclopyr', rate: .75 },
-        { chemical: 'ChemStick', rate: 8.0 }
-    ],
-    fungicide: [
+            ],
+    Fungicide: [
         { chemical: 'Azoxystrobin', rate: 0.77 },
-        { chemical: 'ChemStick', rate: 8.0 }
-    ],
-    grassyWeed: [
+            ],
+    GrassyWeed: [
         { chemical: 'Pylex', rate: 0.75 },
         { chemical: 'Microyl', rate: .0204 } /* check Microyl rate */
     ]

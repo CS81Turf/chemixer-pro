@@ -19,10 +19,10 @@ if (waterVolume && !areaSize) {
 
 // Calculate chemical amounts
 const results = preset.map((chem) => {
-  const amount = chem.rate * waterVolume; // in ounces
+  const amount = chem.rate * (areaSize / 1000); // in ounces
   return {
     chemical: chem.chemical,
-    ratePerGallon: chem.rate,
+    ratePer1000: chem.rate,
     totalAmount: amount,
   };
 });
