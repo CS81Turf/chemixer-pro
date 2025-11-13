@@ -4,6 +4,18 @@
     box-sizing: border-box;
 }
 
+/* Color Palette */
+:root {
+    --color-primary: #0b7428; /* Green */
+    --color-secondary: #4caf50; /* Light Green */
+    --color-accent: #201077; /* Dark Blue/Purple */
+    --color-background: #ffffff; /* White */
+    --color-gray-light: #b6bcbe; /* Light Gray */
+    --color-text: #111111; /* Dark Text */
+    --color-border: #228b22; /* Dark Green Border */
+    --color-error: #e53935; /* Red for Errors */
+}
+
 html, body {
     margin: 0;
     
@@ -11,8 +23,8 @@ html, body {
 
 /* Element Styles */
 label {
-    background-color: #201077;
-    color: white;
+    background-color: var(--color-accent);
+    color: var(--color-background);
     font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: 0.5rem;
@@ -21,7 +33,7 @@ label {
 }
 
 input {
-    border: .2rem solid darkgreen;
+    border: .2rem solid var(--color-border);
     border-radius: 5px;
 }
 
@@ -31,8 +43,8 @@ input {
   grid-template-columns: 1fr;
   grid-template-rows: auto auto auto;  
     margin: 1rem 0; /* vertical spacing only; horizontal centering done on body */
-  border: 3px solid #0b7428;
-    background-color: #ffffff; /* Added white background to container */
+  border: 3px solid var(--color-border);
+    background-color: var(--color-background); /* Added white background to container */
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -45,14 +57,14 @@ body {
     font-family: Arial, sans-serif; /* Retained font-family */
     margin: 0; /* Reset margin */
     min-height: 100vh; /* Ensure full height */
-    color: #111; /* Readable text color */
-    background-color: #0b7428; /* Set green background */
+    color: var(--color-text); /* Readable text color */
+    background-color: var(--color-primary); /* Set green background */
 }
 
 
 /* Header/Navigation Styling */
 header {
-    background-color: #f0f0f0;
+    background-color: var(--color-gray-light);
     width: 100%;
     text-align: center;
 }
@@ -60,7 +72,7 @@ header {
 header h1 {
     margin: 0;
     font-size: 2rem;
-    color: #201077;
+    color: var(--color-text);
 }
 
 nav ul {
@@ -95,9 +107,9 @@ nav ul {
 select {
     padding: 0.5rem;
     font-size: 1rem;
-    border: 2px solid #228B22;
+    border: 2px solid var(--color-border);
     border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: var(--color-background);
 }
 
 /* Calculate Button Styling */
@@ -110,8 +122,8 @@ select {
 }
 
 .calc-btn {
-    background-color: #4CAF50;
-    color: white;
+    background-color: var(--color-secondary);
+    color: var(--color-background);
     font-weight: bold;
     padding: 10px 20px;
     border: none;
@@ -124,11 +136,11 @@ select {
 
 /* Labels Results Styling */
 .label-card {
-    border: 2px solid #201077;
+    border: 2px solid var(--color-text);
     border-radius: 10px;
     padding: 15px;
     margin: 10px 0;
-    background-color: #f9f9f9;
+    background-color: var(--color-background);
     text-align: left;
 }
 
