@@ -12,8 +12,9 @@ const __dirname = path.dirname(__filename);
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.urlencoded({ extended: false }));
 
-// Route for labels.html
+// Route for index.html
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
