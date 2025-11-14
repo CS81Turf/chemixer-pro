@@ -13,7 +13,7 @@
         <nav>
           <ul>
             <li><a href="labels.html">Labels</a></li>
-            <li>Calculator</li>
+            <li><a href="#" id="openCalculator">Calculator</a></li>
             <li>About</li>
           </ul>
         </nav>
@@ -21,10 +21,9 @@
       <div class="number-inputs">
         <label for="spray-rate">Target Spray Rate(1,000sq.ft./Gal)</label>
         <input type="number" id="spray-rate" placeholder="4" />
+        <label for="areaSize">Size of Area</label>
+        <input type="number" id="areaSize" />
         <br />
-        <label for="Size of Area">Size of Area(sq.ft.)</label>
-        <input type="number" id="area-size" placeholder="Enter area size" />
-        <br>
         <label for="water-volume">Water Volume(Gal.)</label>
         <input
           type="number"
@@ -54,32 +53,38 @@
       </div>
 
       <div class="results">
-        <h2>Results:</h2>     
+        <h2>Results:</h2>
       </div>
     </div>
 
     <!-- Calculator Modal HTML Structure -->
-<div class="calculator">
-    <div id="display" class="display">0</div>
-    <button id="clear" class="button">AC</button>
-    <button id="divide" class="button">/</button>
-    <button id="multiply" class="button">*</button>
-    <button id="seven" class="button">7</button>
-    <button id="eight" class="button">8</button>
-    <button id="nine" class="button">9</button>
-    <button id="subtract" class="button">-</button>
-    <button id="four" class="button">4</button>
-    <button id="five" class="button">5</button>
-    <button id="six" class="button">6</button>
-    <button id="add" class="button">+</button>
-    <button id="one" class="button">1</button>
-    <button id="two" class="button">2</button>
-    <button id="three" class="button">3</button>
-    <button id="zero" class="button zero">0</button>
-    <button id="decimal" class="button">.</button>
-    <button id="equals" class="button equals">=</button>
-</div>
+    <div id="calculatorModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <div id="display" class="display">0</div>
+        <div class="buttons">
+          <button class="button">AC</button>
+          <button class="button">/</button>
+          <button class="button">*</button>
+          <button class="button">7</button>
+          <button class="button">8</button>
+          <button class="button">9</button>
+          <button class="button">-</button>
+          <button class="button">4</button>
+          <button class="button">5</button>
+          <button class="button">6</button>
+          <button class="button">+</button>
+          <button class="button">1</button>
+          <button class="button">2</button>
+          <button class="button">3</button>
+          <button class="button zero">0</button>
+          <button class="button">.</button>
+          <button class="button equals">=</button>
+        </div>
+      </div>
+    </div>
 
     <script type="module" src="js/script.js"></script>
+    <script src="js/calculator.js"></script>
   </body>
 </html>
