@@ -14,8 +14,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "../public")));
 
 // Route for labels.html
-app.get('/labels.html', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/labels.html'));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 // Fetch by product name
