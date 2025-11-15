@@ -1,6 +1,11 @@
 import { presets } from "./presets.js";
 
 export function calculateMix({ waterVolume, sprayRate, treatment }) {
+    // Validate water volume
+  if (waterVolume === undefined || waterVolume === null || isNaN(waterVolume) || waterVolume <= 0) {
+    throw new Error("Please enter a valid number for water volume.");
+  }
+  
   const preset = presets[treatment];
   if (!preset) {
     throw new Error(`Preset for treatment "${treatment}" not found.`);
@@ -8,6 +13,7 @@ export function calculateMix({ waterVolume, sprayRate, treatment }) {
 
 // When water volume provided, calculate area
 const areaSize = waterVolume * 1000 * sprayRate;
+
 
 // Calculate chemical amounts
 const results = preset.map((chem) => {
