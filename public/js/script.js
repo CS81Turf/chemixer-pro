@@ -1,4 +1,4 @@
-console.log("✅ script.js loaded");
+console.log("script.js loaded");
 
 import { calculateMix } from "./math.js";
 
@@ -64,10 +64,39 @@ function displayResults(data) {
         )
         .join("")}
     </table>
+    <button id="saveMixBtn">Save Mix</button>
   `;
 
   resultsDiv.innerHTML = html;
+
+  // Add event listener for Save Mix button
+  const saveMixBtn = document.getElementById("saveMixBtn");
+
+  saveMixBtn.addEventListener("click", async () => {
+    saveMix({ areaSize, waterVolume, sprayRate, treatment, results }); 
+  });
 }
+
+// Save mix function
+async function saveMix(mixData) {
+  fetch("/api/mixes", {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(mixData),
+      })
+      .then(res => res.json())
+      .then(saved => {
+        console.log("Mix saved:", saved);
+        alert("Mix saved successfully!");
+        })
+      .catch(err => {
+        console.error("Error saving mix:", err);
+        alert("Error saving mix.");
+      });
+        
+    }
 
 // Display Calculator Modal
 const openBtn = document.getElementById("openCalculator");

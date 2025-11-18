@@ -1,0 +1,20 @@
+[
+  {
+    "areaSize": 200000,
+    "waterVolume": 50,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 50
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 12.5
+      }
+    ]
+  }
+]

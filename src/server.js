@@ -2,12 +2,29 @@ import express from "express";
 import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Database file path
+const MIXES_FILE = path.join(__dirname, "mixes.json");
+
+function readMixes() {
+    if (!fs.existsSync(MIXES_FILE)) {
+    fs.writeFileSync(MIXES_FILE, JSON.stringify([], null, 2));
+    return [];
+  }
+  const data = fs.readFileSync(MIXES_FILE, "utf-8");
+  return JSON.parse(data);
+}
+
+function writeMixes(mixes) {
+  fs.writeFileSync(MIXES_FILE, JSON.stringify(mixes, null, 2));
+}
 
 app.use(cors());
 app.use(express.json());
@@ -18,6 +35,28 @@ app.use(express.urlencoded({ extended: false }));
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../public/index.html'));
 });
+
+// GET mixes
+app.get("/api/mixes", (req, res) => {
+  const mixes = readMixes();
+  res.json(mixes);
+});
+
+// POST new mix
+app.post("/api/mixes", (req, res) => {
+  const newMix = req.body;
+
+  if(!newMix) {
+    return res.status(400).json({ error: "Mix data required" });
+}
+
+  const mixes = readMixes();
+  mixes.push(newMix);
+  writeMixes(mixes);
+
+  res.json({ message: "Mix saved!", mix: newMix });
+});
+
 
 // Fetch by product name
 app.get("/api/epa/search", async (req, res) => {
