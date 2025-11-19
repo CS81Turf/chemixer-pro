@@ -44,7 +44,10 @@ app.get("/api/mixes", (req, res) => {
 
 // POST new mix
 app.post("/api/mixes", (req, res) => {
-  const newMix = req.body;
+  const newMix = {
+    ...req.body,
+    savedAt: new Date().toISOString()
+  };
 
   if(!newMix) {
     return res.status(400).json({ error: "Mix data required" });
