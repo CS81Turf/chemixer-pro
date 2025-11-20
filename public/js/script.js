@@ -64,7 +64,7 @@ function displayResults(data) {
         )
         .join("")}
     </table>
-    <button id="saveMixBtn">Save Mix</button>
+    <button class= "saveMixBtn" id="saveMixBtn">Save Mix</button>
   `;
 
   resultsDiv.innerHTML = html;

@@ -14,7 +14,7 @@ const __dirname = path.dirname(__filename);
 const MIXES_FILE = path.join(__dirname, "mixes.json");
 
 function readMixes() {
-    if (!fs.existsSync(MIXES_FILE)) {
+  if (!fs.existsSync(MIXES_FILE)) {
     fs.writeFileSync(MIXES_FILE, JSON.stringify([], null, 2));
     return [];
   }
@@ -32,8 +32,8 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use(express.urlencoded({ extended: false }));
 
 // Route for index.html
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
 // GET mixes
@@ -46,12 +46,14 @@ app.get("/api/mixes", (req, res) => {
 app.post("/api/mixes", (req, res) => {
   const newMix = {
     ...req.body,
-    savedAt: new Date().toISOString()
+    savedAt: new Date().toLocaleString("en-US", {
+      timeZone: "America/New_York",
+    }),
   };
 
-  if(!newMix) {
+  if (!newMix) {
     return res.status(400).json({ error: "Mix data required" });
-}
+  }
 
   const mixes = readMixes();
   mixes.push(newMix);
@@ -59,7 +61,6 @@ app.post("/api/mixes", (req, res) => {
 
   res.json({ message: "Mix saved!", mix: newMix });
 });
-
 
 // Fetch by product name
 app.get("/api/epa/search", async (req, res) => {
@@ -89,7 +90,6 @@ app.get("/api/epa/search", async (req, res) => {
 
     const data = await response.text(); //plaint text, not JSON
     console.log("EPA API response data received");
-  
 
     res.json({ result: data }); // wrap in object for front end
   } catch (err) {

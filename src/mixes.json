@@ -1,112 +1,40 @@
 [
   {
-    "areaSize": 200000,
-    "waterVolume": 50,
+    "areaSize": 88000,
+    "waterVolume": 22,
     "sprayRate": 4,
     "treatment": "Round1",
     "results": [
       {
         "chemical": "3-Way",
         "ratePer1000": 1,
-        "totalAmount": 50
+        "totalAmount": 22
       },
       {
         "chemical": "Triclopyr",
         "ratePer1000": 0.25,
-        "totalAmount": 12.5
-      }
-    ]
-  },
-  {
-    "areaSize": 400000,
-    "waterVolume": 100,
-    "sprayRate": 4,
-    "treatment": "Round5",
-    "results": [
-      {
-        "chemical": "3-Way",
-        "ratePer1000": 1,
-        "totalAmount": 100
-      },
-      {
-        "chemical": "Triclopyr",
-        "ratePer1000": 0.25,
-        "totalAmount": 25
-      }
-    ]
-  },
-  {
-    "areaSize": 200000,
-    "waterVolume": 50,
-    "sprayRate": 4,
-    "treatment": "Round6",
-    "results": [
-      {
-        "chemical": "3-Way",
-        "ratePer1000": 1,
-        "totalAmount": 50
-      },
-      {
-        "chemical": "Triclopyr",
-        "ratePer1000": 0.25,
-        "totalAmount": 12.5
-      }
-    ]
-  },
-  {
-    "areaSize": 200000,
-    "waterVolume": 50,
-    "sprayRate": 4,
-    "treatment": "Round6",
-    "results": [
-      {
-        "chemical": "3-Way",
-        "ratePer1000": 1,
-        "totalAmount": 50
-      },
-      {
-        "chemical": "Triclopyr",
-        "ratePer1000": 0.25,
-        "totalAmount": 12.5
-      }
-    ]
-  },
-  {
-    "areaSize": 300000,
-    "waterVolume": 75,
-    "sprayRate": 4,
-    "treatment": "Round4",
-    "results": [
-      {
-        "chemical": "AllStar",
-        "ratePer1000": 3,
-        "totalAmount": 225
+        "totalAmount": 5.5
       }
     ],
-    "savedAt": "2025-11-19T01:02:01.170Z"
+    "savedAt": "2025-11-20T04:58:27.358Z"
   },
   {
-    "areaSize": 400000,
-    "waterVolume": 100,
+    "areaSize": 220000,
+    "waterVolume": 55,
     "sprayRate": 4,
-    "treatment": "Round2",
+    "treatment": "Round1",
     "results": [
       {
         "chemical": "3-Way",
         "ratePer1000": 1,
-        "totalAmount": 100
+        "totalAmount": 55
       },
       {
         "chemical": "Triclopyr",
         "ratePer1000": 0.25,
-        "totalAmount": 25
-      },
-      {
-        "chemical": "Dimension",
-        "ratePer1000": 0.4,
-        "totalAmount": 40
+        "totalAmount": 13.75
       }
     ],
-    "savedAt": "2025-11-19T13:43:17.333Z"
+    "savedAt": "11/20/2025, 12:00:43 AM"
   }
 ]
