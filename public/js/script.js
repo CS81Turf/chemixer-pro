@@ -10,7 +10,7 @@ function formatOunces(totalOz) {
   const gallons = Math.floor(totalOz / 128);
   const ounces = totalOz % 128;
 
-  // Round ounces to whole numbers 
+  // Round ounces to whole numbers
   const roundedOunces = Math.round(ounces);
 
   if (roundedOunces === 0) {
@@ -19,7 +19,6 @@ function formatOunces(totalOz) {
 
   return `${gallons} gal${gallons > 1 ? "s" : ""} ${roundedOunces} oz`;
 }
-
 
 const calculateButton = document.getElementById("calculate-btn");
 const waterVolumeInput = document.getElementById("water-volume");
@@ -46,21 +45,23 @@ function displayResults(data) {
   const { areaSize, waterVolume, sprayRate, treatment, results } = data;
 
   let html = `
-    <h2>Results:</h2>
+  <div class="label-card results-card">
+    <h3>Results:</h3>
     <p><strong>Treatment:</strong> ${treatment}</p>
     <p><strong>Spray Rate:</strong> ${sprayRate} gal/1,000 sq.ft.</p>
     <p><strong>Area:</strong> ${areaSize.toLocaleString(undefined, {
       maximumFractionDigits: 2,
     })} sq.ft.</p>
     <p><strong>Water Volume:</strong> ${waterVolume.toFixed(2)} gal</p>
-    <table>
+  </div>
+    <table class="results-table">
       <tr><th>Chemical</th><th>Rate (oz/1000)</th><th>Total (oz)</th></tr>
       ${results
         .map(
           (r) =>
             `<tr><td>${r.chemical}</td><td>${
               r.ratePer1000
-            }</td><td>${formatOunces(r.totalAmount)}</td></tr>`
+            }</td><td><strong>${formatOunces(r.totalAmount)}</strong></td></tr>`
         )
         .join("")}
     </table>
@@ -73,7 +74,7 @@ function displayResults(data) {
   const saveMixBtn = document.getElementById("saveMixBtn");
 
   saveMixBtn.addEventListener("click", async () => {
-    saveMix({ areaSize, waterVolume, sprayRate, treatment, results }); 
+    saveMix({ areaSize, waterVolume, sprayRate, treatment, results });
   });
 }
 
@@ -82,21 +83,20 @@ async function saveMix(mixData) {
   fetch("/api/mixes", {
     method: "POST",
     headers: {
-      'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(mixData),
-      })
-      .then(res => res.json())
-      .then(saved => {
-        console.log("Mix saved:", saved);
-        alert("Mix saved successfully!");
-        })
-      .catch(err => {
-        console.error("Error saving mix:", err);
-        alert("Error saving mix.");
-      });
-        
-    }
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(mixData),
+  })
+    .then((res) => res.json())
+    .then((saved) => {
+      console.log("Mix saved:", saved);
+      alert("Mix saved successfully!");
+    })
+    .catch((err) => {
+      console.error("Error saving mix:", err);
+      alert("Error saving mix.");
+    });
+}
 
 // Display Calculator Modal
 const openBtn = document.getElementById("openCalculator");

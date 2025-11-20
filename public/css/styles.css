@@ -10,7 +10,7 @@
     --color-secondary: #4caf50; /* Light Green */
     --color-accent: #201077; /* Dark Blue/Purple */
     --color-background: #ffffff; /* White */
-    --color-gray-light: #b6bcbe; /* Light Gray */
+    --color-green-light: #dde9d7; /* Light Green */
     --color-text: #111111; /* Dark Text */
     --color-border: #228b22; /* Dark Green Border */
     --color-error: #e53935; /* Red for Errors */
@@ -140,7 +140,7 @@ select {
     border-radius: 10px;
     padding: 15px;
     margin: 10px 0;
-    background-color: var(--color-background);
+    background-color: var(--color-green-light);
     text-align: left;
 }
 
@@ -153,6 +153,68 @@ select {
     border-radius: 5px;
     cursor: pointer;
 }
+
+/* Results Table Styling */
+.results-card {
+    padding: 8px;
+}
+.results-card h3 {
+    padding: 3px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+.results-card p {
+    margin: 2px 0;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #e1e2e1;
+    text-align: center;
+}
+.results-card p:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.results-table {
+  border: 2px solid #023604;
+}
+
+.results table {
+  width: 100%;
+  border: 3px solid #023604;
+  border-collapse: collapse;
+  margin-top: 12px;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.results th {
+  background: #2e7d32;
+  border: 1px solid #023604;
+  color: white;
+  text-align: left;
+  padding: 10px;
+  font-size: 1rem;
+}
+
+.results td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  border: 1px solid #023604;
+}
+
+.results tr:last-child td {
+  border-bottom: 1px solid #023604;
+}
+
+/* Zebra stripe rows for a cleaner look */
+.results tr:nth-child(even) td {
+  background: #c0cfb0;
+  border-bottom: 1px solid #023604;
+}
+
 
 /* Modal Styling */
 .modal {

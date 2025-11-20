@@ -1,6 +1,6 @@
 # **CheMixer Pro --- Chemical Mixing Calculator App**
 
-CheMixer Pro is a web application that helps lawn care technicians accurately calculate chemical mixes based on spray rate, water volume, and chemical treatment selection. The user enters a target spray rate and water volume, selects the treatment, and the app calculates exact chemical amounts. Results are displayed instantly and automatically saved to a JSON file on the backend using a custom API. It also integrates EPA pesticide data, allowing the user to search product names and view selected data from the EPA API endpoint. This project is built with HTML, CSS, JavaScript, and a Node/Express backend.
+CheMixer Pro is a web application that helps lawn care technicians accurately calculate chemical mixes based on spray rate(default set to 4), water volume, and chemical treatment selection. The user enters a target spray rate and water volume, selects the treatment, and the app calculates exact chemical amounts. Results are displayed instantly and automatically saved to a JSON file on the backend using a custom API. It also integrates EPA pesticide data, allowing the user to search product names and view selected data from the EPA API endpoint. This project is built with HTML, CSS, JavaScript, and a Node/Express backend.
 
 ## Included Features
 
