@@ -2,13 +2,13 @@
 
 CheMixer Pro is a web application that helps lawn care technicians accurately calculate chemical mixes based on spray rate(default set to 4), water volume, and chemical treatment selection. The user enters a target spray rate and water volume, selects the treatment, and the app calculates exact chemical amounts. Results are displayed instantly and automatically saved to a JSON file on the backend using a custom API. It also integrates EPA pesticide data, allowing the user to search product names and view selected data from the EPA API endpoint. This project is built with HTML, CSS, JavaScript, and a Node/Express backend.
 
-![Alt text](/images/Screenshot1.png)
+![Mix Calculator Results Display](/images/Screenshot1.png)
 
 ## Included Features
 
 ### 1. Data Analysis from Arrays/Objects
 
-The app processes chemical rates stored in an array of objects and analyzes it to calculate total chemical amounts based on the user's spray rate and water volume. These results are dynamically displayed to the user in a formatted table.  
+The app processes chemical rates stored in an array of objects and analyzes it to calculate total chemical amounts based on the user's spray rate and water volume.  Results are dynamically calculated and displayed in a clean, formatted table.
 
 ### 2. Create a Node/Express Web Server
 
@@ -22,9 +22,11 @@ I created an API with `/api/mixes` to store and retrieve mix calculations:
 - GET /api/mixes returns all saved mixes
 - The backend reads and writes to a JSON file, acting as a simple database.
 
+   ![Past mixes saved in JSON](/images/Screenshot3.png)
+
 ### 4. Custom Function with Multiple Parameters
 
-A `calculateMix()` function takes multiple inputs(spray rate, water volume, treatment) and returns a table of results, including area size and chemical totals. The function maps over the selected presets array, computes values(like rate per 1,000 sq.ft. and total gallons and ounces needed for each chemical) based off the user inputs, and returns a new array of results.
+A `calculateMix()` function takes multiple inputs(spray rate, water volume, treatment) and returns a table of results, including area size and chemical totals. The function maps over the selected presets array, computes values (like rate per 1,000 sq.ft. and total gallons and ounces needed for each chemical) based off the user inputs, and returns a new array of results.
 
 ## How to run the Project
 
@@ -46,7 +48,7 @@ A `calculateMix()` function takes multiple inputs(spray rate, water volume, trea
 4. Start the Express server
 
     ```bash
-    node src/server.js
+    npm run dev
     ```
 
 5. Open your browser and go to:
