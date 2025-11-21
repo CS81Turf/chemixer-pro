@@ -46,7 +46,7 @@ function displayResults(data) {
 
   let html = `
   <div class="label-card results-card">
-    <h3>Results:</h3>
+    <h3>RESULTS FOR:</h3>
     <p><strong>Treatment:</strong> ${treatment}</p>
     <p><strong>Spray Rate:</strong> ${sprayRate} gal/1,000 sq.ft.</p>
     <p><strong>Area:</strong> ${areaSize.toLocaleString(undefined, {

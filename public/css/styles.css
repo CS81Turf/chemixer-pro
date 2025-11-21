@@ -156,12 +156,14 @@ select {
 
 /* Results Table Styling */
 .results-card {
-    padding: 8px;
+    padding: 2px;
 }
 .results-card h3 {
-    padding: 3px;
+    padding: 1px;
     font-size: 1.5rem;
     text-align: center;
+    margin-top: 0.5em;
+    margin-bottom: 1em;
 }
 
 .results-card p {
@@ -172,7 +174,7 @@ select {
 }
 .results-card p:last-child {
     border-bottom: none;
-    padding-bottom: 0;
+    padding-bottom: 0.5em;
 }
 
 .results-table {
