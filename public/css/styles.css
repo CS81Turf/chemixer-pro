@@ -42,9 +42,9 @@ input {
   place-items: center;
   grid-template-columns: 1fr;
   grid-template-rows: auto auto auto;  
-    margin: 1rem 0; /* vertical spacing only; horizontal centering done on body */
+  margin: 1rem 0; /* vertical spacing only; horizontal centering done on body */
   border: 3px solid var(--color-border);
-    background-color: var(--color-background); /* Added white background to container */
+  background-color: var(--color-background); /* Added white background to container */
   padding: 20px;
   border-radius: 10px;
   text-align: center;
@@ -52,19 +52,19 @@ input {
 
 body {
     display: flex;
-    flex-direction: column; /* stack content vertically */
-    align-items: center; /* horizontally center children like .container */
-    font-family: Arial, sans-serif; /* Retained font-family */
-    margin: 0; /* Reset margin */
-    min-height: 100vh; /* Ensure full height */
-    color: var(--color-text); /* Readable text color */
-    background-color: var(--color-primary); /* Set green background */
+    flex-direction: column; 
+    align-items: center;
+    font-family: Arial, sans-serif; 
+    margin: 0; 
+    min-height: 100vh;
+    color: var(--color-text);
+    background-color: var(--color-primary); 
 }
 
 
 /* Header/Navigation Styling */
 header {
-    background-color: var(--color-gray-light);
+    background: linear-gradient(135deg,  #1b6d0b, hsla(123, 82%, 53%, 0.911));
     width: 100%;
     text-align: center;
 }
@@ -146,6 +146,8 @@ select {
 
 /* Save Mix Button Styling */
 .saveMixBtn {
+    display: block;
+    margin: 20px auto;
     background-color: red;
     color: white;
     font-weight: bold;
@@ -217,63 +219,12 @@ select {
   border-bottom: 1px solid #023604;
 }
 
-
-/* Modal Styling */
-.modal {
-  display: none; /* Hidden by default */
-  vertical-align: middle;
-  position: fixed;
-  z-index: 10;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.4);
-  justify-content: center;
-  align-items: center;
+main {
+    width: 100%;
+    background-color: var(--color-background);
+    padding: 10px;
+    border-radius: 8px;
 }
-
-.modal-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 10px;
-  width: 300px;
-  text-align: center;
-}
-
-.close {
-  float: right;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
-
-.display {
-  background-color: #222;
-  color: white;
-  font-size: 1.5rem;
-  padding: 10px;
-  border-radius: 5px;
-  margin-bottom: 10px;
-}
-
-.buttons {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 5px;
-}
-
-.button {
-  padding: 10px;
-  font-size: 1rem;
-  border: none;
-  background-color: #4caf50;
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.button:hover {
-  background-color: #45a049;
-}
-
 
 /* Media Queries for Responsive Design */
 @media (max-width: 600px) {

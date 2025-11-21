@@ -55,7 +55,7 @@ function displayResults(data) {
     <p><strong>Water Volume:</strong> ${waterVolume.toFixed(2)} gal</p>
   </div>
     <table class="results-table">
-      <tr><th>Chemical</th><th>Rate (oz/1000)</th><th>Total (oz)</th></tr>
+      <tr><th>Chemical</th><th>Rate (oz/1000)</th><th>Total </th></tr>
       ${results
         .map(
           (r) =>
@@ -65,7 +65,7 @@ function displayResults(data) {
         )
         .join("")}
     </table>
-    <button class= "saveMixBtn" id="saveMixBtn">Save Mix</button>
+    <button class="saveMixBtn" id="saveMixBtn">Save Mix</button>
   `;
 
   resultsDiv.innerHTML = html;
@@ -98,117 +98,3 @@ async function saveMix(mixData) {
     });
 }
 
-// Display Calculator Modal
-const openBtn = document.getElementById("openCalculator");
-const modal = document.getElementById("calculatorModal");
-const closeBtn = document.querySelector(".close");
-
-// Open modal when "Calculator" is clicked
-openBtn.addEventListener("click", (e) => {
-  modal.style.display = "block";
-});
-
-// Close modal when the × button is clicked
-closeBtn.addEventListener("click", () => {
-  modal.style.display = "none";
-});
-
-// Close modal if user clicks outside the modal content
-window.addEventListener("click", (e) => {
-  if (e.target === modal) {
-    modal.style.display = "none";
-  }
-});
-
-// Calculator Modal functionality
-
-const display = document.getElementById("display");
-const buttons = document.querySelectorAll(".button");
-
-let currentInput = "0";
-let previousInput = "";
-let operator = "";
-let resultDisplayed = false;
-
-buttons.forEach((button) => {
-  button.addEventListener("click", function () {
-    const value = this.textContent;
-
-    if (value === "AC") {
-      currentInput = "0";
-      previousInput = "";
-      operator = "";
-      display.textContent = "0";
-      return;
-    }
-
-    if (value === "=" && currentInput && previousInput) {
-      calculate();
-      display.textContent = previousInput;
-      resultDisplayed = true;
-      return;
-    }
-
-    if (resultDisplayed && !isNaN(value)) {
-      currentInput = value;
-      resultDisplayed = false;
-      display.textContent = currentInput;
-      return;
-    }
-
-    if (value === "." && currentInput.includes(".")) {
-      return;
-    }
-
-    if (!isNaN(value) || value === ".") {
-      if (currentInput === "0" && value !== ".") {
-        currentInput = value;
-      } else {
-        currentInput += value;
-      }
-
-      display.textContent = currentInput;
-      return;
-    }
-
-    if (["+", "-", "*", "/"].includes(value)) {
-      if (currentInput && previousInput && operator) {
-        calculate();
-      } else {
-        previousInput = currentInput;
-      }
-
-      operator = value;
-      currentInput = "";
-      display.textContent = previousInput + " " + operator;
-      return;
-    }
-  });
-});
-
-function calculate() {
-  let result;
-  const prev = parseFloat(previousInput);
-  const current = parseFloat(currentInput);
-
-  switch (operator) {
-    case "+":
-      result = prev + current;
-      break;
-    case "-":
-      result = prev - current;
-      break;
-    case "*":
-      result = prev * current;
-      break;
-    case "/":
-      result = prev / current;
-      break;
-    default:
-      return;
-  }
-
-  previousInput = result.toString();
-  currentInput = "";
-  operator = "";
-}

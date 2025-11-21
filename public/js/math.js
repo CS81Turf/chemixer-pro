@@ -20,7 +20,7 @@ const results = preset.map((chem) => {
   return {
     chemical: chem.chemical,
     ratePer1000: chem.rate,
-    totalAmount: chem.rate * waterVolume,
+    totalAmount: chem.rate * areaSize / 1000,
   };
 });
 

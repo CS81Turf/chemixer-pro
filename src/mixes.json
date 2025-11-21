@@ -46,5 +46,76 @@
       }
     ],
     "savedAt": "11/20/2025, 9:40:50 PM"
+  },
+  {
+    "areaSize": 80000,
+    "waterVolume": 20,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 20
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 5
+      }
+    ],
+    "savedAt": "11/20/2025, 10:15:21 PM"
+  },
+  {
+    "areaSize": 80000,
+    "waterVolume": 20,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 20
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 5
+      }
+    ],
+    "savedAt": "11/20/2025, 10:23:00 PM"
+  },
+  {
+    "areaSize": 56000,
+    "waterVolume": 14,
+    "sprayRate": 4,
+    "treatment": "Round6",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 14
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 3.5
+      }
+    ],
+    "savedAt": "11/20/2025, 10:41:10 PM"
+  },
+  {
+    "areaSize": 400000,
+    "waterVolume": 100,
+    "sprayRate": 4,
+    "treatment": "Fungicide",
+    "results": [
+      {
+        "chemical": "Azoxystrobin",
+        "ratePer1000": 0.77,
+        "totalAmount": 308
+      }
+    ],
+    "savedAt": "11/20/2025, 10:49:33 PM"
   }
 ]

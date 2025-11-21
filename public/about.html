@@ -7,16 +7,39 @@
     <link rel="stylesheet" href="css/styles.css" />
 </head>
 <body>
-    <h1>About CheMixer Pro</h1>
     <header>
         <h1>CheMixer Pro</h1>
         <nav>
           <ul>
-            <li><a href="labels.html">Labels</a></li>
-            <li><a href="#" id="openCalculator">Calculator</a></li>
-            <li><a href="index.html">Home</a></li>
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="labels.html">LABELS</a></li>
+            <li><a href="/api/mixes">PAST MIXES</a></li>
           </ul>
         </nav>
       </header>
+    <main>
+        <section>
+            <h2>Overview</h2>
+            <p>CheMixer Pro is a web application that helps lawn care technicians accurately calculate chemical mixes based on spray rate, water volume, and chemical treatment selection. The user enters a target spray rate(default set at 4) and water volume, selects the treatment, and the app calculates exact chemical amounts. Results are displayed instantly and then saved to a JSON file on the backend using a custom API. It also integrates EPA pesticide data, allowing the user to search product names and view selected data from the EPA API endpoint. This project is built with HTML, CSS, JavaScript, and a Node/Express backend.</p>
+        </section>
+        <section>
+            <h2>Features</h2>
+            <ul>
+                <li>Data Analysis from Arrays/Objects</li>
+                <li>Create a Node/Express Web Server</li>
+                <li>Custom RESTful API Endpoints</li>
+                <li>Custom Function with Multiple Parameters</li>
+                <li>Fetch and Display Data from an External API</li>
+            </ul>
+        </section>
+        <section>
+            <h2>Disclaimers</h2>
+            <ul>
+            <li>While this app makes the math quick and simple, always double check everything!</li>
+            <li>This app is for educational purposes only. Always follow local regulations and guidelines when handling chemicals.</li>
+            <li>The developer is not responsible for any misuse of the app or its calculations.</li>
+            <li>Always follow label instructions and wear proper Personal Protective Equipment(PPE).</li>
+            </ul>
+        </section>
 </body>
 </html>
