@@ -7,17 +7,17 @@
     <link rel="stylesheet" href="css/styles.css" />
   </head>
   <body>
+    <header>
+      <h1>CheMixer Pro</h1>
+      <nav>
+        <ul>
+          <li><a href="labels.html">LABELS</a></li>
+          <li><a href="/api/mixes">PAST MIXES</a></li>
+          <li><a href="about.html">ABOUT</a></li>
+        </ul>
+      </nav>
+    </header>
     <main>
-      <header>
-        <h1>CheMixer Pro</h1>
-        <nav>
-          <ul>
-            <li><a href="labels.html">LABELS</a></li>
-            <li><a href="/api/mixes">PAST MIXES</a></li>
-            <li><a href="about.html">ABOUT</a></li>
-          </ul>
-        </nav>
-      </header>
       <div class="number-inputs">
         <label for="spray-rate">Target Spray Rate(1,000sq.ft./Gal)</label>
         <input type="number" id="spray-rate" placeholder="4" />
@@ -50,9 +50,7 @@
         <button class="calc-btn" id="calculate-btn">Calculate</button>
       </div>
     </main>
-    <div class="results">
-    
-    </div>
+    <div class="results"></div>
 
     <script type="module" src="js/script.js"></script>
   </body>

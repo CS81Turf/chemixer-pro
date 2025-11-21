@@ -46,7 +46,6 @@ input {
   border: 3px solid var(--color-border);
   background-color: var(--color-background); /* Added white background to container */
   padding: 20px;
-  border-radius: 10px;
   text-align: center;
 }
 
@@ -64,7 +63,7 @@ body {
 
 /* Header/Navigation Styling */
 header {
-    background: linear-gradient(135deg,  #1b6d0b, hsla(123, 82%, 53%, 0.911));
+    background: linear-gradient(135deg,  #97bd90, hsla(123, 82%, 53%, 0.911));
     width: 100%;
     text-align: center;
 }
@@ -223,7 +222,7 @@ main {
     width: 100%;
     background-color: var(--color-background);
     padding: 10px;
-    border-radius: 8px;
+    border-radius: 2px;
 }
 
 /* Media Queries for Responsive Design */
