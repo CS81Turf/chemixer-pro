@@ -2,7 +2,7 @@
 
 CheMixer Pro is a web application that helps lawn care technicians accurately calculate chemical mixes based on spray rate(default set to 4), water volume, and chemical treatment selection. The user enters a target spray rate and water volume, selects the treatment, and the app calculates exact chemical amounts. Results are displayed instantly and automatically saved to a JSON file on the backend using a custom API. It also integrates EPA pesticide data, allowing the user to search product names and view selected data from the EPA API endpoint. This project is built with HTML, CSS, JavaScript, and a Node/Express backend.
 
-![Mix Calculator Results Display](/images/Screenshot1.png)
+   ![Mix Calculator Results Display](/images/Screenshot1.png)    ![Past mixes saved in JSON](/images/Screenshot3.png)     ![Search Labels Page](/images/Screenshot2.png)
 
 ## Included Features
 
@@ -21,8 +21,6 @@ I created an API with `/api/mixes` to store and retrieve mix calculations:
 - POST /api/mixes saves a new mix to `mixes.json`
 - GET /api/mixes returns all saved mixes
 - The backend reads and writes to a JSON file, acting as a simple database.
-
-   ![Past mixes saved in JSON](/images/Screenshot3.png)
 
 ### 4. Custom Function with Multiple Parameters
 
@@ -69,8 +67,6 @@ A `calculateMix()` function takes multiple inputs(spray rate, water volume, trea
 This project **DOES NOT** require an API key.
 
 (There is also an EPA label lookup API call that also doesn't require a key.)
-
-![Search Labels Page](/images/Screenshot2.png)
 
 ## AI Usage
 
