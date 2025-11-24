@@ -5,7 +5,15 @@ const searchInput = document.getElementById("searchInput");
 const resultsDiv = document.getElementById("results");
 
 // Event listener for search button
-searchButton.addEventListener("click", async () => {
+searchButton.addEventListener("click", searchEvent);
+searchButton.addEventListener("keydown", searchEvent);
+
+async function searchEvent(e) {
+  const pressedEnter = e.type === "keydown" && e.key === "Enter";
+  const clickedButton = e.type === "click";
+
+  if (!pressedEnter && !clickedButton) return;
+
   const query = searchInput.value.trim();
   if (!query) {
     alert("Please enter a product name.");
@@ -47,7 +55,7 @@ searchButton.addEventListener("click", async () => {
     console.error("Error fetching EPA data:", error);
     resultsDiv.innerHTML = "<p>Error fetching data from the EPA API.</p>";
   }
-});
+}
 
 // Function to display JSON results in a formatted way
 function displayJsonResults(items, resultsDiv) {
