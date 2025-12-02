@@ -38,6 +38,11 @@ A `calculateMix()` function takes multiple inputs(spray rate, water volume, trea
 ### Installation
 
 1. Clone or download this project
+
+   ```bash
+   git clone https://github.com/CS81Turf/chemixer-pro
+   ```
+
 2. Open the project folder in VSCode or your preferred editor.
 3. Install dependencies:
 
