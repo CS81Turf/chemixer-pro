@@ -30,13 +30,14 @@ label {
     margin-bottom: 0.5rem;
     border-radius: 5px;
     padding: 0.2rem 0.5rem;
-    margin: auto;
+    margin: 0.25rem auto;
     align-items: center;
     display: flex;
     justify-content: center;
 }
 
 input {
+    padding: .5rem;
     border: .2rem solid var(--color-border);
     border-radius: 5px;
     width: 50%;
