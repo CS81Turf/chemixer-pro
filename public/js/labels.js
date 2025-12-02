@@ -6,14 +6,15 @@ const resultsDiv = document.getElementById("results");
 
 // Event listener for search button
 searchButton.addEventListener("click", searchEvent);
-searchButton.addEventListener("keydown", searchEvent);
+
+// Event listener for Enter key in search input
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    searchEvent(e);
+  } 
+});
 
 async function searchEvent(e) {
-  const pressedEnter = e.type === "keydown" && e.key === "Enter";
-  const clickedButton = e.type === "click";
-
-  if (!pressedEnter && !clickedButton) return;
-
   const query = searchInput.value.trim();
   if (!query) {
     alert("Please enter a product name.");

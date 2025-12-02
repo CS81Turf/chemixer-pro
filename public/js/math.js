@@ -1,6 +1,6 @@
 import { presets } from "./presets.js";
 
-export function calculateMix({ waterVolume, sprayRate, treatment }) {
+export function calculateMix( waterVolume, sprayRate, treatment ) {
     // Validate water volume
   if (waterVolume === undefined || waterVolume === null || isNaN(waterVolume) || waterVolume <= 0) {
     throw new Error("Please enter a valid number for water volume.");

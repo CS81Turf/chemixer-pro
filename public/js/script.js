@@ -33,7 +33,7 @@ calculateButton.addEventListener("click", () => {
   const treatment = treatmentSelect.value;
 
   try {
-    const result = calculateMix({ waterVolume, sprayRate, treatment });
+    const result = calculateMix( waterVolume, sprayRate, treatment );
     displayResults(result);
   } catch (err) {
     resultsDiv.innerHTML = `<p style="color:red">${err.message}</p>`;
