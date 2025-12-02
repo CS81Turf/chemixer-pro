@@ -36,6 +36,19 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "../public/index.html"));
 });
 
+// Path to presets.json
+const PRESETS_FILE = path.join(__dirname, "presets.json");
+
+// GET presets
+app.get("/api/presets", (req, res) => {
+  try {
+    const data = JSON.parse(fs.readFileSync(PRESETS_FILE, "utf-8"));
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to load presets" });
+  }
+});
+
 // GET mixes
 app.get("/api/mixes", (req, res) => {
   const mixes = readMixes();
