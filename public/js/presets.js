@@ -1,42 +1,11 @@
-const presets = {
-    Round1: [
-        { chemical: '3-Way', rate: 1.0 },
-        { chemical: 'Triclopyr', rate: 0.25 },
-            ],
-    Round2: [
-        { chemical: '3-Way', rate: 1.0 },
-        { chemical: 'Triclopyr', rate: 0.25 },
-        { chemical: 'Dimension', rate: 0.4 },
-            ],
-    Round3: [
-        { chemical: 'Spartan/ 3-Way', rate: 1.0 },
-            ],
-    Round4: [
-        { chemical: 'AllStar', rate: 3.0 },
-            ],
-    Round5: [
-        { chemical: '3-Way', rate: 1.0 },
-        { chemical: 'Triclopyr', rate: 0.25 },
-            ],
-    Round6: [
-        { chemical: '3-Way', rate: 1.0 },
-        { chemical: 'Triclopyr', rate: 0.25 },
-            ],
-    GrubFleaTick: [
-        { chemical: 'Imidacloprid', rate: 0.5 }, // Check rate and chemical
-        { chemical: 'Bifenthrin', rate: 1.0 }
-    ],
-    WildViolet: [
-        { chemical: 'Triclopyr', rate: .75 },
-            ],
-    Fungicide: [
-        { chemical: 'Azoxystrobin', rate: 0.77 },
-            ],
-    GrassyWeed: [
-        { chemical: 'Pylex', rate: 0.75 },
-        { chemical: 'Microyl', rate: .0204 } /* check Microyl rate */
-    ]
-    // Add more presets as needed
-};
+let response = await fetch('/api/presets')
+
+//check resonse ok
+
+
+
+
+let responseData = await response.json()
+let presets = responseData;
 
 export { presets };
