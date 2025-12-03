@@ -9,7 +9,7 @@ async function getMixes() {
     let mixes = await response.json();
     console.log("Mixes: ", mixes);
 
-    let html = mixTable(mixes);
+    let html = createMixTable(mixes);
     document.getElementById("past-mix-table").innerHTML = html;
   } catch (err) {
     console.error("Error loading mixes.");
@@ -28,7 +28,6 @@ function createMixTable(mixes) {
     <td>${mix.treatment}</td>
     <td>${mix.areaSize}</td>
     <td>${mix.waterVolume}</td>
-    <td>${chemicals}</td>
     </tr>`;
   }).join('');
 
@@ -37,9 +36,10 @@ function createMixTable(mixes) {
       <thead>
         <tr>
           <th>#</th>
+          <th>Date/Time</th>
           <th>Treatment</th>
-          <th>Spray Rate</th>
-          <th>Water Volume</th>
+          <th>Sq. Ft.</th>
+          <th>Water Vol.</th>
         </tr>
       </thead>
       <tbody>
