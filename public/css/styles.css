@@ -247,8 +247,6 @@ main {
         margin: 0;
     }
     .container {
-        width: 100%;
-        max-width: none;
         margin: 0 auto;
     }
 
@@ -266,4 +264,18 @@ main {
     main {
         max-width: 700px;
     }
+}
+
+/* Past mixes table styling */
+.mix-results-table td, th {
+    border-collapse: collapse;
+    border-bottom: 1px solid black;
+}
+
+.mix-results-table tr:nth-child(even) {
+    background: #86e98b;
+}
+
+.mix-results-table thead, .totals-row {
+    background: yellow;
 }

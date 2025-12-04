@@ -40,7 +40,7 @@ function createMixTable(mixes) {
         .map((r) => `${r.chemical}: ${r.totalAmount} oz`)
         .join("<br>");
 
-      return `
+      return ` 
     <tr>
     <td>${idx + 1}</td>
     <td>${mix.savedAt}</td>
@@ -57,18 +57,21 @@ function createMixTable(mixes) {
     .map(([name, amount]) => `${name}: ${amount} oz`)
     .join("<br>");
 
-  const totalsRow = `
+ const totalsRow = `
     <tr class="totals-row">
-      <td colspan="3"><strong><big>TOTALS: </big></strong></td>
-      <td><strong>${totalSqFt} sq ft </strong></td>
-      <td><strong>${totalWaterVol} gal</strong></td>
-      <td><strong>${chemicalTotalsHtml}</strong></td>
-    </tr>
-  `;
+    <td colspan="6">
+      <div><strong>TOTALS</strong></div>
+      <div><strong>Total Sq.Ft.: ${totalSqFt}</strong></div>
+      <div><strong>Water Used: ${totalWaterVol} gal</strong></div>
+      <div><strong>Chemicals:</strong></div>
+      ${chemicalTotalsHtml}
+    </td>
+  </tr>
+`;
 
   return `
   <div class="past-mix-results">
-  <table class="results-table">
+  <table class="mix-results-table">
       <thead>
         <tr>
           <th>#</th>
