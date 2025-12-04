@@ -1,24 +1,35 @@
 /* Reset & Element Styles */
 /* Ensure no browser default margins/padding interfere and use border-box sizing */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
 /* Color Palette */
 :root {
-    --color-primary: #0b7428; /* Green */
-    --color-secondary: #4caf50; /* Light Green */
-    --color-accent: #201077; /* Dark Blue/Purple */
-    --color-background: #ffffff; /* White */
-    --color-green-light: #dde9d7; /* Light Green */
-    --color-text: #111111; /* Dark Text */
-    --color-border: #228b22; /* Dark Green Border */
-    --color-error: #e53935; /* Red for Errors */
+    --color-primary: #0b7428;
+    /* Green */
+    --color-secondary: #4caf50;
+    /* Light Green */
+    --color-accent: #201077;
+    /* Dark Blue/Purple */
+    --color-background: #ffffff;
+    /* White */
+    --color-green-light: #dde9d7;
+    /* Light Green */
+    --color-text: #111111;
+    /* Dark Text */
+    --color-border: #228b22;
+    /* Dark Green Border */
+    --color-error: #e53935;
+    /* Red for Errors */
 }
 
-html, body {
+html,
+body {
     margin: 0;
-    
+
 }
 
 /* Element Styles */
@@ -45,31 +56,33 @@ input {
 }
 
 .container {
-  display: grid;
-  place-items: center;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto auto;  
-  margin: 1rem 0; /* vertical spacing only; horizontal centering done on body */
-  border: 3px solid var(--color-border);
-  background-color: var(--color-background); /* Added white background to container */
-  padding: 20px;
-  text-align: center;
+    display: grid;
+    place-items: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    margin: 1rem 0;
+    /* vertical spacing only; horizontal centering done on body */
+    border: 3px solid var(--color-border);
+    background-color: var(--color-background);
+    /* Added white background to container */
+    padding: 20px;
+    text-align: center;
 }
 
 body {
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     align-items: center;
-    font-family: Arial, sans-serif; 
-    margin: 0; 
+    font-family: Arial, sans-serif;
+    margin: 0;
     color: var(--color-text);
-    background-color: var(--color-primary); 
+    background-color: var(--color-primary);
 }
 
 
 /* Header/Navigation Styling */
 header {
-    background: linear-gradient(135deg,  #97bd90, hsla(123, 82%, 53%, 0.911));
+    background: linear-gradient(135deg, #97bd90, hsla(123, 82%, 53%, 0.911));
     width: 100%;
     text-align: center;
 }
@@ -137,12 +150,13 @@ select {
     cursor: pointer;
     font-size: 1rem;
 }
+
 /* Mix results Styling */
 
 /* Labels.html input and search layout */
 .labels-input {
     margin-top: 1rem;
-    
+
 }
 
 .search-btn {
@@ -175,6 +189,7 @@ select {
 .results-card {
     padding: 2px;
 }
+
 .results-card h3 {
     padding: 1px;
     font-size: 1.5rem;
@@ -189,56 +204,64 @@ select {
     border-bottom: 1px solid #e1e2e1;
     text-align: center;
 }
+
 .results-card p:last-child {
     border-bottom: none;
     padding-bottom: 0.5em;
 }
 
 .results-table {
-  border: 2px solid #023604;
+    border: 2px solid #023604;
 }
 
 .results table {
-  width: 100%;
-  border: 3px solid #023604;
-  border-collapse: collapse;
-  margin-top: 12px;
-  background: #fff;
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 10px;
+    width: 100%;
+    border: 3px solid #023604;
+    border-collapse: collapse;
+    margin-top: 12px;
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 10px;
 }
 
 .results th {
-  background: #2e7d32;
-  border: 1px solid #023604;
-  color: white;
-  text-align: left;
-  padding: 10px;
-  font-size: 1rem;
+    background: #2e7d32;
+    border: 1px solid #023604;
+    color: white;
+    text-align: left;
+    padding: 10px;
+    font-size: 1rem;
 }
 
 .results td {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  border: 1px solid #023604;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    border: 1px solid #023604;
 }
 
 .results tr:last-child td {
-  border-bottom: 1px solid #023604;
+    border-bottom: 1px solid #023604;
 }
 
 /* Zebra stripe rows for a cleaner look */
 .results tr:nth-child(even) td {
-  background: #c0cfb0;
-  border-bottom: 1px solid #023604;
+    background: #c0cfb0;
+    border-bottom: 1px solid #023604;
 }
 
 main {
     width: 100%;
+    max-width: 100%;
     background-color: var(--color-background);
     padding: 10px;
-    border-radius: 2px;
+    border-radius: 8px;
+    margin-top: .5rem;
+}
+
+/*Apply gradient background to all mains except .past-mix-results-table */
+main:not(.special) {
+    background: linear-gradient(to right, lightblue, royalblue);
 }
 
 /* Media Queries for Responsive Design */
@@ -246,6 +269,7 @@ main {
     body {
         margin: 0;
     }
+
     .container {
         margin: 0 auto;
     }
@@ -259,23 +283,39 @@ main {
 @media (min-width: 601px) {
     .container {
         width: 100%;
-        max-width: 700px; 
+        max-width: 700px;
     }
+
     main {
         max-width: 700px;
     }
 }
 
 /* Past mixes table styling */
-.mix-results-table td, th {
+.past-mix-results {
+    width: 100%;
+    overflow-x: auto;
+    /* Allows scrolling to right on small screens */
+    padding: 10px;
+}
+
+.mix-results-table td,
+th {
     border-collapse: collapse;
     border-bottom: 1px solid black;
+    margin-right: 10px;
 }
 
 .mix-results-table tr:nth-child(even) {
-    background: #86e98b;
+    background: #c0cfb0;
 }
 
-.mix-results-table thead, .totals-row {
+.mix-results-table thead,
+.totals-row {
     background: yellow;
+}
+
+.mix-results-table thead {
+    background: #0b7428;
+    color: white;
 }
