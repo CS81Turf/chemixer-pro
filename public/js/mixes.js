@@ -20,16 +20,37 @@ getMixes();
 
 //Creating table for Saved Mixes
 function createMixTable(mixes) {
-  let rows = mixes.map((mix, idx) => {
-    return `
+  let totalSqFt = 0;
+  let totalWaterVol = 0;
+  const chemicalTotals = {};
+
+  let rows = mixes
+    .map((mix, idx) => {
+        totalSqFt += mix.areaSize;
+        totalWaterVol += mix.waterVolume;
+
+        mix.results.forEach(r => {
+            if(!chemicalTotals[r.chemical]) {
+                chemicalTotals[r.chemical] = 0;
+            }
+            chemicalTotals[r.chemical] += r.totalAmount;
+        });
+        
+      let chemicals = mix.results
+        .map((r) => `${r.chemical}: ${r.totalAmount} oz`)
+        .join("<br>");
+
+      return `
     <tr>
     <td>${idx + 1}</td>
     <td>${mix.savedAt}</td>
     <td>${mix.treatment}</td>
     <td>${mix.areaSize}</td>
     <td>${mix.waterVolume}</td>
+    <td>${chemicals}</td>
     </tr>`;
-  }).join('');
+    })
+    .join("");
 
   return `
   <table class="results-table">
@@ -40,6 +61,7 @@ function createMixTable(mixes) {
           <th>Treatment</th>
           <th>Sq. Ft.</th>
           <th>Water Vol.</th>
+          <th>Chemicals Used</th>
         </tr>
       </thead>
       <tbody>
