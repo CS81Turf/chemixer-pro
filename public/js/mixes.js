@@ -26,16 +26,16 @@ function createMixTable(mixes) {
 
   let rows = mixes
     .map((mix, idx) => {
-        totalSqFt += mix.areaSize;
-        totalWaterVol += mix.waterVolume;
+      totalSqFt += mix.areaSize;
+      totalWaterVol += mix.waterVolume;
 
-        mix.results.forEach(r => {
-            if(!chemicalTotals[r.chemical]) {
-                chemicalTotals[r.chemical] = 0;
-            }
-            chemicalTotals[r.chemical] += r.totalAmount;
-        });
-        
+      mix.results.forEach((r) => {
+        if (!chemicalTotals[r.chemical]) {
+          chemicalTotals[r.chemical] = 0;
+        }
+        chemicalTotals[r.chemical] += r.totalAmount;
+      });
+
       let chemicals = mix.results
         .map((r) => `${r.chemical}: ${r.totalAmount} oz`)
         .join("<br>");
@@ -52,7 +52,22 @@ function createMixTable(mixes) {
     })
     .join("");
 
+  // Build totals footer row
+  const chemicalTotalsHtml = Object.entries(chemicalTotals)
+    .map(([name, amount]) => `${name}: ${amount} oz`)
+    .join("<br>");
+
+  const totalsRow = `
+    <tr class="totals-row">
+      <td colspan="3"><strong><big>TOTALS: </big></strong></td>
+      <td><strong>${totalSqFt} sq ft </strong></td>
+      <td><strong>${totalWaterVol} gal</strong></td>
+      <td><strong>${chemicalTotalsHtml}</strong></td>
+    </tr>
+  `;
+
   return `
+  <div class="past-mix-results">
   <table class="results-table">
       <thead>
         <tr>
@@ -66,7 +81,9 @@ function createMixTable(mixes) {
       </thead>
       <tbody>
         ${rows}
+        ${totalsRow}
       </tbody>
     </table>
+    </div>
     `;
 }

@@ -155,5 +155,81 @@
       }
     ],
     "savedAt": "12/1/2025, 11:06:05 PM"
+  },
+  {
+    "areaSize": 100000,
+    "waterVolume": 25,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 100
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 25
+      }
+    ],
+    "savedAt": "12/3/2025, 10:37:44 AM"
+  },
+  {
+    "areaSize": 300000,
+    "waterVolume": 75,
+    "sprayRate": 4,
+    "treatment": "WildViolet",
+    "results": [
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.75,
+        "totalAmount": 225
+      }
+    ],
+    "savedAt": "12/3/2025, 3:04:05 PM"
+  },
+  {
+    "areaSize": 264000,
+    "waterVolume": 66,
+    "sprayRate": 4,
+    "treatment": "GrassyWeed",
+    "results": [
+      {
+        "chemical": "Pylex",
+        "ratePer1000": 0.75,
+        "totalAmount": 198
+      },
+      {
+        "chemical": "Microyl",
+        "ratePer1000": 0.0204,
+        "totalAmount": 5.3856
+      }
+    ],
+    "savedAt": "12/3/2025, 3:08:50 PM"
+  },
+  {
+    "areaSize": 396000,
+    "waterVolume": 99,
+    "sprayRate": 4,
+    "treatment": "Round2",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 396
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 99
+      },
+      {
+        "chemical": "Dimension",
+        "ratePer1000": 0.4,
+        "totalAmount": 158.4
+      }
+    ],
+    "savedAt": "12/4/2025, 8:16:39 AM"
   }
 ]
