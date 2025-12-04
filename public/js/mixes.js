@@ -90,3 +90,23 @@ function createMixTable(mixes) {
     </div>
     `;
 }
+
+//Filters for Mix History
+function applyFilters() {
+  const treatmentFilter = document.getElementById("treatmentFilter").value;
+  const startDateFilter = document.getElementById("startDate").value; 
+  const endDateFilter = document.getElementById("endDate").value;
+
+  let filtered = allMixes;
+
+  if(treatmentFilter) {
+    filtered = filtered.filter(mix => mix.treatment === treatmentFilter);
+  }
+
+  if (startDateFilter, endDateFilter) {
+    filtered = filtered.filter(mix => {
+      const startMixDate = startDateFilter;
+      const endMixDate = endDateFilter;
+    })
+  }
+}

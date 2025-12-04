@@ -33,7 +33,7 @@
     { "chemical": "Azoxystrobin", "rate": 0.77 }
   ],
   "GrassyWeed": [
-    { "chemical": "Pylex", "rate": 0.75 },
-    { "chemical": "Microyl", "rate": 0.0204 }
+    { "chemical": "Pylex", "rate": 0.046 },
+    { "chemical": "Microyl", "rate": 0.25 }
   ]
 }
