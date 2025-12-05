@@ -1,4 +1,4 @@
-import { presets } from "./presets.js";
+import { presets } from "./presets.js"; //Change this to ..src/presets.json? or just eliminate?
 
 export function calculateMix( waterVolume, sprayRate, treatment ) {
     // Validate water volume

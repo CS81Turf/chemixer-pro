@@ -1,3 +1,5 @@
+let allMixes = []; // Store all mixes globally
+
 async function getMixes() {
   try {
     let response = await fetch("/api/mixes");
@@ -6,45 +8,106 @@ async function getMixes() {
       throw new Error("Failed to load mixes");
     }
 
-    let mixes = await response.json();
-    console.log("Mixes: ", mixes);
+    allMixes = await response.json();
+    console.log("Mixes: ", allMixes);
 
-    let html = createMixTable(mixes);
-    document.getElementById("past-mix-table").innerHTML = html;
+    displayMixes(allMixes); // Show all by default
   } catch (err) {
     console.error("Error loading mixes.");
   }
 }
 
-getMixes();
+// Display mixes in the table
+function displayMixes(mixesToShow) {
+  let html = createMixTable(mixesToShow);
+  document.getElementById("past-mix-table").innerHTML = html;
+}
+
+// Apply all filters
+function applyFilters() {
+  const treatment = document.getElementById("treatmentFilter").value;
+  const startDate = document.getElementById("startDate").value;
+  const endDate = document.getElementById("endDate").value;
+
+  let filtered = [...allMixes];
+
+  // Filter by treatment
+  if (treatment !== "") {
+    filtered = filtered.filter((mix) => mix.treatment === treatment);
+  }
+
+  // Filter by date range
+  filtered = filtered.filter((mix) => {
+    const mixDate = new Date(mix.savedAt);
+
+    if (startDate && mixDate < new Date(startDate)) return false;
+    if (endDate && mixDate > new Date(endDate)) return false;
+
+    return true;
+  });
+
+  displayMixes(filtered);
+}
+
+// Clear all filters
+function clearFilters() {
+  document.getElementById("treatmentFilter").value = "";
+  document.getElementById("startDate").value = "";
+  document.getElementById("endDate").value = "";
+  displayMixes(allMixes);
+}
+
+// Setup event listeners when page loads
+document.addEventListener("DOMContentLoaded", async () => {
+  await getMixes();
+
+  const treatmentFilter = document.getElementById("treatmentFilter");
+  const startDate = document.getElementById("startDate");
+  const endDate = document.getElementById("endDate");
+  const applyFilterBtn = document.getElementById("applyFilterBtn");
+  const clearFilterBtn = document.getElementById("clearFilterBtn");
+
+  if (treatmentFilter) treatmentFilter.addEventListener("change", applyFilters);
+  if (startDate) startDate.addEventListener("change", applyFilters);
+  if (endDate) endDate.addEventListener("change", applyFilters);
+  if (applyFilterBtn) applyFilterBtn.addEventListener("click", applyFilters);
+  if (clearFilterBtn) clearFilterBtn.addEventListener("click", clearFilters);
+});
 
 //Creating table for Saved Mixes
 function createMixTable(mixes) {
+  if (!Array.isArray(mixes) || mixes.length === 0) {
+    return "<p>No mixes found.</p>";
+  }
+
   let totalSqFt = 0;
   let totalWaterVol = 0;
   const chemicalTotals = {};
 
   let rows = mixes
     .map((mix, idx) => {
+      const area = Number(mix.areaSize) || 0;
+      const water = Number(mix.waterVolume) || 0;
+      const results = Array.isArray(mix.results) ? mix.results : [];
+
       totalSqFt += mix.areaSize;
       totalWaterVol += mix.waterVolume;
 
-      mix.results.forEach((r) => {
-        if (!chemicalTotals[r.chemical]) {
-          chemicalTotals[r.chemical] = 0;
-        }
-        chemicalTotals[r.chemical] += r.totalAmount;
-      });
+      let chemicals = results.map((r) => {
+        const chem = r.chemical || "Unknown";
+        const amount = Number(r.totalAmount) || 0;
 
-      let chemicals = mix.results
-        .map((r) => `${r.chemical}: ${r.totalAmount} oz`)
-        .join("<br>");
+        if (!chemicalTotals[chem]) chemicalTotals[chem] = 0;
+        chemicalTotals[chem] += amount;
+
+        return `${chem}: ${amount} oz`;
+      }).join("<br>");
 
       return ` 
     <tr>
     <td>${idx + 1}</td>
-    <td>${mix.savedAt}</td>
-    <td>${mix.treatment}</td>
+    <td>${mix.savedAt || ""}</td>
+    <td>${mix.treatment || ""}</td>
     <td>${mix.areaSize}</td>
     <td>${mix.waterVolume}</td>
     <td>${chemicals}</td>
@@ -57,7 +120,7 @@ function createMixTable(mixes) {
     .map(([name, amount]) => `${name}: ${amount} oz`)
     .join("<br>");
 
- const totalsRow = `
+  const totalsRow = `
     <tr class="totals-row">
     <td colspan="6">
       <div><strong>TOTALS</strong></div>
@@ -89,24 +152,4 @@ function createMixTable(mixes) {
     </table>
     </div>
     `;
-}
-
-//Filters for Mix History
-function applyFilters() {
-  const treatmentFilter = document.getElementById("treatmentFilter").value;
-  const startDateFilter = document.getElementById("startDate").value; 
-  const endDateFilter = document.getElementById("endDate").value;
-
-  let filtered = allMixes;
-
-  if(treatmentFilter) {
-    filtered = filtered.filter(mix => mix.treatment === treatmentFilter);
-  }
-
-  if (startDateFilter, endDateFilter) {
-    filtered = filtered.filter(mix => {
-      const startMixDate = startDateFilter;
-      const endMixDate = endDateFilter;
-    })
-  }
 }

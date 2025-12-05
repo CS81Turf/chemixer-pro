@@ -319,3 +319,34 @@ th {
     background: #0b7428;
     color: white;
 }
+
+/*Filter controls */
+.filter-controls {
+    display: flex;
+    justify-content: space-around;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.treatment-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-group {
+    display: flex;
+    gap: 10px;
+}
+
+.date-group > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    gap: 10px;
+}
+

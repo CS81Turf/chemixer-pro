@@ -1,5 +1,3 @@
-console.log("script.js loaded");
-
 import { calculateMix } from "./math.js";
 
 function formatOunces(totalOz) {
@@ -80,22 +78,29 @@ function displayResults(data) {
 
 // Save mix function
 async function saveMix(mixData) {
-  fetch("/api/mixes", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(mixData),
-  })
-    .then((res) => res.json())
-    .then((saved) => {
-      console.log("Mix saved:", saved);
-      alert("Mix saved successfully!");
-    })
-    .catch((err) => {
-      console.error("Error saving mix:", err);
-      alert("Error saving mix.");
+  try {
+    const res = await fetch("/api/mixes", {
+      method: "POST", 
+      headers: {
+        "Content-Type": "application.json",
+      },
+      body: JSON.stringify(mixData),
     });
+
+    if (!res.ok) {
+      throw new Error("Failed to save mix.");
+    }
+
+    const saved = await res.json();
+
+    console.log("Mix saved:", saved);
+    alert("Mix saved successfully!");
+    return saved;
+  } catch(err) {
+    console.error("Error saving mix:", err);
+    alert("Error saving mix.");
+  }
 }
+  
 
 
