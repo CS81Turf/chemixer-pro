@@ -338,6 +338,10 @@ th {
     gap: 10px;
 }
 
+.date-group input {
+    width: fit-content;
+}
+
 .date-group > div {
     display: flex;
     flex-direction: column;
@@ -345,6 +349,7 @@ th {
 
 .filter-group {
     display: flex;
+    flex-direction: column;
     align-self: center;
     justify-content: center;
     gap: 10px;
