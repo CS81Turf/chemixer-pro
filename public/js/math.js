@@ -1,14 +1,16 @@
-import { presets } from "./presets.js"; //Change this to ..src/presets.json? or just eliminate?
+import { presets } from "./presets.js";
 
 export function calculateMix( waterVolume, sprayRate, treatment ) {
-    // Validate water volume
+    
+  
+// Validate water volume
   if (waterVolume === undefined || waterVolume === null || isNaN(waterVolume) || waterVolume <= 0) {
     throw new Error("Please enter a valid number for water volume.");
   }
   
   const preset = presets[treatment];
   if (!preset) {
-    throw new Error(`Preset for treatment "${treatment}" not found.`);
+    throw new Error(`Preset for ${treatment} not found.`);
   }
 
 // When water volume provided, calculate area
