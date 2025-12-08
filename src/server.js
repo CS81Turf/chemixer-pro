@@ -117,7 +117,7 @@ app.get("/api/epa/search", async (req, res) => {
       throw new Error(`EPA API error: ${response.status}`);
     }
 
-    const data = await response.text(); //plaint text, not JSON
+    const data = await response.text(); //plain text, not JSON
     console.log("EPA API response data received");
 
     res.json({ result: data }); // wrap in object for front end

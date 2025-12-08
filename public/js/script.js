@@ -1,5 +1,22 @@
 import { calculateMix } from "./math.js";
 
+let PRESETS = null;
+
+async function loadPresets() {
+  try {
+    const res = await fetch("/api/presets");
+    if (!res.ok) throw new Error("Failed loading presets");
+    PRESETS = await res.json();
+  } catch (err) {
+    console.error("loadPresets error:", err);
+    throw err;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  loadPresets().catch((err) => console.error("Presets error", err));
+});
+
 function formatOunces(totalOz) {
   if (totalOz < 128) {
     return `${totalOz} oz`;
@@ -25,13 +42,17 @@ const treatmentSelect = document.getElementById("treatmentSelect");
 const resultsDiv = document.querySelector(".results");
 
 // Event listener for calculate button
-calculateButton.addEventListener("click", () => {
+calculateButton.addEventListener("click", async () => {
+  if (!PRESETS) {
+    await loadPresets();
+  }
+
   const sprayRate = parseFloat(sprayRateInput.value) || 4; // default to 4
   const waterVolume = parseFloat(waterVolumeInput.value);
   const treatment = treatmentSelect.value;
 
   try {
-    const result = calculateMix( waterVolume, sprayRate, treatment );
+    const result = calculateMix(waterVolume, sprayRate, treatment, PRESETS);
     displayResults(result);
   } catch (err) {
     resultsDiv.innerHTML = `<p style="color:red">${err.message}</p>`;
@@ -80,7 +101,7 @@ function displayResults(data) {
 async function saveMix(mixData) {
   try {
     const res = await fetch("/api/mixes", {
-      method: "POST", 
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -96,9 +117,8 @@ async function saveMix(mixData) {
     console.log("Mix saved:", saved);
     alert("Mix saved successfully!");
     return saved;
-  } catch(err) {
+  } catch (err) {
     console.error("Error saving mix:", err);
     alert("Error saving mix.");
   }
 }
-  
