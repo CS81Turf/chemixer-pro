@@ -156,11 +156,12 @@ select {
 /* Labels.html input and search layout */
 .labels-input {
     margin-top: 1rem;
-
+    border-radius: 8px;
 }
 
 .search-btn {
     margin-top: 1rem;
+    border-radius: 8px;
 }
 
 /* Labels Results Styling */
