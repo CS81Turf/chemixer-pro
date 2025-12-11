@@ -71,25 +71,25 @@ app.post("/api/mixes", (req, res) => {
 });
 
 // // DELETE mix POST
-// app.delete("/api/mixes/:id", async (req, res) => {
-//   try {
-//     const id = parseInt(req.params.id);
+app.delete("/api/mixes/:id", async (req, res) => {
+  try {
+    const id = parseInt(req.params.id);
 
-//     let mixes = readMixes();
+    let mixes = readMixes();
    
-//     if (id < 0 || id >= mixes.length) {
-//       return res.status(404).json({ error: "Mix not found." });
-//     }
+    if (id < 0 || id >= mixes.length) {
+      return res.status(404).json({ error: "Mix not found." });
+    }
 
-//     mixes.splice(id, 1);
-//     writeMixes(mixes);
+    mixes.splice(id, 1);
+    writeMixes(mixes);
 
-//     res.json({ success: true, message: "Mix deleted." });
-//   } catch (err) {
-//       console.error(err);
-//       res.status(500).json({ error: "Failed to delete mix." });
-//     }
-//   });
+    res.json({ success: true, message: "Mix deleted." });
+  } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "Failed to delete mix." });
+    }
+  });
 
 // Fetch by product name
 app.get("/api/epa/search", async (req, res) => {

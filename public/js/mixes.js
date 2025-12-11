@@ -26,10 +26,15 @@ function displayMixes(mixesToShow) {
 // Apply all filters
 function applyFilters() {
   const treatment = document.getElementById("treatmentFilter").value;
-  const startDate = document.getElementById("startDate").value;
-  const endDate = document.getElementById("endDate").value;
+  const startDateVal = document.getElementById("startDate").value;
+  const endDateVal = document.getElementById("endDate").value;
 
   let filtered = [...allMixes];
+
+  // Select all treatments
+  if (treatment !== "ALL" && treatment !== "") {
+    filtered = filtered.filter((mix) => mix.treatment === treatment);
+  }
 
   // Filter by treatment
   if (treatment !== "") {
@@ -37,14 +42,16 @@ function applyFilters() {
   }
 
   // Filter by date range
-  filtered = filtered.filter((mix) => {
-    const mixDate = new Date(mix.savedAt);
+  if (startDateVal && endDateVal) {
+    const startDate = new Date(startDateVal);
+    const endDate = new Date(endDateVal);
 
-    if (startDate && mixDate < new Date(startDate)) return false;
-    if (endDate && mixDate > new Date(endDate)) return false;
+    filtered = filtered.filter(mix => {
+      const mixDate = new Date(mix.savedAt);
+      return mixDate >= startDate && mixDate <= endDate;
+    });
+  }
 
-    return true;
-  });
 
   displayMixes(filtered);
 }
@@ -117,15 +124,15 @@ function createMixTable(mixes) {
 
   // Build totals footer row
   const chemicalTotalsHtml = Object.entries(chemicalTotals)
-    .map(([name, amount]) => `${name}: ${amount} oz`)
+    .map(([name, amount]) => `${name}: ${amount.toFixed(2)} oz`)
     .join("<br>");
 
   const totalsRow = `
     <tr class="totals-row">
     <td colspan="6">
       <div><strong>TOTALS</strong></div>
-      <div><strong>Total Sq.Ft.: ${totalSqFt}</strong></div>
-      <div><strong>Water Used: ${totalWaterVol} gal</strong></div>
+      <div><strong>Total Sq.Ft.: ${totalSqFt.toLocaleString("en-us")}</strong></div>
+      <div><strong>Water Used: ${totalWaterVol.toLocaleString("en-us")} gal</strong></div>
       <div><strong>Chemicals:</strong></div>
       ${chemicalTotalsHtml}
     </td>
