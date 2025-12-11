@@ -124,8 +124,8 @@ function createMixTable(mixes) {
     <tr class="totals-row">
     <td colspan="6">
       <div><strong>TOTALS</strong></div>
-      <div><strong>Total Sq.Ft.: ${totalSqFt}</strong></div>
-      <div><strong>Water Used: ${totalWaterVol} gal</strong></div>
+      <div><strong>Total Sq.Ft.: ${totalSqFt.toLocaleString("en-us")}</strong></div>
+      <div><strong>Water Used: ${totalWaterVol.toLocaleString("en-us")} gal</strong></div>
       <div><strong>Chemicals:</strong></div>
       ${chemicalTotalsHtml}
     </td>
