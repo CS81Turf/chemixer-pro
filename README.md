@@ -32,7 +32,7 @@ A `calculateMix()` function takes multiple inputs(spray rate, water volume, trea
 
 ### Required Software
 
-- Node.js v18 or higher
+- I used Node.js v22.22.0 for this project
 - Any browser
 
 ### Installation
