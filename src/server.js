@@ -46,8 +46,12 @@ app.get("/api/presets", (req, res) => {
 
 // GET mixes
 app.get("/api/mixes", (req, res) => {
+  try {
   const mixes = readMixes();
   res.json(mixes);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to read mixes." });
+  }
 });
 
 // POST new mix

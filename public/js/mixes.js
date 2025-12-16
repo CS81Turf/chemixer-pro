@@ -117,7 +117,7 @@ function createMixTable(mixes) {
 
   // Build totals footer row
   const chemicalTotalsHtml = Object.entries(chemicalTotals)
-    .map(([name, amount]) => `${name}: ${amount} oz`)
+    .map(([name, amount]) => `${name}: ${amount.toFixed(2)} oz`)
     .join("<br>");
 
   const totalsRow = `
