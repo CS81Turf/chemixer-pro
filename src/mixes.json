@@ -602,5 +602,100 @@
       }
     ],
     "savedAt": "12/15/2025, 8:54:42 PM"
+  },
+  {
+    "areaSize": 20000,
+    "waterVolume": 5,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 20
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 5
+      }
+    ],
+    "savedAt": "12/15/2025, 9:35:44 PM"
+  },
+  {
+    "areaSize": 132000,
+    "waterVolume": 33,
+    "sprayRate": 4,
+    "treatment": "GrubFleaTick",
+    "results": [
+      {
+        "chemical": "Imidacloprid",
+        "ratePer1000": 0.5,
+        "totalAmount": 66
+      },
+      {
+        "chemical": "Bifenthrin",
+        "ratePer1000": 1,
+        "totalAmount": 132
+      }
+    ],
+    "savedAt": "12/16/2025, 7:47:58 AM"
+  },
+  {
+    "areaSize": 44000,
+    "waterVolume": 11,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 44
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 11
+      }
+    ],
+    "savedAt": "12/16/2025, 8:05:02 AM"
+  },
+  {
+    "areaSize": 100000,
+    "waterVolume": 25,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 100
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 25
+      }
+    ],
+    "savedAt": "12/16/2025, 6:32:37 PM"
+  },
+  {
+    "areaSize": 80000,
+    "waterVolume": 20,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 80
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 20
+      }
+    ],
+    "savedAt": "12/16/2025, 6:36:37 PM"
   }
 ]

@@ -63,6 +63,7 @@ function displayJsonResults(items, resultsDiv) {
   const cards = items.map((item) => {
     const productName = item.productname || "N/A";
     const signalWord = item.signal_word || "N/A";
+    const status = item.product_status || "N/A";
     const activeIngredients = item.active_ingredients || [];
 
     const activeList = activeIngredients
@@ -77,6 +78,7 @@ function displayJsonResults(items, resultsDiv) {
     return `
             <div class="label-card">
                 <h3>${productName}</h3>
+                <p><strong>Product Status:</strong> ${status}</p>
                 <p><strong>Signal Word:</strong> ${signalWord}</p>
                 <p><strong>Active Ingredients:</strong></p>
                 <ul>${activeList}</ul>

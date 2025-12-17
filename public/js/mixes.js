@@ -23,57 +23,6 @@ function displayMixes(mixesToShow) {
   document.getElementById("past-mix-table").innerHTML = html;
 }
 
-// Apply all filters
-function applyFilters() {
-  const treatment = document.getElementById("treatmentFilter").value;
-  const startDate = document.getElementById("startDate").value;
-  const endDate = document.getElementById("endDate").value;
-
-  let filtered = [...allMixes];
-
-  // Filter by treatment
-  if (treatment !== "") {
-    filtered = filtered.filter((mix) => mix.treatment === treatment);
-  }
-
-  // Filter by date range
-  filtered = filtered.filter((mix) => {
-    const mixDate = new Date(mix.savedAt);
-
-    if (startDate && mixDate < new Date(startDate)) return false;
-    if (endDate && mixDate > new Date(endDate)) return false;
-
-    return true;
-  });
-
-  displayMixes(filtered);
-}
-
-// Clear all filters
-function clearFilters() {
-  document.getElementById("treatmentFilter").value = "";
-  document.getElementById("startDate").value = "";
-  document.getElementById("endDate").value = "";
-  displayMixes(allMixes);
-}
-
-// Setup event listeners when page loads
-document.addEventListener("DOMContentLoaded", async () => {
-  await getMixes();
-
-  const treatmentFilter = document.getElementById("treatmentFilter");
-  const startDate = document.getElementById("startDate");
-  const endDate = document.getElementById("endDate");
-  const applyFilterBtn = document.getElementById("applyFilterBtn");
-  const clearFilterBtn = document.getElementById("clearFilterBtn");
-
-  if (treatmentFilter) treatmentFilter.addEventListener("change", applyFilters);
-  if (startDate) startDate.addEventListener("change", applyFilters);
-  if (endDate) endDate.addEventListener("change", applyFilters);
-  if (applyFilterBtn) applyFilterBtn.addEventListener("click", applyFilters);
-  if (clearFilterBtn) clearFilterBtn.addEventListener("click", clearFilters);
-});
-
 //Creating table for Saved Mixes
 function createMixTable(mixes) {
   if (!Array.isArray(mixes) || mixes.length === 0) {
@@ -90,8 +39,8 @@ function createMixTable(mixes) {
       const water = Number(mix.waterVolume) || 0;
       const results = Array.isArray(mix.results) ? mix.results : [];
 
-      totalSqFt += mix.areaSize;
-      totalWaterVol += mix.waterVolume;
+      totalSqFt += area;
+      totalWaterVol += water;
 
       let chemicals = results.map((r) => {
         const chem = r.chemical || "Unknown";
@@ -153,3 +102,56 @@ function createMixTable(mixes) {
     </div>
     `;
 }
+
+
+// Apply all filters
+function applyFilters() {
+  const treatment = document.getElementById("treatmentFilter").value;
+  const startDate = document.getElementById("startDate").value;
+  const endDate = document.getElementById("endDate").value;
+
+  let filtered = [...allMixes];
+
+  // Filter by treatment
+  if (treatment !== "") {
+    filtered = filtered.filter((mix) => mix.treatment === treatment);
+  }
+
+  // Filter by date range
+  filtered = filtered.filter((mix) => {
+    const mixDate = new Date(mix.savedAt);
+
+    if (startDate && mixDate < new Date(startDate)) return false;
+    if (endDate && mixDate > new Date(endDate)) return false;
+
+    return true;
+  });
+
+  displayMixes(filtered);
+}
+
+// Clear all filters
+function clearFilters() {
+  document.getElementById("treatmentFilter").value = "";
+  document.getElementById("startDate").value = "";
+  document.getElementById("endDate").value = "";
+  displayMixes(allMixes);
+}
+
+// Setup event listeners when page loads
+document.addEventListener("DOMContentLoaded", async () => {
+  await getMixes();
+
+  const treatmentFilter = document.getElementById("treatmentFilter");
+  const startDate = document.getElementById("startDate");
+  const endDate = document.getElementById("endDate");
+  const applyFilterBtn = document.getElementById("applyFilterBtn");
+  const clearFilterBtn = document.getElementById("clearFilterBtn");
+
+  if (treatmentFilter) treatmentFilter.addEventListener("change", applyFilters);
+  if (startDate) startDate.addEventListener("change", applyFilters);
+  if (endDate) endDate.addEventListener("change", applyFilters);
+  if (applyFilterBtn) applyFilterBtn.addEventListener("click", applyFilters);
+  if (clearFilterBtn) clearFilterBtn.addEventListener("click", clearFilters);
+});
+

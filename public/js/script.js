@@ -17,6 +17,8 @@ document.addEventListener("DOMContentLoaded", () => {
   loadPresets().catch((err) => console.error("Presets error", err));
 });
 
+
+// Gallons and ounces conversion logic
 function formatOunces(totalOz) {
   if (totalOz < 128) {
     return `${totalOz} oz`;
