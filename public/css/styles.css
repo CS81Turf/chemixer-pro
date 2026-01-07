@@ -96,7 +96,7 @@ header h1 {
 nav ul {
     list-style: none;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     gap: 1rem;
     padding: 0;
 }
@@ -264,6 +264,11 @@ main {
 main:not(.special) {
     background: linear-gradient(to right, lightblue, royalblue);
 }
+
+.contact-me {
+    text-align: center;
+    margin-top: 1rem;
+    font-size: 1.8rem;}
 
 /* Media Queries for Responsive Design */
 @media (max-width: 600px) {

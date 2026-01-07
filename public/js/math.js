@@ -1,7 +1,6 @@
 export function calculateMix( waterVolume, sprayRate, treatment, presets ) {
     
-  
-// Validate water volume
+  // Validate water volume
   if (waterVolume === undefined || waterVolume === null || isNaN(waterVolume) || waterVolume <= 0) {
     throw new Error("Please enter a valid number for water volume.");
   }
