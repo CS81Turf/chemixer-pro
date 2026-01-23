@@ -96,7 +96,7 @@ header h1 {
 nav ul {
     list-style: none;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1rem;
     padding: 0;
 }
@@ -281,7 +281,7 @@ main:not(.special) {
     }
 
     nav ul {
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
     }
 }
 
