@@ -1,5 +1,51 @@
 import { calculateMix } from "./math.js";
 
+document.addEventListener("DOMContentLoaded", () => {
+  const loginModal = document.getElementById("loginModal");
+
+  //Show modal if user not logged in
+  if (!localStorage.getItem("token")) {
+    loginModal.style.display = "flex";
+  } else {
+    // if already logged inm show user
+    const userName = localStorage.getItem("userName");
+    document.getElementById("currentUser").innerText = `Logged in: ${userName}`;
+    loginModal.style.display = "none";
+  }
+});
+
+document.getElementById("loginBtn").addEventListener("click", async() => {
+  const name = document.getElementById("name").value;
+  const pin = document.getElementById("pin").value;
+
+  try {
+    const res = await fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, pin})
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      document.getElementById("loginError").innerText = data.error || "Login failed.";
+      return;
+    }
+
+    const { user, token } = await res.json();
+    localStorage.setItem("token", token);
+    localStorage.setItem("userName", user.name);
+
+    // Hide Modal
+    document.getElementById("loginModal").style.display = "none";
+
+    // Show logged in user
+    document.getElementById("currentUser").innerText = `Logged in: ${user.name}`;
+  } catch (err) {
+    console.error(err);
+    document.getElementById("loginError").innerText = "Server error";
+  }; 
+});
+
 let PRESETS = null;
 
 async function loadPresets() {

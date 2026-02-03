@@ -55,6 +55,67 @@ input {
     margin: auto;
 }
 
+/* Full-screen overlay */
+.modal {
+  position: fixed;
+  inset: 0; /* shorthand for top/right/bottom/left = 0 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  padding: 1rem; /* prevents edge collisions on small screens */
+}
+
+/* Modal box */
+.modal-content {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 360px; /* sweet spot for mobile + desktop */
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  text-align: center;
+}
+
+/* Labels */
+.modal-content label {
+  display: block;
+  text-align: left;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+/* Inputs */
+.modal-content input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.25rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Button */
+.modal-content button {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  background-color: var(--color-secondary);
+  color: var(--color-background);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* Error message */
+.error-message {
+  color: red;
+  margin-top: 0.75rem;
+  font-size: 0.9rem;
+}
+
+
 .container {
     display: grid;
     place-items: center;
@@ -269,6 +330,12 @@ main:not(.special) {
     text-align: center;
     margin-top: 1rem;
     font-size: 1.8rem;}
+
+.error-message {
+    color: red;
+    margin-top: .5rem;
+    font-size: .9rem;
+}
 
 /* Media Queries for Responsive Design */
 @media (max-width: 600px) {

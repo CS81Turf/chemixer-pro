@@ -13,6 +13,8 @@ const __dirname = path.dirname(__filename);
 // Database file path
 const MIXES_FILE = path.join(__dirname, "mixes.json");
 
+
+
 function readMixes() {
   if (!fs.existsSync(MIXES_FILE)) {
     fs.writeFileSync(MIXES_FILE, JSON.stringify([], null, 2));
@@ -31,8 +33,24 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "..", "public")));
 app.use(express.urlencoded({ extended: false }));
 
+// User authentication
+app.post("/login", (req, res) => {
+  const { name, pin } = req.body;
+
+  if (name === "admin" && pin === "1234") {
+    return res.json({
+      user: { name }, 
+      token: "demo-token-123"
+    });
+  }
+
+  res.status(401).json({ error: "INvalid name or PIN" });
+  });
+
 // Path to presets.json
 const PRESETS_FILE = path.join(__dirname, "presets.json");
+
+
 
 // GET presets
 app.get("/api/presets", (req, res) => {
@@ -45,14 +63,14 @@ app.get("/api/presets", (req, res) => {
 });
 
 // GET mixes
-app.get("/api/mixes", (req, res) => {
-  try {
-  const mixes = readMixes();
-  res.json(mixes);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to read mixes." });
-  }
-});
+// app.get("/api/mixes", (req, res) => {
+//   try {
+//   const mixes = readMixes();
+//   res.json(mixes);
+//   } catch (err) {
+//     res.status(500).json({ error: "Failed to read mixes." });
+//   }
+// });
 
 // POST new mix
 app.post("/api/mixes", (req, res) => {
