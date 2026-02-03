@@ -3,16 +3,27 @@ import cors from "cors";
 import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
+import crypto from "crypto";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const session = new Map();
 
 // Database file path
 const MIXES_FILE = path.join(__dirname, "mixes.json");
+const USERS_FILE = path.join(__dirname, "users.json");
 
+function readUsers() {
+  if (!fs.existsSync(USERS_FILE)) {
+    fs.writeFileSync(USERS_FILE, JSON.stringify([], null, 2));
+    return [];
+  }
+  const data = fs.readFileSync(USERS_FILE, "utf-8");
+  return JSON.parse(data);
+}
 
 
 function readMixes() {
@@ -37,15 +48,25 @@ app.use(express.urlencoded({ extended: false }));
 app.post("/login", (req, res) => {
   const { name, pin } = req.body;
 
-  if (name === "admin" && pin === "1234") {
-    return res.json({
-      user: { name }, 
-      token: "demo-token-123"
-    });
+  if (!name || !pin) {
+    return res.status(400).json({ error: "Name and pin required" });
   }
 
-  res.status(401).json({ error: "INvalid name or PIN" });
-  });
+  const users = readUsers();
+  const user = users.find(u => u.name === name && u.pin === pin);
+
+  if (!user) {
+    return res.status(401).json({ error: "Invalid name or PIN" });
+  }
+
+  // Generate a token (simple UUID for demo purposes)
+  const token = crypto.randomUUID();
+
+  // Store session in memory (Map) for now
+  session.set(token, { userId: user.id, name: user.name, role: user.role });
+
+  res.json({ user: { id: user.id, name: user.name, role: user.role, token }});
+});
 
 // Path to presets.json
 const PRESETS_FILE = path.join(__dirname, "presets.json");

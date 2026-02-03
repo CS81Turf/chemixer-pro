@@ -1,0 +1,50 @@
+[
+    {
+        "id": "1",
+        "name": "CH",
+        "pin": "1234",
+        "role": "admin"
+    },
+    {
+        "id": "2",
+        "name": "BM",
+        "pin": "1234",
+        "role": "admin"
+    },
+    {
+        "id": "3",
+        "name": "DG",
+        "pin": "1234",
+        "role": "admin"
+    },
+    {
+        "id": "4",
+        "name": "CE",
+        "pin": "1234",
+        "role": "user"
+    },
+    {
+        "id": "5",
+        "name": "TD",
+        "pin": "1234",
+        "role": "user"
+    },
+    {
+        "id": "6",
+        "name": "RP",
+        "pin": "1234",
+        "role": "user"
+    },
+    {
+        "id": "7",
+        "name": "MC",
+        "pin": "1234",
+        "role": "user"
+    },
+    {
+        "id": "8",
+        "name": "RT",
+        "pin": "1234",
+        "role": "user"
+    }
+]
