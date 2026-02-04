@@ -350,6 +350,12 @@ main:not(.special) {
     nav ul {
         grid-template-columns: 1fr 1fr 1fr 1fr;
     }
+
+    .past-mix-table {
+        display: flex;
+        flex-direction: column;
+        
+    }
 }
 
 /* Tablet and up */

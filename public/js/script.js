@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-document.getElementById("loginBtn").addEventListener("click", async() => {
+document.getElementById("loginBtn").addEventListener("click", async () => {
   const name = document.getElementById("name").value;
   const pin = document.getElementById("pin").value;
 
@@ -22,12 +22,13 @@ document.getElementById("loginBtn").addEventListener("click", async() => {
     const res = await fetch("/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, pin})
+      body: JSON.stringify({ name, pin }),
     });
 
     if (!res.ok) {
       const data = await res.json();
-      document.getElementById("loginError").innerText = data.error || "Login failed.";
+      document.getElementById("loginError").innerText =
+        data.error || "Login failed.";
       return;
     }
 
@@ -39,25 +40,41 @@ document.getElementById("loginBtn").addEventListener("click", async() => {
     document.getElementById("loginModal").style.display = "none";
 
     // Show logged in user
-    document.getElementById("currentUser").innerText = `Logged in: ${user.name}`;
+    document.getElementById("currentUser").innerText =
+      `Logged in: ${user.name}`;
   } catch (err) {
     console.error(err);
     document.getElementById("loginError").innerText = "Server error";
-  }; 
+  }
 });
 
+// Logout functionality
 document.getElementById("logoutBtn").addEventListener("click", async () => {
   try {
+    const token = localStorage.getItem("token");
+
     const res = await fetch("/logout", {
-      method: "POST", 
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
     });
 
-    if (!res.ok) throw new Error("Logout failed");
+    if (res.ok) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userName");
+
+      location.reload();
+      return;
+    }
+
+    // Clear Auth
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+
+    location.reload();
 
     // Reset UI
     document.getElementById("loginModal").style.display = "flex";
     document.getElementById("app").style.display = "none";
-
   } catch (err) {
     console.error(err);
     alert("Logout failed");
@@ -80,7 +97,6 @@ async function loadPresets() {
 document.addEventListener("DOMContentLoaded", () => {
   loadPresets().catch((err) => console.error("Presets error", err));
 });
-
 
 // Gallons and ounces conversion logic
 function formatOunces(totalOz) {
@@ -146,7 +162,7 @@ function displayResults(data) {
           (r) =>
             `<tr><td>${r.chemical}</td><td>${
               r.ratePer1000
-            }</td><td><strong>${formatOunces(r.totalAmount)}</strong></td></tr>`
+            }</td><td><strong>${formatOunces(r.totalAmount)}</strong></td></tr>`,
         )
         .join("")}
     </table>
@@ -166,15 +182,18 @@ function displayResults(data) {
 // Save mix function
 async function saveMix(mixData) {
   try {
+    const token = localStorage.getItem("token");
     const res = await fetch("/api/mixes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(mixData),
     });
 
     if (!res.ok) {
+      const data = await res.json();
       throw new Error("Failed to save mix.");
     }
 

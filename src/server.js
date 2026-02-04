@@ -26,27 +26,25 @@ function requireAuth(req, res, next) {
 
   if (!authHeader) {
     return res.status(401).json({ error: "Missing auth token" });
+  }
+
+  // Expect header: "Bearer <token>"
+  const token = authHeader.replace("Bearer ", "").trim();
+  const session = sessions.get(token);
+
+  if (!session) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+
+  // Attach user info to request
+  req.user = session;
+  next();
 }
-
-// Expect header: "Bearer <token>"
-const token = authHeader.replace("Bearer ", "").trim();
-const session = sessions.get(token);
-
-if (!session) {
-  return res.status(401).json({ error: "Invalid token" });
-}
-
-// Attach user info to request
-req.user = session;
-next();
-}
-
-
 
 // Database file path
 const MIXES_FILE = path.join(__dirname, "mixes.json");
 // Path to presets.json
-const PRESETS_FILE = path.join(__dirname, "presets.json");
+const PRESETS_FILE = path.join(__dirname, "data", "presets.json");
 
 function readMixes() {
   if (!fs.existsSync(MIXES_FILE)) {
@@ -60,7 +58,6 @@ function readMixes() {
 function writeMixes(mixes) {
   fs.writeFileSync(MIXES_FILE, JSON.stringify(mixes, null, 2));
 }
-
 
 // User authentication
 
@@ -85,30 +82,33 @@ app.post("/login", (req, res) => {
   sessions.set(token, {
     userId: user.id,
     name: user.name,
-    role: user.role
+    role: user.role,
   });
 
-  res.json({ 
+  res.json({
     user: {
       id: user.id,
       name: user.name,
-      role: user.role
+      role: user.role,
     },
-    token
+    token,
   });
 });
 
 // POST logout
 app.post("/logout", (req, res) => {
-  req.session.destroy(err => {
-    if (err) {
-      return res.status(500).json({ error: "Failed to logout" });
-    }
-    res.json({ success: true });
-  });
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.json({ success: true });
+  }
+
+  const token = authHeader.replace("Bearer ", "").trim();
+
+  sessions.delete(token);
+
+  res.json({ success: true });
 });
-
-
 
 // GET presets
 app.get("/api/presets", (req, res) => {
@@ -121,14 +121,14 @@ app.get("/api/presets", (req, res) => {
 });
 
 // GET mixes
-// app.get("/api/mixes", (req, res) => {
-//   try {
-//   const mixes = readMixes();
-//   res.json(mixes);
-//   } catch (err) {
-//     res.status(500).json({ error: "Failed to read mixes." });
-//   }
-// });
+app.get("/api/mixes", (req, res) => {
+  try {
+    const mixes = readMixes();
+    res.json(mixes);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to read mixes." });
+  }
+});
 
 // POST new mix
 app.post("/api/mixes", requireAuth, (req, res) => {
@@ -137,9 +137,10 @@ app.post("/api/mixes", requireAuth, (req, res) => {
   const newMix = {
     ...req.body,
     savedAt: new Date().toLocaleString("en-US", {
-      timeZone: "America/New_York" }),
+      timeZone: "America/New_York",
+    }),
     savedBy: user.name,
-    userId: user.userId
+    userId: user.userId,
   };
 
   if (!newMix) {
@@ -159,7 +160,7 @@ app.post("/api/mixes", requireAuth, (req, res) => {
 //     const id = parseInt(req.params.id);
 
 //     let mixes = readMixes();
-   
+
 //     if (id < 0 || id >= mixes.length) {
 //       return res.status(404).json({ error: "Mix not found." });
 //     }
@@ -187,7 +188,7 @@ app.get("/api/epa/search", async (req, res) => {
   try {
     // Endpoint for search by product name (from EPA docs)
     const apiUrl = `https://ordspub.epa.gov/ords/pesticides/cswu/pplstxt/${encodeURIComponent(
-      productName
+      productName,
     )}`;
 
     console.log("Calling EPA API:", apiUrl);
