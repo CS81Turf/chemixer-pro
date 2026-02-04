@@ -46,6 +46,24 @@ document.getElementById("loginBtn").addEventListener("click", async() => {
   }; 
 });
 
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+  try {
+    const res = await fetch("/logout", {
+      method: "POST", 
+    });
+
+    if (!res.ok) throw new Error("Logout failed");
+
+    // Reset UI
+    document.getElementById("loginModal").style.display = "flex";
+    document.getElementById("app").style.display = "none";
+
+  } catch (err) {
+    console.error(err);
+    alert("Logout failed");
+  }
+});
+
 let PRESETS = null;
 
 async function loadPresets() {

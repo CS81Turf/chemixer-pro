@@ -41,6 +41,8 @@ req.user = session;
 next();
 }
 
+
+
 // Database file path
 const MIXES_FILE = path.join(__dirname, "mixes.json");
 // Path to presets.json
@@ -96,7 +98,15 @@ app.post("/login", (req, res) => {
   });
 });
 
-
+// POST logout
+app.post("/logout", (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).json({ error: "Failed to logout" });
+    }
+    res.json({ success: true });
+  });
+});
 
 
 
