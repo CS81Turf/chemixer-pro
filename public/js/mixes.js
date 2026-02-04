@@ -60,6 +60,7 @@ function createMixTable(mixes) {
     <td>${mix.areaSize}</td>
     <td>${mix.waterVolume}</td>
     <td>${chemicals}</td>
+    <td>${mix.savedBy || "Unknown"}</td>
     </tr>`;
     })
     .join("");
@@ -92,6 +93,7 @@ function createMixTable(mixes) {
           <th>Sq. Ft.</th>
           <th>Water Vol.</th>
           <th>Chemicals Used</th>
+          <th>Saved By</th>
         </tr>
       </thead>
       <tbody>

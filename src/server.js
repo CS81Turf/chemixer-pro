@@ -4,27 +4,47 @@ import path from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import crypto from "crypto";
-
-const app = express();
-const port = process.env.PORT || 3000;
+import { findUserByNameAndPin } from "./services/userService.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const session = new Map();
 
-// Database file path
-const MIXES_FILE = path.join(__dirname, "mixes.json");
-const USERS_FILE = path.join(__dirname, "users.json");
+const app = express();
+const port = process.env.PORT || 3000;
 
-function readUsers() {
-  if (!fs.existsSync(USERS_FILE)) {
-    fs.writeFileSync(USERS_FILE, JSON.stringify([], null, 2));
-    return [];
-  }
-  const data = fs.readFileSync(USERS_FILE, "utf-8");
-  return JSON.parse(data);
+const sessions = new Map();
+
+app.use(cors());
+app.use(express.json());
+app.use(express.static(path.join(__dirname, "..", "public")));
+app.use(express.urlencoded({ extended: false }));
+
+// Middleware to require login
+function requireAuth(req, res, next) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader) {
+    return res.status(401).json({ error: "Missing auth token" });
 }
 
+// Expect header: "Bearer <token>"
+const token = authHeader.replace("Bearer ", "").trim();
+const session = sessions.get(token);
+
+if (!session) {
+  return res.status(401).json({ error: "Invalid token" });
+}
+
+// Attach user info to request
+req.user = session;
+next();
+}
+
+// Database file path
+const MIXES_FILE = path.join(__dirname, "mixes.json");
+// Path to presets.json
+const PRESETS_FILE = path.join(__dirname, "presets.json");
 
 function readMixes() {
   if (!fs.existsSync(MIXES_FILE)) {
@@ -39,12 +59,10 @@ function writeMixes(mixes) {
   fs.writeFileSync(MIXES_FILE, JSON.stringify(mixes, null, 2));
 }
 
-app.use(cors());
-app.use(express.json());
-app.use(express.static(path.join(__dirname, "..", "public")));
-app.use(express.urlencoded({ extended: false }));
 
 // User authentication
+
+// POST login
 app.post("/login", (req, res) => {
   const { name, pin } = req.body;
 
@@ -52,8 +70,7 @@ app.post("/login", (req, res) => {
     return res.status(400).json({ error: "Name and pin required" });
   }
 
-  const users = readUsers();
-  const user = users.find(u => u.name === name && u.pin === pin);
+  const user = findUserByNameAndPin(name, pin);
 
   if (!user) {
     return res.status(401).json({ error: "Invalid name or PIN" });
@@ -63,13 +80,23 @@ app.post("/login", (req, res) => {
   const token = crypto.randomUUID();
 
   // Store session in memory (Map) for now
-  session.set(token, { userId: user.id, name: user.name, role: user.role });
+  sessions.set(token, {
+    userId: user.id,
+    name: user.name,
+    role: user.role
+  });
 
-  res.json({ user: { id: user.id, name: user.name, role: user.role, token }});
+  res.json({ 
+    user: {
+      id: user.id,
+      name: user.name,
+      role: user.role
+    },
+    token
+  });
 });
 
-// Path to presets.json
-const PRESETS_FILE = path.join(__dirname, "presets.json");
+
 
 
 
@@ -94,12 +121,15 @@ app.get("/api/presets", (req, res) => {
 // });
 
 // POST new mix
-app.post("/api/mixes", (req, res) => {
+app.post("/api/mixes", requireAuth, (req, res) => {
+  const user = req.user; // comes from token
+
   const newMix = {
     ...req.body,
     savedAt: new Date().toLocaleString("en-US", {
-      timeZone: "America/New_York",
-    }),
+      timeZone: "America/New_York" }),
+    savedBy: user.name,
+    userId: user.userId
   };
 
   if (!newMix) {
