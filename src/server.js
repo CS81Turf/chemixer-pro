@@ -43,7 +43,7 @@ next();
 // Database file path
 const MIXES_FILE = path.join(__dirname, "mixes.json");
 // Path to presets.json
-const PRESETS_FILE = path.join(__dirname, "presets.json");
+const PRESETS_FILE = path.join(__dirname, "data", "presets.json");
 
 function readMixes() {
   if (!fs.existsSync(MIXES_FILE)) {
