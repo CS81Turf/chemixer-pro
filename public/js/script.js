@@ -62,7 +62,7 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
       localStorage.removeItem("token");
       localStorage.removeItem("userName");
 
-      location.reload();
+      window.location.href = "./index.html";
       return;
     }
 

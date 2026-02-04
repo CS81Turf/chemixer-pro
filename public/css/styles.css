@@ -108,6 +108,10 @@ input {
   cursor: pointer;
 }
 
+.hidden {
+  display: none;
+}
+
 /* Error message */
 .error-message {
   color: red;
@@ -133,6 +137,7 @@ input {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1rem;
+    margin: 0.5rem;
 }
 
 .container {
