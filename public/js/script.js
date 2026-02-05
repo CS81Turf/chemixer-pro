@@ -3,6 +3,8 @@ import { calculateMix } from "./math.js";
 document.addEventListener("DOMContentLoaded", () => {
   const loginModal = document.getElementById("loginModal");
 
+
+
   //Show modal if user not logged in
   if (!localStorage.getItem("token")) {
     loginModal.style.display = "flex";
@@ -12,9 +14,17 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("currentUser").innerText = `Logged in: ${userName}`;
     loginModal.style.display = "none";
   }
+
+    loginModal.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  });
 });
 
-document.getElementById("loginBtn").addEventListener("click", async () => {
+document.getElementById("loginBtn").addEventListener("click", handleLogin);
+
+async function handleLogin() {
   const name = document.getElementById("name").value;
   const pin = document.getElementById("pin").value;
 
@@ -46,7 +56,7 @@ document.getElementById("loginBtn").addEventListener("click", async () => {
     console.error(err);
     document.getElementById("loginError").innerText = "Server error";
   }
-});
+};
 
 // Logout functionality
 document.getElementById("logoutBtn").addEventListener("click", async () => {
