@@ -56,7 +56,6 @@ function createMixTable(mixes) {
 
       return ` 
     <tr>
-    <td>${idx + 1}</td>
     <td>${mix.savedAt || ""}</td>
     <td>${mix.treatment || ""}</td>
     <td>${mix.areaSize}</td>
@@ -69,7 +68,10 @@ function createMixTable(mixes) {
 
   // Build totals footer row
   const chemicalTotalsHtml = Object.entries(chemicalTotals)
-    .map(([name, amount]) => `${name}: ${amount.toFixed(2)} oz`)
+    .map(([name, amount]) => {
+      const gallons = amount / 128;
+      return `${name}: ${amount.toFixed(2)} oz (${gallons.toFixed(2)} gal)`;
+    })
     .join("<br>");
 
   const totalsRow = `
@@ -89,7 +91,6 @@ function createMixTable(mixes) {
   <table class="mix-results-table">
       <thead>
         <tr>
-          <th>#</th>
           <th>Date/Time</th>
           <th>Treatment</th>
           <th>Sq. Ft.</th>
