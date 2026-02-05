@@ -146,8 +146,8 @@ input {
 .currentUser {
     background-color: whitesmoke;
     border-radius: 8px;
-    margin: 1rem;
-    padding: 1rem;
+    margin: .5rem;
+    padding: .2rem;
     font-size: 1.2rem;
     font-weight: bold;
     color: var(--color-text);
@@ -188,18 +188,13 @@ body {
     background-color: var(--color-primary);
 }
 
-img {
-    height: 50px;
-    width: 100px;
-}
-
 /* Header/Navigation Styling */
 .app-header {
     display: flex;
     align-items: center;
     justify-content: flex-start;
     padding: 0.5rem .0rem;
-    background: linear-gradient(90deg, #0b7428, #4caf50);
+    background: linear-gradient(90deg, rgb(255, 255, 255), #384938);
     color: white;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     height: 80px;
@@ -223,13 +218,13 @@ img {
     list-style: none;
     gap: 2rem;
     margin: 0;
-    padding: 0;
+    padding: 0;    
 }
 
 .main-nav ul li a {
-    color: white;
+    color:rgba(21, 22, 29, 0.789);
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 750;
     padding: .5rem .75rem;
     transition: backgroun 0.3s, color 0.3s;
     border-radius: 5px;
