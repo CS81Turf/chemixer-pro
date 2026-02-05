@@ -1,34 +1,238 @@
 [
   {
-    "treatment": "Weed Control",
-    "areaSize": 500,
-    "waterVolume": 20,
+    "areaSize": 200000,
+    "waterVolume": 50,
+    "sprayRate": 4,
+    "treatment": "Round2",
     "results": [
       {
-        "chemical": "Fertilizer A",
-        "totalAmount": 5
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 200
       },
       {
-        "chemical": "Herbicide B",
-        "totalAmount": 2
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 50
+      },
+      {
+        "chemical": "Dimension",
+        "ratePer1000": 0.4,
+        "totalAmount": 80
       }
     ],
-    "savedAt": "2/2/2026, 11:00:14 AM",
-    "savedBy": "Chris",
+    "savedAt": "2/2/2026, 11:57:48 AM",
+    "savedBy": "ch",
     "userId": "01"
   },
   {
-    "treatment": "Weed Control",
-    "areaSize": 500,
-    "waterVolume": 20,
+    "areaSize": 40000,
+    "waterVolume": 10,
+    "sprayRate": 4,
+    "treatment": "Round1",
     "results": [
       {
-        "chemical": "Fertilizer A",
-        "totalAmount": 5
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 40
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 10
       }
     ],
-    "savedAt": "2/2/2026, 11:10:39 AM",
-    "savedBy": "Chris",
-    "userId": "01"
+    "savedAt": "2/4/2026, 11:13:30 AM",
+    "savedBy": "ch",
+    "userId": "1"
+  },
+  {
+    "areaSize": 40000,
+    "waterVolume": 10,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 40
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 10
+      }
+    ],
+    "savedAt": "2/4/2026, 12:32:37 PM",
+    "savedBy": "ch",
+    "userId": "1"
+  },
+  {
+    "areaSize": 72000,
+    "waterVolume": 18,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 72
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 18
+      }
+    ],
+    "savedAt": "2/4/2026, 1:03:13 PM",
+    "savedBy": "rp",
+    "userId": "6"
+  },
+  {
+    "areaSize": 12000,
+    "waterVolume": 3,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 12
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 3
+      }
+    ],
+    "savedAt": "2/4/2026, 1:08:54 PM",
+    "savedBy": "rp",
+    "userId": "6"
+  },
+  {
+    "areaSize": 132000,
+    "waterVolume": 33,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 132
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 33
+      }
+    ],
+    "savedAt": "2/4/2026, 1:15:41 PM",
+    "savedBy": "td",
+    "userId": "5"
+  },
+  {
+    "areaSize": 48000,
+    "waterVolume": 12,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 48
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 12
+      }
+    ],
+    "savedAt": "2/4/2026, 2:12:28 PM",
+    "savedBy": "dg",
+    "userId": "3"
+  },
+  {
+    "areaSize": 52000,
+    "waterVolume": 13,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 52
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 13
+      }
+    ],
+    "savedAt": "2/4/2026, 2:17:09 PM",
+    "savedBy": "bm",
+    "userId": "2"
+  },
+  {
+    "areaSize": 100000,
+    "waterVolume": 25,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 100
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 25
+      }
+    ],
+    "savedAt": "2/4/2026, 2:22:26 PM",
+    "savedBy": "ce",
+    "userId": "4"
+  },
+  {
+    "areaSize": 40000,
+    "waterVolume": 10,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 40
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 10
+      }
+    ],
+    "savedAt": "2/4/2026, 2:29:45 PM",
+    "savedBy": "ch",
+    "userId": "1"
+  },
+  {
+    "areaSize": 60000,
+    "waterVolume": 15,
+    "sprayRate": 4,
+    "treatment": "Round1",
+    "results": [
+      {
+        "chemical": "3-Way",
+        "ratePer1000": 1,
+        "totalAmount": 60
+      },
+      {
+        "chemical": "Triclopyr",
+        "ratePer1000": 0.25,
+        "totalAmount": 15
+      }
+    ],
+    "savedAt": "2/5/2026, 8:42:45 AM",
+    "savedBy": "mc",
+    "userId": "7"
   }
 ]

@@ -1,5 +1,106 @@
 import { calculateMix } from "./math.js";
 
+document.addEventListener("DOMContentLoaded", () => {
+  const loginModal = document.getElementById("loginModal");
+
+
+
+  //Show modal if user not logged in
+  if (!localStorage.getItem("token")) {
+    loginModal.style.display = "flex";
+  } else {
+    // if already logged inm show user
+    const userName = localStorage.getItem("userName");
+    document.getElementById("currentUser").innerText = `Logged in: ${userName}`;
+    loginModal.style.display = "none";
+  }
+
+    loginModal.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  });
+});
+
+document.getElementById("loginBtn").addEventListener("click", handleLogin);
+
+async function handleLogin() {
+  const name = document.getElementById("name").value;
+  const pin = document.getElementById("pin").value;
+
+  try {
+    const res = await fetch("/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, pin }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      document.getElementById("loginError").innerText =
+        data.error || "Login failed.";
+      return;
+    }
+
+    const { user, token } = await res.json();
+    localStorage.setItem("token", token);
+    localStorage.setItem("userName", user.name);
+
+    // Hide Modal
+    document.getElementById("loginModal").style.display = "none";
+
+    // Show logged in user
+    document.getElementById("currentUser").innerText =
+      `Logged in: ${user.name}`;
+  } catch (err) {
+    console.error(err);
+    document.getElementById("loginError").innerText = "Server error";
+  }
+};
+
+// Logout functionality
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+  try {
+    const token = localStorage.getItem("token");
+
+    const res = await fetch("/logout", {
+      method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (res.ok) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("userName");
+
+      window.location.href = "./index.html";
+      return;
+    }
+
+    // Clear Auth
+    localStorage.removeItem("token");
+    localStorage.removeItem("userName");
+
+    location.reload();
+
+    // Reset UI
+    document.getElementById("loginModal").style.display = "flex";
+    document.getElementById("app").style.display = "none";
+  } catch (err) {
+    console.error(err);
+    alert("Logout failed");
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const logoutOkBtn = document.getElementById("logoutOkBtn");
+  if (logoutOkBtn) {
+    logoutOkBtn.addEventListener("click", () => {
+      document.getElementById("logoutModal").classList.add("hidden");
+      window.location.href = "./index.html";
+    });
+  }
+});
+
 let PRESETS = null;
 
 async function loadPresets() {
@@ -16,7 +117,6 @@ async function loadPresets() {
 document.addEventListener("DOMContentLoaded", () => {
   loadPresets().catch((err) => console.error("Presets error", err));
 });
-
 
 // Gallons and ounces conversion logic
 function formatOunces(totalOz) {
@@ -82,7 +182,7 @@ function displayResults(data) {
           (r) =>
             `<tr><td>${r.chemical}</td><td>${
               r.ratePer1000
-            }</td><td><strong>${formatOunces(r.totalAmount)}</strong></td></tr>`
+            }</td><td><strong>${formatOunces(r.totalAmount)}</strong></td></tr>`,
         )
         .join("")}
     </table>
@@ -102,15 +202,18 @@ function displayResults(data) {
 // Save mix function
 async function saveMix(mixData) {
   try {
+    const token = localStorage.getItem("token");
     const res = await fetch("/api/mixes", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(mixData),
     });
 
     if (!res.ok) {
+      const data = await res.json();
       throw new Error("Failed to save mix.");
     }
 

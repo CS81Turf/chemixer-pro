@@ -8,6 +8,7 @@ import { findUserByNameAndPin } from "./services/userService.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const session = new Map();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -25,19 +26,19 @@ function requireAuth(req, res, next) {
 
   if (!authHeader) {
     return res.status(401).json({ error: "Missing auth token" });
-}
+  }
 
-// Expect header: "Bearer <token>"
-const token = authHeader.replace("Bearer ", "").trim();
-const session = sessions.get(token);
+  // Expect header: "Bearer <token>"
+  const token = authHeader.replace("Bearer ", "").trim();
+  const session = sessions.get(token);
 
-if (!session) {
-  return res.status(401).json({ error: "Invalid token" });
-}
+  if (!session) {
+    return res.status(401).json({ error: "Invalid token" });
+  }
 
-// Attach user info to request
-req.user = session;
-next();
+  // Attach user info to request
+  req.user = session;
+  next();
 }
 
 // Database file path
@@ -58,40 +59,56 @@ function writeMixes(mixes) {
   fs.writeFileSync(MIXES_FILE, JSON.stringify(mixes, null, 2));
 }
 
-
+// User authentication
 
 // POST login
 app.post("/login", (req, res) => {
   const { name, pin } = req.body;
 
   if (!name || !pin) {
-    return res.status(400).json({ error: "Name and PIN required" });
+    return res.status(400).json({ error: "Name and pin required" });
   }
+
   const user = findUserByNameAndPin(name, pin);
 
   if (!user) {
     return res.status(401).json({ error: "Invalid name or PIN" });
   }
 
+  // Generate a token (simple UUID for demo purposes)
   const token = crypto.randomUUID();
 
+  // Store session in memory (Map) for now
   sessions.set(token, {
     userId: user.id,
     name: user.name,
-    role: user.role
+    role: user.role,
   });
 
-  res.json({ 
+  res.json({
     user: {
       id: user.id,
       name: user.name,
-      role: user.role
+      role: user.role,
     },
-    token
+    token,
   });
 });
 
+// POST logout
+app.post("/logout", (req, res) => {
+  const authHeader = req.headers.authorization;
 
+  if (!authHeader) {
+    return res.json({ success: true });
+  }
+
+  const token = authHeader.replace("Bearer ", "").trim();
+
+  sessions.delete(token);
+
+  res.json({ success: true });
+});
 
 // GET presets
 app.get("/api/presets", (req, res) => {
@@ -106,8 +123,8 @@ app.get("/api/presets", (req, res) => {
 // GET mixes
 app.get("/api/mixes", (req, res) => {
   try {
-  const mixes = readMixes();
-  res.json(mixes);
+    const mixes = readMixes();
+    res.json(mixes);
   } catch (err) {
     res.status(500).json({ error: "Failed to read mixes." });
   }
@@ -120,9 +137,10 @@ app.post("/api/mixes", requireAuth, (req, res) => {
   const newMix = {
     ...req.body,
     savedAt: new Date().toLocaleString("en-US", {
-      timeZone: "America/New_York" }),
+      timeZone: "America/New_York",
+    }),
     savedBy: user.name,
-    userId: user.userId
+    userId: user.userId,
   };
 
   if (!newMix) {
@@ -142,7 +160,7 @@ app.post("/api/mixes", requireAuth, (req, res) => {
 //     const id = parseInt(req.params.id);
 
 //     let mixes = readMixes();
-   
+
 //     if (id < 0 || id >= mixes.length) {
 //       return res.status(404).json({ error: "Mix not found." });
 //     }
@@ -170,7 +188,7 @@ app.get("/api/epa/search", async (req, res) => {
   try {
     // Endpoint for search by product name (from EPA docs)
     const apiUrl = `https://ordspub.epa.gov/ords/pesticides/cswu/pplstxt/${encodeURIComponent(
-      productName
+      productName,
     )}`;
 
     console.log("Calling EPA API:", apiUrl);

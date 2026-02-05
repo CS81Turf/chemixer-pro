@@ -1,50 +1,50 @@
 [
     {
         "id": "1",
-        "name": "CH",
+        "name": "ch",
         "pin": "1234",
         "role": "admin"
     },
     {
         "id": "2",
-        "name": "BM",
+        "name": "bm",
         "pin": "1234",
         "role": "admin"
     },
     {
         "id": "3",
-        "name": "DG",
+        "name": "dg",
         "pin": "1234",
         "role": "admin"
     },
     {
         "id": "4",
-        "name": "CE",
+        "name": "ce",
         "pin": "1234",
         "role": "user"
     },
     {
         "id": "5",
-        "name": "TD",
+        "name": "td",
         "pin": "1234",
         "role": "user"
     },
     {
         "id": "6",
-        "name": "RC",
+        "name": "rp",
         "pin": "1234",
         "role": "user"
     },
     {
         "id": "7",
-        "name": "MC",
+        "name": "mc",
         "pin": "1234",
         "role": "user"
     },
     {
         "id": "8",
-        "name": "RT",
+        "name": "rt",
         "pin": "1234",
-        "role": "user"
+        "role": "admin"
     }
 ]

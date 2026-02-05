@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -18,6 +18,16 @@
         </ul>
       </nav>
     </header>
+
+    <button class="logoutBtn" id="logoutBtn">Logout</button>
+
+    <div id="logoutModal" class="logoutModal hidden">
+      <div class="modal-content">
+        <p>You have successfully logged out.</p>
+        <button id="logoutOkBtn">OK</button>
+      </div>
+    </div>
+
     <main class="special">
       <h2>Mix History</h2>
 
@@ -59,7 +69,7 @@
         </div>
       </div> -->
 
-      <div id="past-mix-table"></div>
+      <div class="past-mix-table" id="past-mix-table"></div>
     </main>
     <script type="module" src="js/mixes.js"></script>
   </body>
