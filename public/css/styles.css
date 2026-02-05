@@ -194,25 +194,50 @@ img {
 }
 
 /* Header/Navigation Styling */
-header {
-
-    background: linear-gradient(135deg, #97bd90, hsla(123, 82%, 53%, 0.911));
+.app-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.5rem .0rem;
+    background: linear-gradient(90deg, #0b7428, #4caf50);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    height: 80px;
     width: 100%;
-    text-align: center;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 2rem;
-    color: var(--color-text);
+.logo-container {
+    display: flex;
+    align-items: center;
 }
 
-nav ul {
+.logo-container img {
+    height: 80px;
+    width: auto;
+    display: block;
+}
+
+.main-nav ul {
+    display: flex;
+    align-items: center;
     list-style: none;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 1rem;
+    gap: 2rem;
+    margin: 0;
     padding: 0;
+}
+
+.main-nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: .5rem .75rem;
+    transition: backgroun 0.3s, color 0.3s;
+    border-radius: 5px;
+}
+
+.main-nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
 }
 
 /* Number Inputs Styling */
@@ -482,7 +507,22 @@ main:not(.special) {
     .past-mix-table table {
         font-size: .85rem;
     }
+
+    /* Navbar Responsive Design */
+    .main-nav ul {
+        flex-wrap: nowrap;
+        display: flex;
+        gap: .5rem;
+    }
+
+    .main-nav ul li a {
+        font-size: .75rem;
+        padding: .3rem .5rem;
+    }
+
+    
 }
+
 
 /* Tablet and up */
 @media (min-width: 601px) {
