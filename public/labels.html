@@ -1,32 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/styles.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="css/styles.css" />
     <title>Labels</title>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>CheMixer Pro</h1>
-        <nav>
-          <ul>
+      <h1>CheMixer Pro</h1>
+      <nav>
+        <ul>
           <li><a href="index.html">HOME</a></li>
           <li><a href="labels.html">LABELS</a></li>
           <li><a href="mixes.html">PAST MIXES</a></li>
           <li><a href="about.html">ABOUT</a></li>
-          </ul>
-        </nav>
-      </header>
+        </ul>
+      </nav>
+    </header>
 
-      <button class="logoutBtn" id="logoutBtn">Logout</button>
-      
+    <button class="logoutBtn" id="logoutBtn">Logout</button>
+
+    <div id="logoutModal" class="logoutModal hidden">
+      <div class="modal-content">
+        <p>You have successfully logged out.</p>
+        <button id="logoutOkBtn">OK</button>
+      </div>
+    </div>
+
     <h1>Label Search</h1>
-    <input class="labels-input" type="text" id="searchInput" placeholder="Search products...">
+    <input
+      class="labels-input"
+      type="text"
+      id="searchInput"
+      placeholder="Search products..."
+    />
     <button class="search-btn" id="searchBtn">Search</button>
 
     <div id="results"></div>
 
     <script type="module" src="./js/labels.js"></script>
-</body>
+  </body>
 </html>

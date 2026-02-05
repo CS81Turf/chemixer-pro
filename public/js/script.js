@@ -81,6 +81,16 @@ document.getElementById("logoutBtn").addEventListener("click", async () => {
   }
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const logoutOkBtn = document.getElementById("logoutOkBtn");
+  if (logoutOkBtn) {
+    logoutOkBtn.addEventListener("click", () => {
+      document.getElementById("logoutModal").classList.add("hidden");
+      window.location.href = "./index.html";
+    });
+  }
+});
+
 let PRESETS = null;
 
 async function loadPresets() {

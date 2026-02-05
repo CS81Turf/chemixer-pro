@@ -108,9 +108,25 @@ input {
   cursor: pointer;
 }
 
-.hidden {
-  display: none;
+.logoutModal {
+    position: fixed;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.logoutModal .modal-content {
+    background-color: #fff;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}   
 
 /* Error message */
 .error-message {
