@@ -30,12 +30,23 @@
       </div>
     </div>
 
-    <h1>Label Search</h1>
+    <h1>Label & Weed Search</h1>
+    <div class="search-options">
+      <label>
+        <input type="radio" name="searchType" value="product" checked />
+        Product
+      </label>
+      <label>
+        <input type="radio" name="searchType" value="weed" />
+        Weed
+      </label>
+    </div>
+
     <input
       class="labels-input"
       type="text"
       id="searchInput"
-      placeholder="Search products..."
+      placeholder="Enter search term"
     />
     <button class="search-btn" id="searchBtn">Search</button>
 

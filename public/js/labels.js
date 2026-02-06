@@ -1,65 +1,45 @@
+// -----------------------------
+// Constants & Elements
+// -----------------------------
 const API_BASE = "/api/epa";
 
 const searchButton = document.getElementById("searchBtn");
 const searchInput = document.getElementById("searchInput");
 const resultsDiv = document.getElementById("results");
+const searchTypeRadios = document.querySelectorAll('input[name="searchType"]');
 
-// Event listener for search button
-searchButton.addEventListener("click", searchEvent);
+searchTypeRadios.forEach(radio => {
+  radio.addEventListener('change', (e) => {
+    const type = e.target.value;
 
-// Event listener for Enter key in search input
-searchInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") {
-    searchEvent(e);
-  } 
+    if (type === "weed") {
+      searchInput.placeholder = "Enter weed name...";
+    } else {
+      searchInput.placeholder = "Enter product name...";
+    }
+  });
 });
 
-async function searchEvent(e) {
-  const query = searchInput.value.trim();
-  if (!query) {
-    alert("Please enter a product name.");
+// -----------------------------
+// Helpers
+// -----------------------------
+function normalize(text) {
+  return (text || "").toLowerCase().trim();
+}
+
+function isActiveProduct(product) {
+  return normalize(product.product_status) !== "inactive";
+}
+
+/**
+ * Display results in cards
+ */
+function displayJsonResults(items) {
+  if (!items || items.length === 0) {
+    resultsDiv.innerHTML = "<p>No results found.</p>";
     return;
   }
 
-  resultsDiv.innerHTML = "Searching...";
-
-  try {
-    // Fetch from back-end
-    const response = await fetch(
-      `${API_BASE}/search?product=${encodeURIComponent(query)}`
-    );
-    if (!response.ok)
-      throw new Error(`API request failed with status ${response.status}`);
-
-    const data = await response.json();
-    console.log("Success data:", data);
-
-    // Parse results into JSON
-    let resultsArray;
-    try {
-      const parsed = JSON.parse(data.result);
-      resultsArray = parsed.items;
-    } catch (parseError) {
-      console.error("Error parsing JSON:", parseError);
-      resultsDiv.innerHTML = "<p>Error parsing data from the EPA API.</p>";
-      return;
-    }
-
-    if (!resultsArray || resultsArray.length === 0) {
-      resultsDiv.innerHTML = `<p>No results found for <strong>${query}</strong></p>`;
-      return;
-    }
-
-    // Display the JSON results as cards
-    displayJsonResults(resultsArray, resultsDiv);
-  } catch (error) {
-    console.error("Error fetching EPA data:", error);
-    resultsDiv.innerHTML = "<p>Error fetching data from the EPA API.</p>";
-  }
-}
-
-// Function to display JSON results in a formatted way
-function displayJsonResults(items, resultsDiv) {
   const cards = items.map((item) => {
     const productName = item.productname || "N/A";
     const signalWord = item.signal_word || "N/A";
@@ -68,56 +48,118 @@ function displayJsonResults(items, resultsDiv) {
 
     const activeList = activeIngredients
       .map(
-        (ingredient) =>
-          `<li>${ingredient.active_ing} - ${
-            ingredient.active_ing_percent || "N/A"
-          }%</li>`
+        (ing) =>
+          `<li>${ing.active_ing || "N/A"} - ${ing.active_ing_percent || "N/A"}%</li>`
       )
       .join("");
 
     return `
-            <div class="label-card">
-                <h3>${productName}</h3>
-                <p><strong>Product Status:</strong> ${status}</p>
-                <p><strong>Signal Word:</strong> ${signalWord}</p>
-                <p><strong>Active Ingredients:</strong></p>
-                <ul>${activeList}</ul>
-            </div>
-        `;
+      <div class="label-card">
+        <h3>${productName}</h3>
+        <p><strong>Status:</strong> ${status}</p>
+        <p><strong>Signal Word:</strong> ${signalWord}</p>
+        <p><strong>Active Ingredients:</strong></p>
+        <ul>${activeList}</ul>
+      </div>
+    `;
   });
 
   resultsDiv.innerHTML = cards.join("");
 }
 
-// Logout functionality
-document.getElementById("logoutBtn").addEventListener("click", async () => {
+// -----------------------------
+// Search: Product
+// -----------------------------
+async function searchByProduct(query) {
+  if (!query) {
+    resultsDiv.innerHTML = "<p>Please enter a product name.</p>";
+    return;
+  }
+
+  resultsDiv.innerHTML = "Searching products...";
+
   try {
-    const token = localStorage.getItem("token");
+    const res = await fetch(
+      `${API_BASE}/search?product=${encodeURIComponent(query)}`
+    );
+    if (!res.ok) throw new Error("API error");
 
-    const res = await fetch("/logout", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const data = await res.json();
+    const parsed = JSON.parse(data.result);
+    const items = parsed.items || [];
 
-    if (res.ok) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("userName");
+    const results = items
+      .filter(isActiveProduct)
+      .filter((p) =>
+        normalize(p.productname).includes(normalize(query))
+      );
 
-      window.location.href = "./index.html";
-      return;
-    }
+    displayJsonResults(results);
 
-    // Clear Auth
-    localStorage.removeItem("token");
-    localStorage.removeItem("userName");
-
-    window.location.href = "./index.html";
-
-    // Reset UI
-    document.getElementById("loginModal").style.display = "flex";
-    document.getElementById("app").style.display = "none";
   } catch (err) {
     console.error(err);
-    alert("Logout failed");
+    resultsDiv.innerHTML = "<p>Error searching products.</p>";
+  }
+}
+
+// -----------------------------
+// Search: Weed
+// -----------------------------
+async function searchByWeed(weed) {
+  if (!weed) {
+    resultsDiv.innerHTML = "<p>Please enter a weed name.</p>";
+    return;
+  }
+
+  const weed = normalize(weed);
+  resultsDiv.innerHTML = "Searching weeds...";
+
+  try {
+    const res = await fetch(
+      `${API_BASE}/epa/weed-search?weed=${encodeURIComponent(weed)}`
+    );
+    if (!res.ok) throw new Error("API error");
+
+    const data = await res.json();
+    const parsed = JSON.parse(data.result);
+    const items = parsed.items || [];
+
+    const results = items.filter((product) => {
+      if (!isActiveProduct(product)) return false;
+      if (!Array.isArray(product.pests)) return false;
+
+      return product.pests.some(
+        (p) => normalize(p.pest) === weed
+      );
+    });
+
+    displayJsonResults(results);
+    console.log("Weed search results:", results);
+
+  } catch (err) {
+    console.error(err);
+    resultsDiv.innerHTML = "<p>Error searching weeds.</p>";
+  }
+}
+
+// -----------------------------
+// Event Listeners
+// -----------------------------
+searchButton.addEventListener("click", () => {
+  const query = searchInput.value.trim();
+  const searchType = document.querySelector(
+    'input[name="searchType"]:checked'
+  ).value;
+
+  if (searchType === "weed") {
+    searchByWeed(query);
+  } else {
+    searchByProduct(query);
+  }
+});
+
+searchInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    searchButton.click();
   }
 });

@@ -227,3 +227,16 @@ async function saveMix(mixData) {
     alert("Error saving mix.");
   }
 }
+
+searchButton.addEventListener("click"), () => {
+  const query = searchInput.value.trim();
+  const searchType = document.querySelector(
+    `input[name="searchType"]:checked`
+  )?.value;
+
+  if (searchYpe === "weed") {
+    searchByWeed(query);
+  } else {
+    searchByProduct(query);
+  }
+}

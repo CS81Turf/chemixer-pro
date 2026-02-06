@@ -330,6 +330,14 @@ select {
     border-radius: 8px;
 }
 
+
+/* Label Search */
+.search-options {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
 /* Labels Results Styling */
 .label-card {
     border: 2px solid var(--color-text);

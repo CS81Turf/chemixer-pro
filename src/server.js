@@ -8,12 +8,19 @@ import { findUserByNameAndPin } from "./services/userService.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const session = new Map();
+
+//-------------------------
+// In-memory stores
+//-------------------------
+const sessions = new Map();
+let weedIndexCache = {};
+let weedIndexLastBuilt = null;
+const WEED_INDEX_TTL = 1000 * 60 * 60 * 24; 
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-const sessions = new Map();
+
 
 app.use(cors());
 app.use(express.json());
@@ -176,6 +183,56 @@ app.post("/api/mixes", requireAuth, (req, res) => {
 //     }
 //   });
 
+// Build Weed Index
+async function buildWeedIndex() {
+  console.log("Building Weed Index...");
+
+  const seeds = [
+    "2,4-D",
+    "dicamba",
+    "quinclorac",
+    "triclopyr",
+    "metsulfuron",
+    "glyphosate,"
+  ];
+
+  const index = {};
+
+  for (const seed of seeds) {
+    const apiUrl = `https://ordspub.epa.gov/ords/pesticides/cswu/pplstxt/${encodeURIComponent(
+      seed
+    )}`;
+
+    const response = await fetch(apiUrl);
+    if (!response.ok) continue;
+
+    const text = await response.text();
+    const parsed = JSON.parse(text);
+    const items = parsed.items || [];
+
+    items.forEach((product) => {
+      if (product.product_status === "Inactive") return;
+      if (!Array.isArray(product.pests)) return;
+
+      product.pests.forEach((p) => {
+        const pestName = p.pest || p.pest_name || p.pestcommonname;
+
+        if (!pestName) return;
+
+        const weed = pestName.toLowerCase().trim();
+
+        if (!index[weed]) index[weed] = [];
+        index[weed].push(product);
+      });
+    });
+  }
+
+  weedIndexCache = index;
+  weedIndexLastBuilt = Date.now();
+
+  console.log(`Weed index built with ${Object.keys(index).length} weeds`);
+}
+
 // Fetch by product name
 app.get("/api/epa/search", async (req, res) => {
   const productName = req.query.product;
@@ -210,6 +267,27 @@ app.get("/api/epa/search", async (req, res) => {
     console.error("Server Error:", err.message);
     res.status(500).json({ error: "Failed to fetch data from EPA API" });
   }
+});
+
+// Weed Search
+app.get("/api/epa/weed-search", async (req, res) => {
+  const weed = req.query.weed?.toLowerCase().trim();
+
+  if (!weed) {
+    return res.status(400).json({ error: "Missing weed name" });
+  }
+
+  if (!weedIndexLastBuilt || Date.now() - weedIndexLastBuilt > WEED_INDEX_TTL) {
+    await buildWeedIndex();
+  }
+
+  const results = weedIndexCache[weed] || [];
+
+  res.json({
+    weed, 
+    count: results.length,
+    results,
+  });
 });
 
 app.listen(port, () => console.log(`Server running on port ${port}`));
