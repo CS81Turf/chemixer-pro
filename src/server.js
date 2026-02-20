@@ -5,6 +5,17 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 import crypto from "crypto";
 import { findUserByNameAndPin } from "./services/userService.js";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+
+dotenv.config();
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB connected"))
+  .catch(err => {
+    console.error("MongoDB connection error:", err.message || err);
+    process.exit(1);
+  });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
