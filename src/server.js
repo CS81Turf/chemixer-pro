@@ -7,19 +7,24 @@ import crypto from "crypto";
 import { findUserByNameAndPin } from "./services/userService.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import Mix from "./models/Mix.js"; // MongoDB model
 
 dotenv.config();
 
-mongoose.connect(process.env.MONGO_URI)
+// MONGO CONNECTION
+
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
-  .catch(err => {
+  .catch((err) => {
     console.error("MongoDB connection error:", err.message || err);
     process.exit(1);
   });
 
+// SETUP
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const session = new Map();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -33,6 +38,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/images", express.static(path.join(__dirname, "..", "images")));
 
 // Middleware to require login
+
 function requireAuth(req, res, next) {
   const authHeader = req.headers.authorization;
 
@@ -52,7 +58,7 @@ function requireAuth(req, res, next) {
   req.user = session;
   next();
 }
-
+/*
 // Database file path
 const MIXES_FILE = path.join(__dirname, "mixes.json");
 // Path to presets.json
@@ -70,6 +76,7 @@ function readMixes() {
 function writeMixes(mixes) {
   fs.writeFileSync(MIXES_FILE, JSON.stringify(mixes, null, 2));
 }
+*/
 
 // User authentication
 
@@ -125,6 +132,7 @@ app.post("/logout", (req, res) => {
 // GET presets
 app.get("/api/presets", (req, res) => {
   try {
+    const PRESETS_FILE = path.join(__dirname, "data", "presets.json");
     const data = JSON.parse(fs.readFileSync(PRESETS_FILE, "utf-8"));
     res.json(data);
   } catch (err) {
@@ -133,37 +141,36 @@ app.get("/api/presets", (req, res) => {
 });
 
 // GET mixes
-app.get("/api/mixes", (req, res) => {
+app.get("/api/mixes", requireAuth, async (req, res) => {
   try {
-    const mixes = readMixes();
+    const mixes = await Mix.find();
     res.json(mixes);
   } catch (err) {
-    res.status(500).json({ error: "Failed to read mixes." });
+    console.error("Failed to fetch mixes:", err);
+    res.status(500).json({ error: err.message });
   }
 });
 
 // POST new mix
-app.post("/api/mixes", requireAuth, (req, res) => {
-  const user = req.user; // comes from token
+app.post("/api/mixes", requireAuth, async (req, res) => {
+  console.log("POST /api/mixes HIT");
+  console.log("Body:", req.body);
+  console.log("User:", req.user);
+  try {
+    const user = req.user; // comes from token
 
-  const newMix = {
-    ...req.body,
-    savedAt: new Date().toLocaleString("en-US", {
-      timeZone: "America/New_York",
-    }),
-    savedBy: user.name,
-    userId: user.userId,
-  };
+    const newMix = await Mix.create({
+      ...req.body,
+      savedAt: new Date(),
+      savedBy: user.name,
+      userId: user.userId,
+    });
 
-  if (!newMix) {
-    return res.status(400).json({ error: "Mix data required" });
+    res.status(201).json({ message: "Mix saved!", mix: newMix });
+  } catch (err) {
+    console.error("Failed to save mix:", err);
+    res.status(500).json({ error: err.message });
   }
-
-  const mixes = readMixes();
-  mixes.push(newMix);
-  writeMixes(mixes);
-
-  res.json({ message: "Mix saved!", mix: newMix });
 });
 
 // // DELETE mix POST
@@ -190,7 +197,6 @@ app.post("/api/mixes", requireAuth, (req, res) => {
 // Fetch by product name
 app.get("/api/epa/search", async (req, res) => {
   const productName = req.query.product;
-  console.log("Received search request for:", productName);
 
   if (!productName) {
     res.status(400).json({ error: "Missing product name" });
