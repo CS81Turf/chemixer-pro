@@ -2,49 +2,61 @@
     {
         "id": "1",
         "name": "ch",
-        "pin": "1234",
+        "pin": "ch",
         "role": "admin"
     },
     {
         "id": "2",
         "name": "bm",
-        "pin": "1234",
+        "pin": "bm",
         "role": "admin"
     },
     {
         "id": "3",
         "name": "dg",
-        "pin": "1234",
-        "role": "admin"
+        "pin": "dg",
+        "role": "user"
     },
     {
         "id": "4",
         "name": "ce",
-        "pin": "1234",
+        "pin": "ce",
         "role": "user"
     },
     {
         "id": "5",
         "name": "td",
-        "pin": "1234",
+        "pin": "td",
         "role": "user"
     },
     {
         "id": "6",
         "name": "rp",
-        "pin": "1234",
+        "pin": "rp",
         "role": "user"
     },
     {
         "id": "7",
         "name": "mc",
-        "pin": "1234",
+        "pin": "mc",
         "role": "user"
     },
     {
         "id": "8",
         "name": "rt",
-        "pin": "1234",
+        "pin": "ry",
         "role": "admin"
+    },
+    {
+        "id": "9",
+        "name": "jb",
+        "pin": "jb",
+        "role": "admin"
+    },
+    {
+        "id": "10",
+        "name": "ms",
+        "pin": "ms",
+        "role": "user"
     }
 ]

@@ -58,25 +58,7 @@ function requireAuth(req, res, next) {
   req.user = session;
   next();
 }
-/*
-// Database file path
-const MIXES_FILE = path.join(__dirname, "mixes.json");
-// Path to presets.json
-const PRESETS_FILE = path.join(__dirname, "data", "presets.json");
 
-function readMixes() {
-  if (!fs.existsSync(MIXES_FILE)) {
-    fs.writeFileSync(MIXES_FILE, JSON.stringify([], null, 2));
-    return [];
-  }
-  const data = fs.readFileSync(MIXES_FILE, "utf-8");
-  return JSON.parse(data);
-}
-
-function writeMixes(mixes) {
-  fs.writeFileSync(MIXES_FILE, JSON.stringify(mixes, null, 2));
-}
-*/
 
 // User authentication
 
