@@ -4,7 +4,13 @@ let allMixes = []; // Store all mixes globally
 
 async function getMixes() {
   try {
-    let response = await fetch("/api/mixes");
+    const token = localStorage.getItem("token");
+
+    let response = await fetch("/api/mixes", {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
 
     if (!response.ok) {
       throw new Error("Failed to load mixes");
@@ -56,7 +62,7 @@ function createMixTable(mixes) {
 
       return ` 
     <tr>
-    <td>${mix.savedAt || ""}</td>
+    <td>${new Date(mix.savedAt).toLocaleString()}</td>
     <td>${mix.treatment || ""}</td>
     <td>${mix.areaSize}</td>
     <td>${mix.waterVolume}</td>
