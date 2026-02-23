@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", () => {
 document.getElementById("loginBtn").addEventListener("click", handleLogin);
 
 async function handleLogin() {
-  const name = document.getElementById("name").value;
+  const name = document.getElementById("name").value.trim().toLowerCase();;
   const pin = document.getElementById("pin").value;
 
   try {
