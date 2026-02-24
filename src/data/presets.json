@@ -35,5 +35,8 @@
   "GrassyWeed": [
     { "chemical": "Pylex", "rate": 0.046 },
     { "chemical": "Microyl", "rate": 0.25 }
+  ],
+  "M911": [
+    { "chemical": "Bifenthrin", "rate": 2.0 }
   ]
 }
