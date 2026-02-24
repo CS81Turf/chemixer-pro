@@ -64,7 +64,8 @@ function requireAuth(req, res, next) {
 
 // POST login
 app.post("/login", (req, res) => {
-  const { name, pin } = req.body;
+  const name = req.body.name?.trim().toLowerCase();
+  const pin = req.body.pin;
 
   if (!name || !pin) {
     return res.status(400).json({ error: "Name and pin required" });
