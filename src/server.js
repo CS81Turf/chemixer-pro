@@ -8,6 +8,7 @@ import { findUserByNameAndPin } from "./services/userService.js";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
 import Mix from "./models/Mix.js"; // MongoDB model
+import fertUsage from "./models/fertUsage.js"; // MongoDB model
 
 dotenv.config();
 
@@ -155,6 +156,46 @@ app.post("/api/mixes", requireAuth, async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
+
+// POST fertilizer usage
+app.post("/api/fertUsage", requireAuth, async (req, res) => {
+  try {
+    const { bagsUsed } = req.body;
+
+    if ( !bagsUsed || bagsUsed < 0 ) {
+      return res.status(400).json({ message: "Invalid number of bags" });
+    }
+
+    // Today's date in YYY-MM-DD format
+    const today = new Date().toISOString().split("T")[0];
+
+    // Check if user already has an entry for today
+    const existing = await fertUsage.findOne({
+      userId: req.user.userId,
+      date: { $gte: new Date(today), $lt: new Date(today + "T23:59:59.999Z") }
+    });
+
+    if (existing) {
+      // Update existing entry
+      existing.bagsUsed = bagsUsed;
+      await existing.save();
+      return res.json({ message: "Fertilizer usage updated", entry: existing });
+    }  
+
+      // Create new entry
+      const newEntry = await fertUsage.create({
+        userId: req.user.userId,
+        userName: req.user.name,
+        date: new Date(today),
+        bagsUsed,
+      });
+
+      res.status(201).json({ message: "Fertilizer usage recorded", entry });
+    } catch (err) {
+      console.error("Failed to record fertilizer usage:", err);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
 
 // // DELETE mix POST
 // app.delete("/api/mixes/:id", async (req, res) => {
