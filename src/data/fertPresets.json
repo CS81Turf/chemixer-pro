@@ -1,0 +1,11 @@
+{
+  "Round1": [
+    {"chemical": "10-0-3 with Prodiamine", "rate": 1.0}
+  ],
+  "Round5": [
+    {"chemical": "34-0-4", "rate": 0.5}
+  ],
+  "Round6": [
+    {"chemical": "34-0-4", "rate": 0.5}
+  ]
+}

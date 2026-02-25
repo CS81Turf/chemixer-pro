@@ -6,6 +6,10 @@ const fertUsageSchema = new mongoose.Schema({
         required: true,
         min: 0
     },
+    fertilizerType: {
+        type: String,
+        required: true
+    },
     date: {
         type: Date,
         required: true,

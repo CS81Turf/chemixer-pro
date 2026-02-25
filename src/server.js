@@ -124,6 +124,17 @@ app.get("/api/presets", (req, res) => {
   }
 });
 
+// GET fertilizer presets
+app.get("/api/fertPresets", requireAuth, (req, res) => {
+  try {
+    const FERT_PRESETS_FILE = path.join(__dirname, "data", "fertPresets.json");
+    const data = JSON.parse(fs.readFileSync(FERT_PRESETS_FILE, "utf-8"));
+    res.json(data);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to load fertilizer presets" });
+  }
+});
+
 // GET mixes
 app.get("/api/mixes", requireAuth, async (req, res) => {
   try {
@@ -160,10 +171,14 @@ app.post("/api/mixes", requireAuth, async (req, res) => {
 // POST fertilizer usage
 app.post("/api/fertUsage", requireAuth, async (req, res) => {
   try {
-    const { bagsUsed } = req.body;
+    const { bagsUsed, fertilizerType } = req.body;
 
     if ( !bagsUsed || bagsUsed < 0 ) {
       return res.status(400).json({ message: "Invalid number of bags" });
+    }
+
+    if (!fertilizerType) {
+      return res.status(400).json({ message: "Fertilizer type is required" });
     }
 
     // Today's date in YYY-MM-DD format
@@ -178,6 +193,7 @@ app.post("/api/fertUsage", requireAuth, async (req, res) => {
     if (existing) {
       // Update existing entry
       existing.bagsUsed = bagsUsed;
+      existing.fertilizerType = fertilizerType;
       await existing.save();
       return res.json({ message: "Fertilizer usage updated", entry: existing });
     }  
@@ -188,9 +204,10 @@ app.post("/api/fertUsage", requireAuth, async (req, res) => {
         userName: req.user.name,
         date: new Date(today),
         bagsUsed,
+        fertilizerType,
       });
 
-      res.status(201).json({ message: "Fertilizer usage recorded", entry });
+      res.status(201).json({ message: "Fertilizer usage recorded", entry: newEntry });
     } catch (err) {
       console.error("Failed to record fertilizer usage:", err);
       res.status(500).json({ message: "Server error" });

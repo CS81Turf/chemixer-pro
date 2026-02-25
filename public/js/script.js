@@ -1,4 +1,5 @@
 import { calculateMix } from "./math.js";
+import { loadFertPresets } from "./fertPresets.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const loginModal = document.getElementById("loginModal");
@@ -227,3 +228,86 @@ async function saveMix(mixData) {
     alert("Error saving mix.");
   }
 }
+
+// Fertilizer Usage Logging
+document.getElementById("logFertBtn").addEventListener("click", async () => {
+  // Load presets when button is clicked
+  const presets = await loadFertPresets();
+  
+  if (!presets) {
+    alert("Failed to load fertilizer presets");
+    return;
+  }
+
+  // Extract unique fertilizer types from presets
+  const uniqueFertilizers = new Set();
+  Object.values(presets).forEach(preset => {
+    preset.forEach(item => {
+      uniqueFertilizers.add(item.chemical);
+    });
+  });
+
+  // Populate dropdown
+  const fertilizerSelect = document.getElementById("fertilizerType");
+  fertilizerSelect.innerHTML = '<option value="">Select a fertilizer type</option>';
+  uniqueFertilizers.forEach(fert => {
+    const option = document.createElement("option");
+    option.value = fert;
+    option.textContent = fert;
+    fertilizerSelect.appendChild(option);
+  });
+
+  // Show the modal
+  document.getElementById("fertUsageModal").classList.remove("hidden");
+});
+
+document.getElementById("logFertCancelBtn").addEventListener("click", () => {
+  document.getElementById("fertUsageModal").classList.add("hidden");
+  document.getElementById("bagsUsed").value = "";
+  document.getElementById("fertUsageError").innerText = "";
+});
+
+document.getElementById("logFertSubmitBtn").addEventListener("click", async () => {
+  const bagsUsed = parseInt(document.getElementById("bagsUsed").value);
+  const fertilizerType = document.getElementById("fertilizerType").value;
+  const errorDiv = document.getElementById("fertUsageError");
+
+  if (!fertilizerType) {
+    errorDiv.innerText = "Please select a fertilizer type";
+    return;
+  }
+
+  if (isNaN(bagsUsed) || bagsUsed < 0) {
+    errorDiv.innerText = "Please enter a valid number of bags";
+    return;
+  }
+
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch("/api/fertUsage", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ fertilizerType, bagsUsed }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      throw new Error(data.message || "Failed to log fertilizer usage");
+    }
+
+    const result = await res.json();
+    alert("Fertilizer usage logged successfully!");
+    
+    // Close modal and reset
+    document.getElementById("fertUsageModal").classList.add("hidden");
+    document.getElementById("bagsUsed").value = "";
+    document.getElementById("fertilizerType").value = "";
+    errorDiv.innerText = "";
+  } catch (err) {
+    console.error("Error logging fertilizer usage:", err);
+    errorDiv.innerText = err.message || "Error logging fertilizer usage";
+  }
+});
