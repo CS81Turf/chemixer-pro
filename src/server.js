@@ -203,6 +203,7 @@ app.post("/api/fertUsage", requireAuth, async (req, res) => {
 
     if (existing) {
       // Update existing entry
+      existing.date = new Date();
       existing.bagsUsed = bagsUsed;
       existing.fertilizerType = fertilizerType;
       await existing.save();
@@ -213,7 +214,7 @@ app.post("/api/fertUsage", requireAuth, async (req, res) => {
       const newEntry = await fertUsage.create({
         userId: req.user.userId,
         userName: req.user.name,
-        date: new Date(today),
+        date: new Date(),
         bagsUsed,
         fertilizerType,
       });
