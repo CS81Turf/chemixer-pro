@@ -77,7 +77,7 @@ function createMixTable(mixes) {
         totalWaterVol += water;
 
         let chemicals = results.map((r) => {
-            const chem = r.chemical || "Unkonwn";
+            const chem = r.chemical || "Unknown";
             const amount = Number(r.totalAmount) || 0;
 
             if (!chemicalTotals[chem]) chemicalTotals[chem] = 0;
@@ -98,7 +98,7 @@ function createMixTable(mixes) {
     }).join("");
 
     //Build totals footer row
-    const chemcicalTotalsHtml = Object.entries(chemicalTotals).map(([name, amount]) => {
+    const chemicalTotalsHtml = Object.entries(chemicalTotals).map(([name, amount]) => {
         const gallons = amount / 128;
         return `${name}: ${amount.toFixed(2)} oz (${gallons.toFixed(2)} gal)`
     }).join("<br>");
@@ -108,9 +108,8 @@ function createMixTable(mixes) {
     <td colspan="6">
        <div><strong>TOTAL SQ. FT.: ${totalSqFt.toLocaleString("en-us")}</strong></div>
        <div><strong>TOTAL WATER VOL.: ${totalWaterVol.toLocaleString("en-us")} gal</strong></div>
-       <div><strong>WATER USED: ${totalWaterVol.toLocaleString("en-us")}</strong></div>
        <div><strong>Chemicals:</strong></div>
-       ${chemcicalTotalsHtml}
+       ${chemicalTotalsHtml}
     </td>
     </tr>`;
 
@@ -169,7 +168,7 @@ function createFertUsageTable(fertUsage) {
 
     const totalsRow = `
     <tr class="totals-row">
-    <td colspan="6">
+    <td colspan="4">
        <div><strong>TOTALS</strong></div>
        <div><strong>Total Bags Used: ${totalBags}</strong></div>
        <div><strong>By Type:</strong></div>
