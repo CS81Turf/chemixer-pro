@@ -249,7 +249,7 @@ document.getElementById("logFertBtn").addEventListener("click", async () => {
 
   // Populate dropdown
   const fertilizerSelect = document.getElementById("fertilizerType");
-  fertilizerSelect.innerHTML = '<option value="">-- Select fertilizer --/option>';
+  fertilizerSelect.innerHTML = '<option value="">-- Select fertilizer --</option>';
   uniqueFertilizers.forEach(fert => {
     const option = document.createElement("option");
     option.value = fert;
