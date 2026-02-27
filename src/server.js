@@ -30,6 +30,9 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 3000;
 
+console.log("NODE_ENV:", process.env.NODE_ENV);
+console.log("Connected DB:", process.env.MONGO_URI);
+
 const sessions = new Map();
 
 app.use(cors());
