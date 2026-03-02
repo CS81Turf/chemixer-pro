@@ -171,7 +171,7 @@ app.post("/api/mixes", requireAuth, async (req, res) => {
 // GET fertilizer usage
 app.get("/api/fertUsage", requireAuth, async (req, res) => {
   try {
-    const usage = await fertUsage.find({ userId: req.user.userId }).sort({ date: -1 });
+    const usage = await fertUsage.find().sort({ date: -1 });
     res.json(usage);
   } catch (err) {
     console.error("Failed to fetch fertilizer usage:", err);
