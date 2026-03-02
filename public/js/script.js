@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-document.getElementById("loginBtn").addEventListener("click", handleLogin);
 
 async function handleLogin() {
   const name = document.getElementById("name").value.trim().toLowerCase();;
@@ -60,43 +59,36 @@ async function handleLogin() {
 };
 
 // Logout functionality
-document.getElementById("logoutBtn").addEventListener("click", async () => {
-  try {
-    const token = localStorage.getItem("token");
-
-    const res = await fetch("/logout", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (res.ok) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("userName");
-
-      window.location.href = "./index.html";
-      return;
-    }
-
-    // Clear Auth
-    localStorage.removeItem("token");
-    localStorage.removeItem("userName");
-
-    location.reload();
-
-    // Reset UI
-    document.getElementById("loginModal").style.display = "flex";
-    document.getElementById("app").style.display = "none";
-  } catch (err) {
-    console.error(err);
-    alert("Logout failed");
-  }
-});
-
 document.addEventListener("DOMContentLoaded", () => {
+  const logoutBtn = document.getElementById("logoutBtn");
+
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const res = await fetch("/logout", {
+          method: "POST",
+          headers: { Authorization: `Bearer ${token}` },
+        });
+
+        // Clear auth regardless
+        localStorage.removeItem("token");
+        localStorage.removeItem("userName");
+
+        window.location.href = "./index.html";
+
+      } catch (err) {
+        console.error(err);
+        alert("Logout failed");
+      }
+    });
+  }
+
   const logoutOkBtn = document.getElementById("logoutOkBtn");
   if (logoutOkBtn) {
     logoutOkBtn.addEventListener("click", () => {
-      document.getElementById("logoutModal").classList.add("hidden");
+      document.getElementById("logoutModal")?.classList.add("hidden");
       window.location.href = "./index.html";
     });
   }
@@ -249,13 +241,19 @@ document.getElementById("logFertBtn").addEventListener("click", async () => {
 
   // Populate dropdown
   const fertilizerSelect = document.getElementById("fertilizerType");
-  fertilizerSelect.innerHTML = '<option value="">-- Select fertilizer --</option>';
+  fertilizerSelect.innerHTML = '<option value="">-- Select fertilizer --/option>';
   uniqueFertilizers.forEach(fert => {
     const option = document.createElement("option");
     option.value = fert;
     option.textContent = fert;
     fertilizerSelect.appendChild(option);
   });
+
+  // Auto fill date with today
+  const dateInput = document.getElementById("usageDate");
+  if (dateInput) {
+    dateInput.valueAsDate = new Date();
+  }
 
   // Show the modal
   document.getElementById("fertUsageModal").classList.remove("hidden");
@@ -284,13 +282,14 @@ document.getElementById("logFertSubmitBtn").addEventListener("click", async () =
 
   try {
     const token = localStorage.getItem("token");
+    const usageDate = document.getElementById("usageDate").value;
     const res = await fetch("/api/fertUsage", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ fertilizerType, bagsUsed }),
+      body: JSON.stringify({ fertilizerType, bagsUsed, date: usageDate  }),
     });
 
     if (!res.ok) {
@@ -303,6 +302,7 @@ document.getElementById("logFertSubmitBtn").addEventListener("click", async () =
     
     // Close modal and reset
     document.getElementById("fertUsageModal").classList.add("hidden");
+    document.getElementById("usageDate").value = "";
     document.getElementById("bagsUsed").value = "";
     document.getElementById("fertilizerType").value = "";
     errorDiv.innerText = "";
