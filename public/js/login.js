@@ -1,7 +1,7 @@
 console.log("login.js is connected");
 
 async function handleLogin() {
-  const name = document.getElementById("name").value.trim().toLowerCase();;
+  const name = document.getElementById("name").value.trim().toLowerCase();
   const pin = document.getElementById("pin").value;
 
   try {

@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import path from "path";
+import path, { join } from "path";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import crypto from "crypto";
@@ -185,7 +185,7 @@ app.get("/api/fertUsage", requireAuth, async (req, res) => {
 // POST fertilizer usage
 app.post("/api/fertUsage", requireAuth, async (req, res) => {
   try {
-    const { bagsUsed, fertilizerType } = req.body;
+    const { bagsUsed, fertilizerType, date } = req.body;
 
     if ( !bagsUsed || bagsUsed < 0 ) {
       return res.status(400).json({ message: "Invalid number of bags" });
@@ -195,18 +195,33 @@ app.post("/api/fertUsage", requireAuth, async (req, res) => {
       return res.status(400).json({ message: "Fertilizer type is required" });
     }
 
-    // Today's date in YYY-MM-DD format
-    const today = new Date().toISOString().split("T")[0];
+    // Use provided date, or fallback to today
+    const usageDate = date ? new Date(date) : new Date();
 
-    // Check if user already has an entry for today
+    // Check if user already has an entry for the provided date
+    const startOfDay = new Date(usageDate);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(usageDate);
+    endOfDay.setHours(23, 59, 59, 999);
+
     const existing = await fertUsage.findOne({
       userId: req.user.userId,
-      date: { $gte: new Date(today), $lt: new Date(today + "T23:59:59.999Z") }
+      date: { $gte: startOfDay, $lt: endOfDay },
     });
+
+    // // Today's date in YYY-MM-DD format
+    // const today = new Date().toISOString().split("T")[0];
+
+    // // Check if user already has an entry for today
+    // const existing = await fertUsage.findOne({
+    //   userId: req.user.userId,
+    //   date: { $gte: new Date(today), $lt: new Date(today + "T23:59:59.999Z") }
+    // });
 
     if (existing) {
       // Update existing entry
-      existing.date = new Date();
+      existing.date = usageDate;
       existing.bagsUsed = bagsUsed;
       existing.fertilizerType = fertilizerType;
       await existing.save();
@@ -217,7 +232,7 @@ app.post("/api/fertUsage", requireAuth, async (req, res) => {
       const newEntry = await fertUsage.create({
         userId: req.user.userId,
         userName: req.user.name,
-        date: new Date(),
+        date: usageDate,
         bagsUsed,
         fertilizerType,
       });
