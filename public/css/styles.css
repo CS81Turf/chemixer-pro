@@ -569,6 +569,14 @@ th {
     margin-right: 10px;
 }
 
+/* Narrow date column on fert usage table */
+.mix-results-table td:first-child,
+.mix-results-table th:first-child {
+    width: 90px;
+    min-width: 110px;
+    white-space: nowrap;
+}
+
 .mix-results-table tr:nth-child(even) {
     background: #c0cfb0;
 }
