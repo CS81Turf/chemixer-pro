@@ -3,24 +3,35 @@ import { loadFertPresets } from "./fertPresets.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   const loginModal = document.getElementById("loginModal");
+  const currentUserEl = document.getElementById("currentUser");
 
-
-
-  //Show modal if user not logged in
-  if (!localStorage.getItem("token")) {
-    loginModal.style.display = "flex";
-  } else {
-    // if already logged inm show user
-    const userName = localStorage.getItem("userName");
-    document.getElementById("currentUser").innerText = `Logged in: ${userName}`;
-    loginModal.style.display = "none";
-  }
-
-    loginModal.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      handleLogin();
+  // Show modal if user not logged in
+  if (loginModal) {
+    if (!localStorage.getItem("token")) {
+      loginModal.style.display = "flex";
+    } else {
+      // if already logged in, show user
+      const userName = localStorage.getItem("userName") || "Unknown";
+      if (currentUserEl) {
+        currentUserEl.innerText = `Logged in: ${userName}`;
+      }
+      loginModal.style.display = "none";
     }
-  });
+
+    // Attach keydown listener safely
+    loginModal.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        // Only call handleLogin if it exists
+        if (typeof handleLogin === "function") {
+          handleLogin();
+        } else {
+          console.warn("handleLogin function is not defined.");
+        }
+      }
+    });
+  } else {
+    console.warn("loginModal element not found in DOM.");
+  }
 });
 
 document.getElementById("loginBtn").addEventListener("click", handleLogin);
