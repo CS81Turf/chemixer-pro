@@ -200,19 +200,13 @@ app.post("/api/fertUsage", requireAuth, async (req, res) => {
       return res.status(400).json({ message: "Fertilizer type is required" });
     }
 
-    // Use provided date, or fallback to today
-    const usageDate = date ? new Date(date) : new Date();
+    // Use provided date string, or fallback to today
+    const usageDate = date ? date : new Date().toISOString().split("T")[0];
 
-    // Check if user already has an entry for the provided date
-    const startOfDay = new Date(usageDate);
-    startOfDay.setHours(0, 0, 0, 0);
-
-    const endOfDay = new Date(usageDate);
-    endOfDay.setHours(23, 59, 59, 999);
-
+    // Simple string match - no timezone math needed
     const existing = await fertUsage.findOne({
       userId: req.user.userId,
-      date: { $gte: startOfDay, $lt: endOfDay },
+      date: usageDate,
     });
 
     // // Today's date in YYY-MM-DD format
@@ -226,7 +220,7 @@ app.post("/api/fertUsage", requireAuth, async (req, res) => {
 
     if (existing) {
       // Update existing entry
-      existing.date = usageDate;
+      existing.date = usageDate;  // YYYY-MM-DD string
       existing.bagsUsed = bagsUsed;
       existing.fertilizerType = fertilizerType;
       await existing.save();
@@ -237,10 +231,12 @@ app.post("/api/fertUsage", requireAuth, async (req, res) => {
       const newEntry = await fertUsage.create({
         userId: req.user.userId,
         userName: req.user.name,
-        date: usageDate,
+        date: usageDate,  // stored as YYYY-MM-DD string
         bagsUsed,
         fertilizerType,
       });
+
+      console.log("Saved date value:", newEntry.date, "| type:", typeof newEntry.date);
 
       res.status(201).json({ message: "Fertilizer usage recorded", entry: newEntry });
     } catch (err) {
@@ -248,6 +244,8 @@ app.post("/api/fertUsage", requireAuth, async (req, res) => {
       res.status(500).json({ message: "Server error" });
     }
   });
+
+
 
 // // DELETE mix POST
 // app.delete("/api/mixes/:id", async (req, res) => {

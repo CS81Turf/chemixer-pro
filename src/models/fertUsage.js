@@ -11,9 +11,9 @@ const fertUsageSchema = new mongoose.Schema({
         required: true
     },
     date: {
-        type: Date,
+        type: String,
         required: true,
-        default: Date.now
+        default: () => new Date().toISOString().split("T")[0]
     },
     userId: {
         type: String,

@@ -248,9 +248,8 @@ document.getElementById("logFertSubmitBtn").addEventListener("click", async () =
   try {
     const token = localStorage.getItem("token");
 
-    // Convert YYYY-MM-DD to local midnight ISO string
-    const [year, month, day] = usageDateInput.value.split("-");
-    const usageDate = new Date(year, month - 1, day).toISOString();
+    // Use date string directly - no time/timezone needed
+    const usageDate = usageDateInput.value; // Already YYYY-MM-DD
 
     const res = await fetch("/api/fertUsage", {
       method: "POST",

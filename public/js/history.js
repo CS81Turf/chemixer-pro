@@ -305,7 +305,7 @@ function createFertUsageTable(fertUsage, allFertForTotals = fertUsage) {
 
         return `
     <tr>
-    <td>${new Date(entry.date).toLocaleString()}</td>
+    <td>${entry.date}</td>
     <td>${type}</td>
     <td>${bags}</td>
     <td>${entry.userName || "Unknown"}</td>
@@ -332,7 +332,7 @@ function createFertUsageTable(fertUsage, allFertForTotals = fertUsage) {
     <table class="mix-results-table">
     <thead>
     <tr>
-    <th>Date/Time</th>
+    <th>Date</th>
     <th>Fertilizer</th>
     <th>Bags Used</th>
     <th>Saved By</th>
