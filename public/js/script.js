@@ -36,14 +36,15 @@ async function handleLogin() {
       body: JSON.stringify({ name, pin }),
     });
 
+    const data = await res.json();
+
     if (!res.ok) {
-      const data = await res.json();
       document.getElementById("loginError").innerText =
         data.error || "Login failed.";
       return;
     }
 
-    const { user, token } = await res.json();
+    const { user, token } = data;
     localStorage.setItem("token", token);
     localStorage.setItem("userName", user.name);
 
