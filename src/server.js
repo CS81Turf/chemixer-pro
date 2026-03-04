@@ -68,37 +68,42 @@ function requireAuth(req, res, next) {
 
 // POST login
 app.post("/login", (req, res) => {
-  const name = req.body.name?.trim().toLowerCase();
-  const pin = req.body.pin;
+  try {
+    const name = req.body.name?.trim().toLowerCase();
+    const pin = req.body.pin;
 
-  if (!name || !pin) {
-    return res.status(400).json({ error: "Name and pin required" });
-  }
+    if (!name || !pin) {
+      return res.status(400).json({ error: "Name and pin required" });
+    }
 
-  const user = findUserByNameAndPin(name, pin);
+    const user = findUserByNameAndPin(name, pin);
 
-  if (!user) {
-    return res.status(401).json({ error: "Invalid name or PIN" });
-  }
+    if (!user) {
+      return res.status(401).json({ error: "Invalid name or PIN" });
+    }
 
-  // Generate a token (simple UUID for demo purposes)
-  const token = crypto.randomUUID();
+    // Generate a token (simple UUID for demo purposes)
+    const token = crypto.randomUUID();
 
-  // Store session in memory (Map) for now
-  sessions.set(token, {
-    userId: user.id,
-    name: user.name,
-    role: user.role,
-  });
-
-  res.json({
-    user: {
-      id: user.id,
+    // Store session in memory (Map) for now
+    sessions.set(token, {
+      userId: user.id,
       name: user.name,
       role: user.role,
-    },
-    token,
-  });
+    });
+
+    res.json({
+      user: {
+        id: user.id,
+        name: user.name,
+        role: user.role,
+      },
+      token,
+    });
+  } catch (err) {
+    console.error("Login error:", err);
+    res.status(500).json({ error: "Login failed. Server error." });
+  }
 });
 
 // POST logout
