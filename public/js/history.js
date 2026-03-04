@@ -354,4 +354,24 @@ document.addEventListener("DOMContentLoaded", () => {
     getFertUsage();
 });
 
-// Logout functionality
+// Logout
+document.addEventListener("DOMContentLoaded", () => {
+    const logoutBtn = document.getElementById("logoutBtn");
+    if (!logoutBtn) return;
+
+    logoutBtn.addEventListener("click", async () => {
+        try {
+            const token = localStorage.getItem("token");
+            await fetch("/logout", {
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        } catch (err) {
+            console.error("Logout error:", err);
+        } finally {
+            localStorage.removeItem("token");
+            localStorage.removeItem("userName");
+            window.location.href = "/index.html";
+        }
+    });
+});
