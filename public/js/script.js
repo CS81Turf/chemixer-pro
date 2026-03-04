@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (!localStorage.getItem("token")) {
     loginModal.style.display = "flex";
   } else {
-    // if already logged inm show user
+    // if already logged in show user
     const userName = localStorage.getItem("userName");
     document.getElementById("currentUser").innerText = `Logged in: ${userName}`;
     loginModal.style.display = "none";
