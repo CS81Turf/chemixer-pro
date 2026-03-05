@@ -563,7 +563,7 @@ main {
 }
 
 .mix-results-table td,
-th {
+.mix-results-table th {
     border-collapse: collapse;
     border-bottom: 1px solid black;
     margin-right: 10px;
@@ -624,4 +624,151 @@ th {
     align-self: center;
     justify-content: center;
     gap: 10px;
+}
+/* ─── Fertilizer Calendar ─────────────────────────────────────────────────── */
+
+.fert-calendar-wrapper {
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #c8dfc8;
+    padding: 1rem;
+    margin: 1rem auto 1.5rem auto;
+    max-width: 1000px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.75rem;
+}
+
+.cal-month-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.cal-nav-btn {
+    background: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.3rem 0.75rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cal-nav-btn:hover {
+    background: var(--color-secondary);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 4px;
+}
+
+.cal-day-header {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #666;
+    padding: 4px 0;
+}
+
+.cal-day {
+    min-height: 52px;
+    width: 100%;
+    border-radius: 6px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f9fbf9;
+    border: 1px solid #e8f0e8;
+    cursor: default;
+}
+
+.cal-day-empty {
+    background: transparent;
+    border: none;
+}
+
+.cal-day-today {
+    border: 2px solid var(--color-primary);
+}
+
+.cal-day-has-data {
+    background: #dff0df;
+    border-color: #4caf50;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+}
+
+.cal-day-has-data:hover {
+    background: #c8e6c9;
+    transform: scale(1.05);
+}
+
+.cal-day-num {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.cal-day-badge {
+    margin-top: 3px;
+    background: var(--color-primary);
+    color: white;
+    border-radius: 10px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 1px 6px;
+    white-space: nowrap;
+}
+
+/* Day detail modal */
+.fert-day-modal-content {
+    max-width: 480px !important;
+    text-align: left !important;
+}
+
+.fert-day-modal-content h3 {
+    text-align: center;
+    color: var(--color-primary);
+    margin-bottom: 1rem;
+}
+
+.fert-day-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0.5rem;
+}
+
+.fert-day-table th {
+    background: var(--color-primary);
+    color: white;
+    padding: 8px 10px;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+.fert-day-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #e0e0e0;
+    font-size: 0.9rem;
+    width: auto;
+    min-width: unset;
+    white-space: normal;
+}
+
+.fert-day-table tbody tr:nth-child(even) {
+    background: var(--color-green-light);
+}
+
+.fert-day-table tfoot td {
+    border-top: 2px solid var(--color-primary);
 }

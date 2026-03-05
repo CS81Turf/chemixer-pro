@@ -55,6 +55,7 @@ async function getFertUsage() {
         console.log("Fertilizer Usage: ", allFertUsage);
 
         displayFertUsage(allFertUsage);
+        renderCalendar();
     } catch (err) {
         console.error("Error loading fertilizer usage history:", err);
         document.getElementById("fert-usage-table").innerHTML = "<p>Error loading fertilizer usage history.</p>";
@@ -353,3 +354,142 @@ document.addEventListener("DOMContentLoaded", () => {
     getFertUsage();
 });
 
+
+
+// ─── Fertilizer Calendar ───────────────────────────────────────────────────────
+
+let calYear = new Date().getFullYear();
+let calMonth = new Date().getMonth(); // 0-indexed
+
+const MONTH_NAMES = [
+    "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
+];
+
+function renderCalendar() {
+    const label = document.getElementById("calMonthLabel");
+    const grid = document.getElementById("fertCalendar");
+    if (!label || !grid) return;
+
+    label.textContent = `${MONTH_NAMES[calMonth]} ${calYear}`;
+
+    // Build a set of dates that have fert usage entries this month
+    // Key: "YYYY-MM-DD" → array of entries
+    const entriesByDate = {};
+    allFertUsage.forEach(entry => {
+        const dateStr = String(entry.date).slice(0, 10);
+        const [y, m] = dateStr.split("-").map(Number);
+        if (y === calYear && m === calMonth + 1) {
+            if (!entriesByDate[dateStr]) entriesByDate[dateStr] = [];
+            entriesByDate[dateStr].push(entry);
+        }
+    });
+
+    // First day of month (0=Sun) and total days
+    const firstDay = new Date(calYear, calMonth, 1).getDay();
+    const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+    const today = new Date().toISOString().slice(0, 10);
+
+    let html = `
+    <div class="cal-day-header">Sun</div>
+    <div class="cal-day-header">Mon</div>
+    <div class="cal-day-header">Tue</div>
+    <div class="cal-day-header">Wed</div>
+    <div class="cal-day-header">Thu</div>
+    <div class="cal-day-header">Fri</div>
+    <div class="cal-day-header">Sat</div>`;
+
+    // Empty cells before first day
+    for (let i = 0; i < firstDay; i++) {
+        html += `<div class="cal-day cal-day-empty"></div>`;
+    }
+
+    // Day cells
+    for (let d = 1; d <= daysInMonth; d++) {
+        const mm = String(calMonth + 1).padStart(2, "0");
+        const dd = String(d).padStart(2, "0");
+        const dateStr = `${calYear}-${mm}-${dd}`;
+        const hasEntries = entriesByDate[dateStr] && entriesByDate[dateStr].length > 0;
+        const isToday = dateStr === today;
+
+        const totalBags = hasEntries
+            ? entriesByDate[dateStr].reduce((sum, e) => sum + (Number(e.bagsUsed) || 0), 0)
+            : 0;
+
+        html += `
+        <div class="cal-day ${hasEntries ? "cal-day-has-data" : ""} ${isToday ? "cal-day-today" : ""}"
+             data-date="${dateStr}">
+            <span class="cal-day-num">${d}</span>
+            ${hasEntries ? `<span class="cal-day-badge">${totalBags} bag${totalBags !== 1 ? "s" : ""}</span>` : ""}
+        </div>`;
+    }
+
+    grid.innerHTML = html;
+
+    // Click handlers for days with data
+    grid.querySelectorAll(".cal-day-has-data").forEach(cell => {
+        cell.addEventListener("click", () => {
+            const dateStr = cell.dataset.date;
+            openFertDayModal(dateStr, entriesByDate[dateStr]);
+        });
+    });
+}
+
+function openFertDayModal(dateStr, entries) {
+    const modal = document.getElementById("fertDayModal");
+    const title = document.getElementById("fertDayModalTitle");
+    const body = document.getElementById("fertDayModalBody");
+
+    // Format date nicely e.g. "March 4, 2026"
+    const [y, m, d] = dateStr.split("-").map(Number);
+    title.textContent = `${MONTH_NAMES[m - 1]} ${d}, ${y}`;
+
+    let html = `<table class="fert-day-table">
+        <thead><tr><th>Employee</th><th>Fertilizer</th><th>Bags Used</th></tr></thead>
+        <tbody>`;
+
+    entries.forEach(e => {
+        html += `<tr>
+            <td>${e.userName || "Unknown"}</td>
+            <td>${e.fertilizerType || "Unknown"}</td>
+            <td>${e.bagsUsed || 0}</td>
+        </tr>`;
+    });
+
+    const totalBags = entries.reduce((sum, e) => sum + (Number(e.bagsUsed) || 0), 0);
+    html += `</tbody>
+        <tfoot>
+            <tr class="totals-row"><td colspan="2"><strong>Total</strong></td><td><strong>${totalBags}</strong></td></tr>
+        </tfoot>
+    </table>`;
+
+    body.innerHTML = html;
+    modal.classList.remove("hidden");
+}
+
+// ─── Calendar Startup ──────────────────────────────────────────────────────────
+
+document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("calPrevBtn").addEventListener("click", () => {
+        calMonth--;
+        if (calMonth < 0) { calMonth = 11; calYear--; }
+        renderCalendar();
+    });
+
+    document.getElementById("calNextBtn").addEventListener("click", () => {
+        calMonth++;
+        if (calMonth > 11) { calMonth = 0; calYear++; }
+        renderCalendar();
+    });
+
+    document.getElementById("fertDayModalClose").addEventListener("click", () => {
+        document.getElementById("fertDayModal").classList.add("hidden");
+    });
+
+    // Close modal on backdrop click
+    document.getElementById("fertDayModal").addEventListener("click", (e) => {
+        if (e.target === document.getElementById("fertDayModal")) {
+            document.getElementById("fertDayModal").classList.add("hidden");
+        }
+    });
+});
