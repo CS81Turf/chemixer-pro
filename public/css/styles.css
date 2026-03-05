@@ -772,3 +772,72 @@ main {
 .fert-day-table tfoot td {
     border-top: 2px solid var(--color-primary);
 }
+/* ─── Activity Calendar Updates ──────────────────────────────────────────────── */
+
+/* Legend */
+.cal-legend {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.cal-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.cal-legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    display: inline-block;
+}
+
+.cal-legend-fert {
+    background: #0b7428;
+}
+
+.cal-legend-mix {
+    background: #1565c0;
+}
+
+/* Badge container */
+.cal-badges {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    align-items: center;
+    width: 100%;
+}
+
+/* Green badge for fert */
+.cal-badge-fert {
+    background: #0b7428 !important;
+}
+
+/* Blue badge for mix */
+.cal-badge-mix {
+    background: #1565c0 !important;
+}
+
+/* Modal section headings */
+.modal-section-heading {
+    margin: 0.75rem 0 0.4rem 0;
+    font-size: 0.95rem;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.modal-section-fert {
+    background: #dff0df;
+    color: #0b7428;
+}
+
+.modal-section-mix {
+    background: #dce8f8;
+    color: #1565c0;
+}

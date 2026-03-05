@@ -31,22 +31,21 @@
     </div>
 
     <main class="special">
-        <h2>Mix History</h2>
-        <div class="past-mix-table" id="past-mix-table"></div>
 
-        <h2>Fertilizer Usage History</h2>
-
-        <!-- Fertilizer Calendar -->
+        <!-- Activity Calendar -->
+        <h2>Activity Calendar</h2>
         <div class="fert-calendar-wrapper">
             <div class="calendar-header">
                 <button class="cal-nav-btn" id="calPrevBtn">&#8592;</button>
                 <span class="cal-month-label" id="calMonthLabel"></span>
                 <button class="cal-nav-btn" id="calNextBtn">&#8594;</button>
             </div>
+            <div class="cal-legend">
+                <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-fert"></span> Fertilizer</span>
+                <span class="cal-legend-item"><span class="cal-legend-dot cal-legend-mix"></span> Mix</span>
+            </div>
             <div class="calendar-grid" id="fertCalendar"></div>
         </div>
-
-        <div class="past-mix-table" id="fert-usage-table"></div>
 
         <!-- Day Detail Modal -->
         <div id="fertDayModal" class="modal hidden">
@@ -56,6 +55,13 @@
                 <button id="fertDayModalClose">Close</button>
             </div>
         </div>
+
+        <h2>Mix History</h2>
+        <div class="past-mix-table" id="past-mix-table"></div>
+
+        <h2>Fertilizer Usage History</h2>
+        <div class="past-mix-table" id="fert-usage-table"></div>
+
     </main>
 
     <script src="js/history.js"></script>

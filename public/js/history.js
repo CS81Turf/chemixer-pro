@@ -30,6 +30,7 @@ async function getMixes() {
         console.log("Mixes: ", allMixes);
 
         displayMixes(allMixes);
+        renderCalendar();
 
     } catch (err) {
         console.error("Error loading mixes:", err);
@@ -356,7 +357,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-// ─── Fertilizer Calendar ───────────────────────────────────────────────────────
+// ─── Activity Calendar (Mix + Fertilizer) ─────────────────────────────────────
 
 let calYear = new Date().getFullYear();
 let calMonth = new Date().getMonth(); // 0-indexed
@@ -373,19 +374,28 @@ function renderCalendar() {
 
     label.textContent = `${MONTH_NAMES[calMonth]} ${calYear}`;
 
-    // Build a set of dates that have fert usage entries this month
-    // Key: "YYYY-MM-DD" → array of entries
-    const entriesByDate = {};
+    // Build fert entries by date
+    const fertByDate = {};
     allFertUsage.forEach(entry => {
         const dateStr = String(entry.date).slice(0, 10);
         const [y, m] = dateStr.split("-").map(Number);
         if (y === calYear && m === calMonth + 1) {
-            if (!entriesByDate[dateStr]) entriesByDate[dateStr] = [];
-            entriesByDate[dateStr].push(entry);
+            if (!fertByDate[dateStr]) fertByDate[dateStr] = [];
+            fertByDate[dateStr].push(entry);
         }
     });
 
-    // First day of month (0=Sun) and total days
+    // Build mix entries by date
+    const mixByDate = {};
+    allMixes.forEach(mix => {
+        const dateStr = new Date(mix.savedAt).toISOString().slice(0, 10);
+        const [y, m] = dateStr.split("-").map(Number);
+        if (y === calYear && m === calMonth + 1) {
+            if (!mixByDate[dateStr]) mixByDate[dateStr] = [];
+            mixByDate[dateStr].push(mix);
+        }
+    });
+
     const firstDay = new Date(calYear, calMonth, 1).getDay();
     const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
     const today = new Date().toISOString().slice(0, 10);
@@ -399,69 +409,90 @@ function renderCalendar() {
     <div class="cal-day-header">Fri</div>
     <div class="cal-day-header">Sat</div>`;
 
-    // Empty cells before first day
     for (let i = 0; i < firstDay; i++) {
         html += `<div class="cal-day cal-day-empty"></div>`;
     }
 
-    // Day cells
     for (let d = 1; d <= daysInMonth; d++) {
         const mm = String(calMonth + 1).padStart(2, "0");
         const dd = String(d).padStart(2, "0");
         const dateStr = `${calYear}-${mm}-${dd}`;
-        const hasEntries = entriesByDate[dateStr] && entriesByDate[dateStr].length > 0;
+        const hasFert = !!fertByDate[dateStr];
+        const hasMix  = !!mixByDate[dateStr];
+        const hasAny  = hasFert || hasMix;
         const isToday = dateStr === today;
 
-        const totalBags = hasEntries
-            ? entriesByDate[dateStr].reduce((sum, e) => sum + (Number(e.bagsUsed) || 0), 0)
+        const totalBags = hasFert
+            ? fertByDate[dateStr].reduce((sum, e) => sum + (Number(e.bagsUsed) || 0), 0)
             : 0;
+        const totalMixes = hasMix ? mixByDate[dateStr].length : 0;
 
         html += `
-        <div class="cal-day ${hasEntries ? "cal-day-has-data" : ""} ${isToday ? "cal-day-today" : ""}"
+        <div class="cal-day ${hasAny ? "cal-day-has-data" : ""} ${isToday ? "cal-day-today" : ""}"
              data-date="${dateStr}">
             <span class="cal-day-num">${d}</span>
-            ${hasEntries ? `<span class="cal-day-badge">${totalBags} bag${totalBags !== 1 ? "s" : ""}</span>` : ""}
+            <div class="cal-badges">
+                ${hasFert ? `<span class="cal-day-badge cal-badge-fert">${totalBags} bag${totalBags !== 1 ? "s" : ""}</span>` : ""}
+                ${hasMix  ? `<span class="cal-day-badge cal-badge-mix">${totalMixes} mix${totalMixes !== 1 ? "es" : ""}</span>` : ""}
+            </div>
         </div>`;
     }
 
     grid.innerHTML = html;
 
-    // Click handlers for days with data
     grid.querySelectorAll(".cal-day-has-data").forEach(cell => {
         cell.addEventListener("click", () => {
             const dateStr = cell.dataset.date;
-            openFertDayModal(dateStr, entriesByDate[dateStr]);
+            openDayModal(dateStr, fertByDate[dateStr] || [], mixByDate[dateStr] || []);
         });
     });
 }
 
-function openFertDayModal(dateStr, entries) {
+function openDayModal(dateStr, fertEntries, mixEntries) {
     const modal = document.getElementById("fertDayModal");
     const title = document.getElementById("fertDayModalTitle");
-    const body = document.getElementById("fertDayModalBody");
+    const body  = document.getElementById("fertDayModalBody");
 
-    // Format date nicely e.g. "March 4, 2026"
     const [y, m, d] = dateStr.split("-").map(Number);
     title.textContent = `${MONTH_NAMES[m - 1]} ${d}, ${y}`;
 
-    let html = `<table class="fert-day-table">
-        <thead><tr><th>Employee</th><th>Fertilizer</th><th>Bags Used</th></tr></thead>
-        <tbody>`;
+    let html = "";
 
-    entries.forEach(e => {
-        html += `<tr>
-            <td>${e.userName || "Unknown"}</td>
-            <td>${e.fertilizerType || "Unknown"}</td>
-            <td>${e.bagsUsed || 0}</td>
-        </tr>`;
-    });
+    // ── Fertilizer section ──
+    if (fertEntries.length > 0) {
+        const totalBags = fertEntries.reduce((sum, e) => sum + (Number(e.bagsUsed) || 0), 0);
+        html += `
+        <h4 class="modal-section-heading modal-section-fert">🌿 Fertilizer Usage</h4>
+        <table class="fert-day-table">
+            <thead><tr><th>Employee</th><th>Fertilizer</th><th>Bags</th></tr></thead>
+            <tbody>
+                ${fertEntries.map(e => `<tr>
+                    <td>${e.userName || "Unknown"}</td>
+                    <td>${e.fertilizerType || "Unknown"}</td>
+                    <td>${e.bagsUsed || 0}</td>
+                </tr>`).join("")}
+            </tbody>
+            <tfoot>
+                <tr class="totals-row"><td colspan="2"><strong>Total</strong></td><td><strong>${totalBags}</strong></td></tr>
+            </tfoot>
+        </table>`;
+    }
 
-    const totalBags = entries.reduce((sum, e) => sum + (Number(e.bagsUsed) || 0), 0);
-    html += `</tbody>
-        <tfoot>
-            <tr class="totals-row"><td colspan="2"><strong>Total</strong></td><td><strong>${totalBags}</strong></td></tr>
-        </tfoot>
-    </table>`;
+    // ── Mix section ──
+    if (mixEntries.length > 0) {
+        html += `
+        <h4 class="modal-section-heading modal-section-mix">🧪 Mix History</h4>
+        <table class="fert-day-table">
+            <thead><tr><th>Treatment</th><th>Area (sq ft)</th><th>Saved By</th></tr></thead>
+            <tbody>
+                ${mixEntries.map(mix => `<tr>
+                    <td>${mix.treatment || "Unknown"}</td>
+                    <td>${mix.areaSize ? Number(mix.areaSize).toLocaleString() : "—"}</td>
+                    <td>${mix.savedBy || "Unknown"}</td>
+                </tr>`).join("")}
+            </tbody>
+        </table>`;
+    }
 
     body.innerHTML = html;
     modal.classList.remove("hidden");
