@@ -321,9 +321,8 @@ function createFertUsageTable(fertUsage, allFertForTotals = fertUsage) {
     <tr class="totals-row">
     <td colspan="4">
        <div><strong>TOTALS</strong></div>
-       <div><strong>Total Bags Used: ${totalBags}</strong></div>
-       <div><strong>By Type:</strong></div>
-       ${fertilizerTotalsHtml}
+       <br>
+       <strong>${fertilizerTotalsHtml}</strong>
     </td>
     </tr>`;
 
@@ -354,24 +353,3 @@ document.addEventListener("DOMContentLoaded", () => {
     getFertUsage();
 });
 
-// Logout
-document.addEventListener("DOMContentLoaded", () => {
-    const logoutBtn = document.getElementById("logoutBtn");
-    if (!logoutBtn) return;
-
-    logoutBtn.addEventListener("click", async () => {
-        try {
-            const token = localStorage.getItem("token");
-            await fetch("/logout", {
-                method: "POST",
-                headers: { Authorization: `Bearer ${token}` },
-            });
-        } catch (err) {
-            console.error("Logout error:", err);
-        } finally {
-            localStorage.removeItem("token");
-            localStorage.removeItem("userName");
-            window.location.href = "/index.html";
-        }
-    });
-});
