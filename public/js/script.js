@@ -122,7 +122,13 @@ function displayResults(data) {
   </div>
   <table class="results-table">
     <tr><th>Chemical</th><th>Rate (oz/1000)</th><th>Total</th></tr>
-    ${results.map(r => `<tr><td>${r.chemical}</td><td>${r.ratePer1000}</td><td><strong>${formatOunces(r.totalAmount)}</strong></td></tr>`).join("")}
+    ${results.map(r => {
+      const isDuraPump = r.chemical.includes("3-Way");
+      const display = isDuraPump
+        ? `${(r.totalAmount / 128).toFixed(2)} gal`
+        : formatOunces(r.totalAmount);
+      return `<tr><td>${r.chemical}</td><td>${r.ratePer1000}</td><td><strong>${display}</strong></td></tr>`;
+    }).join("")}
   </table>
   <button class="saveMixBtn" id="saveMixBtn">Save Mix</button>
   `;
